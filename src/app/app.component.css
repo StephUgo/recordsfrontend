@@ -1,0 +1,38 @@
+#leftpart {
+    width: 22%;
+    height: 100%;
+    position: fixed;
+    border-right: 2px solid rgb(46, 48, 45);
+    padding-top: 65px;
+    top:0;
+    left: 0;
+    background-color: white;
+}
+
+#rightpart {
+    padding-top: 40px;
+    padding-left: 23%;
+    width:76%;
+}
+/*
+#pagetitle {
+    margin-bottom: 10px !important;
+}*/
+
+h1 {
+    margin-block-start: 5px; 
+}
+
+.bandeau {
+    text-align:center;
+    font-family: 'Segoe UI' !important;
+    font-style: italic;
+    position: fixed;
+    width:100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    z-index: 5050;
+    background-color: #212222;
+    border-bottom: 2px solid black; /* rgb(46, 48, 45);*/
+}

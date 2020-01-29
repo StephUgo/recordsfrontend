@@ -1,0 +1,38 @@
+<h2>Edit "{{fromPage.Title}}" by {{fromPage.Artist}}</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Artist or Group" formControlName="artist">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Title" formControlName="title">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Format" formControlName="format">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Label" formControlName="label">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Country" formControlName="country">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Reference" formControlName="reference">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Period" formControlName="period">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Year" formControlName="year">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Comments" formControlName="comments">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Cover Filename" formControlName="imageFileName">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <p>You can either "Save" you changes or "Close" to cancel...</p>
+  <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+  <button mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>

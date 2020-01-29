@@ -1,0 +1,60 @@
+#recordsList {
+	margin:10px 0 5px 0;
+}
+#recordsList table {
+border-collapse:separate;
+border-spacing:1px;
+background:#CCC;
+}
+#recordsList table th {
+background:#EEE;
+font-weight:600;
+padding:10px 20px;
+text-align:center;
+}
+#recordsList table tbody {
+padding:0; margin:0;
+border-collapse:collapse;
+border-spacing:0px;
+background:#FFF;
+}
+#recordsList table td {
+background:#FFF;
+padding:5px 10px;
+text-align:center;
+}
+#recordsList table i {
+background:#FFF;
+padding:5px 10px;
+text-align:center;
+cursor: pointer;
+}
+
+.paginationcontrolclass {
+	border: 1px;
+	border-style: solid;
+	border-color: lightgrey;
+	background-color: white;
+}
+
+.my-pagination {
+	font-size: 15px;
+}
+.my-pagination /deep/ .ngx-pagination .current {
+    background: rgb(119, 212, 13);
+	border-radius: 3px;
+}
+
+.my-pagination /deep/ .ngx-pagination a:hover, .ngx-pagination button:hover {
+    background: #d4d4d4;
+    text-decoration: none;
+	border-radius: 3px;
+}
+
+.my-pagination /deep/ .ngx-pagination a:focus, .ngx-pagination button:focus {
+    outline: none;
+	background: #d4d4d4;
+	border-radius: 3px;
+}
+  
+  

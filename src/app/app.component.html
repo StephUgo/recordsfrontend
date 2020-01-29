@@ -1,0 +1,17 @@
+<header class="bandeau">
+  <h1 id="pagetitle">
+    Welcome to our {{ title }}...
+  </h1>
+</header>
+<div class="souslebandeau">
+  <div id="leftpart">
+    <app-recordsform (searchRecordsRequested)='onSearchRecordsRequested($event)'
+      (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'></app-recordsform>
+  </div>
+  <div id="rightpart">
+    <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
+      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)'
+      (pageChanged)='onPageChanged($event)'></app-recordslist>
+  </div>
+</div>
+<!--div appCesium></div-->

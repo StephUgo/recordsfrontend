@@ -1,0 +1,52 @@
+select {
+	width: 151px;
+}
+
+h1{
+	text-align: center;
+}
+
+
+label {
+	color: black; /* white;*/
+	display: inline-block;
+	text-align:center;
+	width: 150px;
+	/*text-shadow:
+	-1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  */
+}
+
+input {
+	width: 147px;
+}
+
+#btnRecordsSearch {
+	width: 150px;	
+}
+
+#btnRecordsSave {
+	width: 150px;	
+}
+
+#btnRecordsUpload {
+	width: 152px;	
+}
+
+#btnRecordsResetInputFields {
+	width: 152px;	
+}
+
+#inputRecordsUpload {
+	width: 150px;	
+}
+
+.model-artiste .ng-pristine {
+	background-color: lightgreen
+}
+
+.model-artiste .ng-dirty {
+	background-color: pink
+}

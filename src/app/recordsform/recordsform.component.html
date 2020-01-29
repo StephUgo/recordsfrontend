@@ -1,0 +1,147 @@
+<div id="recordsSearch">
+<form (ngSubmit)="onClickSearch()">
+<h1>Record Selection</h1>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <span>
+                    <label>Style:</label>
+                </span>
+            </td>
+            <td>
+                <select [ngModel]=model.myStyle.id  (ngModelChange)="selectStyleChange($event)" name="style">
+                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption.id">{{oneOption.name}}</option>
+                </select>
+            </td>        
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Artist or Group:</label>
+                </span>
+            </td>
+            <td>
+                <div class="model-artiste">
+                    <input [(ngModel)]=model.artiste type="text" placeholder="Groupname" name="artist"/>
+                </div>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Title:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Titre type="text" placeholder="Title" name="title"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Format:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Label:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Label type="text" placeholder="Label" name="Label"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Country:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Country type="text" placeholder="Country" name="country"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Year:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Year id="inputYear" type="number" placeholder="Year" name="year"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Period:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=model.Period type="text" placeholder="Period" name="period"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label> </label>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btnRecordsSearch" type="submit">Search</button>
+            </td>
+            <td>
+                <select [ngModel]=model.mySort.id  (ngModelChange)="selectSortChange($event)" name="selectSort">
+                    <option *ngFor="let oneOption of sortOptions" [ngValue]="oneOption.id">{{oneOption.name}}</option>
+                </select>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</form>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <button id="btnRecordsSave" (click)="onClickSave()">Save</button>
+            </td>
+            <td>
+                <button id="btnRecordsResetInputFields" (click)="onClickReset()">Reset</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>
+                    <label>Records by page:</label>
+                </span>
+            </td>
+            <td>
+                <input [(ngModel)]=limit type="number" name="recordsByPage"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<p></p>
+<form (ngSubmit)="onClickUpload()">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <input type="file" id="inputRecordsUpload" (change)="onFileChange($event.target.files)" multiple>
+                </td>
+                <td>
+                    <button id="btnRecordsUpload" type="submit">Upload Cover</button>
+                </td>
+            </tr>    
+        </tbody>
+    </table>
+</form>
+</div>

@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+body {
+  padding: 10px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url(./images/1280-jp-record-shelf-1.jpg);
+}
+
+h1 {
+	color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
+
+.custom-dialog-panel-class .mat-dialog-content { 
+	margin: 0px;
+	color: blue;
+}
+  
+.custom-dialog-panel-class .mat-dialog-actions { 
+	margin-bottom: 0px !important;
+	padding: 20px 30px;
+	color: grey;
+}
