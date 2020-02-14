@@ -43,7 +43,8 @@ export class ApiService {
      * Default records retrieval when accessing root app page
      */
     public getRecords(): Observable<any> {
-        const httpOptions = { headers: httpHeaders };
+        const httpParams = new HttpParams().set('Limit', '5');
+        const httpOptions = { headers: httpHeaders, params: httpParams };
         return this.http.get(apiUrlByDefault, httpOptions).pipe(
             map(this.extractData),
             catchError(this.handleError));
