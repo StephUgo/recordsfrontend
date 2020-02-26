@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchRequest } from '../model/searchrequest';
 import { RecordPost } from '../model/recordpost';
 import { Record } from '../model/Record';
+import { style } from '@angular/animations';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { Record } from '../model/Record';
 })
 export class RecordsformComponent implements OnInit {
 
-  public styleList = [
+  private styleList = [
     { id: 1, name: 'Soul / Funk' },
     { id: 2, name: 'Rap' },
     { id: 3, name: 'Jazz' },
@@ -19,7 +20,17 @@ export class RecordsformComponent implements OnInit {
     { id: 5, name: 'Misc.' },
     { id: 6, name: 'AOR' },
     { id: 7, name: 'Audiophile' },
+    { id: 8, name: 'Latin' },
+    { id: 9, name: 'African' },
+    { id: 10, name: 'Island' },
+    { id: 11, name: 'Hawaii' },
+    { id: 12, name: 'Classical' },
+    { id: 13, name: 'Spiritual Jazz' },
+    { id: 14, name: 'Rock' },
+    { id: 15, name: 'Reggae' },
+    { id: 16, name: 'Library' },
   ];
+
   public model: any;
   public sortOptions = [
     { id: 1, name: 'Sort by Artist (asc)' },
@@ -45,8 +56,18 @@ export class RecordsformComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.styleList.sort((n1, n2) => {
+      if (n1.name > n2.name) {
+          return 1;
+      }
+      if (n1.name < n2.name) {
+          return -1;
+      }
+      return 0;
+    });
     this.model = {};
     this.model.myStyle = this.styleList[0];
+    console.log('this.model.myStyle = ' + this.model.myStyle.name);
     this.model.mySort = this.sortOptions[0];
   }
 
@@ -63,10 +84,11 @@ export class RecordsformComponent implements OnInit {
   /**
    * Handler for tracking style change
    */
-  selectStyleChange($event: number) {
+  selectStyleChange($event: string) {
     // In my case $event come with a id value
-    this.model.myStyle = this.styleList[$event - 1];
-    console.log('this.model.myStyle = ' + this.model.myStyle.name);
+    console.log('$event = ' + $event);
+    // In my case $event come with a style object
+    this.model.myStyle = $event;
   }
 
   /**

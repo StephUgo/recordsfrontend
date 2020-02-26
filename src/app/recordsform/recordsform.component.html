@@ -10,8 +10,8 @@
                 </span>
             </td>
             <td>
-                <select [ngModel]=model.myStyle.id  (ngModelChange)="selectStyleChange($event)" name="style">
-                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption.id">{{oneOption.name}}</option>
+                <select [ngModel]=model.myStyle  (ngModelChange)="selectStyleChange($event)" name="style">
+                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption">{{oneOption.name}}</option>
                 </select>
             </td>        
         </tr>
