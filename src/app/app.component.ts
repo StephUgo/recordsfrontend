@@ -6,7 +6,7 @@ import { RecordPost } from './model/recordpost';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RecordID } from './model/recordID';
-import { throws } from 'assert';
+import { Constants } from './constants';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,7 @@ import { throws } from 'assert';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public title = 'Records Search Engine';
+  public title = Constants.appTitle;
 
   public records: Array<Record>; // The current displayed list of records
   public currentStyle: number; // The current selected style (TODO : remove ?)
@@ -106,19 +106,8 @@ export class AppComponent implements OnInit {
   public onSaveRecordRequested(recordToSave: RecordPost): void {
     this.currentStyle = recordToSave.style;
     if (this.api) {
-      const newRecord = {
-        'Style': recordToSave.style.toString(),
-        'Artist': recordToSave.record.Artist,
-        'Title': recordToSave.record.Title,
-        'Format': recordToSave.record.Format,
-        'Label': recordToSave.record.Label,
-        'Country': recordToSave.record.Country,
-        'Year': recordToSave.record.Year,
-        'Period': recordToSave.record.Period,
-        'Reference': recordToSave.record.Reference,
-        'Comments': recordToSave.record.Comments,
-        'ImageFileName': recordToSave.record.ImageFileName
-      };
+
+      const newRecord = recordToSave.getObjectForHTTPPost();
 
       // 1st delete the previous version of the record
       if (recordToSave.record._id != null) {
@@ -198,22 +187,10 @@ export class AppComponent implements OnInit {
   public onUpdateRecordRequested(recordToSave: RecordPost): void {
     this.currentStyle = recordToSave.style;
     if (this.api) {
-      const newRecord = {
-        'ID': recordToSave.record._id,
-        'Style': recordToSave.style.toString(),
-        'Artist': recordToSave.record.Artist,
-        'Title': recordToSave.record.Title,
-        'Format': recordToSave.record.Format,
-        'Label': recordToSave.record.Label,
-        'Country': recordToSave.record.Country,
-        'Year': recordToSave.record.Year,
-        'Period': recordToSave.record.Period,
-        'Reference': recordToSave.record.Reference,
-        'Comments': recordToSave.record.Comments,
-        'ImageFileName': recordToSave.record.ImageFileName
-      };
 
+      const newRecord = recordToSave.getUpdatedObjectForHTTPPost();
       console.log('updateRecord : ' + newRecord);
+
       this.api.updateRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
