@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Record } from './model/Record';
 import { SearchRequest } from './model/searchrequest';
 import { ApiService } from '../api.service';
@@ -7,6 +7,8 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RecordID } from './model/recordID';
 import { Constants } from './constants';
+import { RecordslistComponent } from './recordslist/recordslist.component';
+
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,9 @@ export class AppComponent implements OnInit {
   public currentStyle: number; // The current selected style (TODO : remove ?)
   public config: any; // NGxPagination configuration
   public lastSearchRequest: SearchRequest; // The last search request
+
+  @ViewChild(RecordslistComponent, { static: false })
+  recordListComponent: RecordslistComponent;
 
   constructor(private api: ApiService,
     private matIconRegistry: MatIconRegistry,
@@ -76,6 +81,7 @@ export class AppComponent implements OnInit {
         } else {
           this.records = res;
         }
+        this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
       }, err => {
         console.log(err);
       });
@@ -97,6 +103,48 @@ export class AppComponent implements OnInit {
         this.config.itemsPerPage, (newPage - 1) * this.config.itemsPerPage);
     }
     this.onSearchRecordsRequested(this.lastSearchRequest);
+  }
+
+  /**
+   * Sort requested
+   * @param sortRequest sort options
+   */
+  public onSortRequested(sortRequest: [string, boolean]): void {
+    if (this.lastSearchRequest != null) {
+      switch (sortRequest[0]) {
+        case 'artist': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 1;
+          } else {
+            this.lastSearchRequest.Sort = 2;
+          }
+          break;
+        }
+        case 'year': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 3;
+          } else {
+            this.lastSearchRequest.Sort = 4;
+          }
+          break;
+        }
+        case 'title': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 5;
+          } else {
+            this.lastSearchRequest.Sort = 6;
+          }
+          break;
+        }
+        default: {
+          this.lastSearchRequest.Sort = null;
+          break;
+        }
+      }
+      if (this.lastSearchRequest.Sort !== null) {
+        this.onSearchRecordsRequested(this.lastSearchRequest);
+      }
+    }
   }
 
   /**

@@ -11,7 +11,7 @@
   <div id="rightpart">
     <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
       (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)'
-      (pageChanged)='onPageChanged($event)'></app-recordslist>
+      (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-recordslist>
   </div>
 </div>
 <!--div appCesium></div-->

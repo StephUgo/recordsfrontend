@@ -16,13 +16,22 @@
 		</colgroup>
 		<thead>
 			<th>#</th>
-			<th>Artist or Group</th>
-			<th>Title</th>
+			<th (click)="onClickSort('artist')">Artist or Group
+				<i class="fa fa-chevron-down fa-xs" *ngIf="key =='artist' && reverse" ></i>
+				<i class="fa fa-chevron-up fa-xs" *ngIf="key =='artist' && !reverse" ></i>
+			</th>
+			<th (click)="onClickSort('title')">Title
+				<i class="fa fa-chevron-down fa-xs" *ngIf="key =='title' && reverse" ></i>
+				<i class="fa fa-chevron-up fa-xs" *ngIf="key =='title' && !reverse" ></i>
+			</th>
 			<th>Format</th>
 			<th>Label</th>
 			<th>Country</th>
 			<th>Reference</th>
-			<th>Year</th>
+			<th (click)="onClickSort('year')">Year
+				<i class="fa fa-chevron-down fa-xs" *ngIf="key =='year' && reverse" ></i>
+				<i class="fa fa-chevron-up fa-xs" *ngIf="key =='year' && !reverse" ></i>
+			</th>
 			<th>Period</th>
 			<th>Comments</th>
 			<th>Cover</th>

@@ -19,12 +19,19 @@ export class RecordslistComponent implements OnInit {
 
   // Event emitter for saving a record after its edition in the modal dialog
   @Output() public saveRecordRequested: EventEmitter<RecordPost> = new EventEmitter<RecordPost>();
-  // Event emiiter for deleting a record after clicking in the corresponding button in the list
+  // Event emitter for deleting a record after clicking in the corresponding button in the list
   @Output() public deleteRecordRequested: EventEmitter<RecordID> = new EventEmitter<RecordID>();
   // Event emitter for updating a record after its edition in the modal dialog
   @Output() public updateRecordRequested: EventEmitter<RecordPost> = new EventEmitter<RecordPost>();
   // Event emitter for launching a new search request after a page change
   @Output() public pageChanged: EventEmitter<number> = new EventEmitter<number>();
+  // Event emitter for launching a sort event
+  @Output() public sortRequested: EventEmitter<[string, boolean]> = new EventEmitter<[string, boolean]>();
+
+
+  // Sorting attributes
+  public key = 'id';
+  public reverse  = false;
 
   constructor(public dialog: MatDialog) { }
 
@@ -80,5 +87,50 @@ export class RecordslistComponent implements OnInit {
    */
   public onPageChanged(newPage: number): void {
     this.pageChanged.emit(newPage);
+  }
+
+  /**
+   * Handler for column sorting.
+   * @param key column name
+   */
+  public onClickSort(key: string) {
+    this.key = key;
+    this.reverse = !this.reverse;
+    this.sortRequested.emit([key, this.reverse]);
+  }
+
+  public updateSortOptionsFromSortId(sortId: number) {
+    switch (sortId) {
+      case 1: {
+        this.key = 'artist';
+        this.reverse = false;
+        break;
+      }
+      case 2: {
+        this.key = 'artist';
+        this.reverse = true;
+        break;
+      }
+      case 3: {
+        this.key = 'year';
+        this.reverse = false;
+        break;
+      }
+      case 4: {
+        this.key = 'year';
+        this.reverse = true;
+        break;
+      }
+      case 5: {
+        this.key = 'title';
+        this.reverse = false;
+        break;
+      }
+      case 6: {
+        this.key = 'title';
+        this.reverse = true;
+        break;
+      }
+    }
   }
 }
