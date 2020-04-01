@@ -11,6 +11,11 @@ background:#EEE;
 font-weight:600;
 padding:10px;
 text-align:center;
+cursor: pointer;
+}
+#recordsList table th i {
+	background:#EEE;
+	font-size: 8px;
 }
 #recordsList table tbody {
 padding:0; margin:0;
