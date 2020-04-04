@@ -39,15 +39,27 @@
 					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='title' && reverse" ></i>
 					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='title' && !reverse" ></i>
 				</th>
-				<th class="sorttableheader" ></th>
-				<th class="sorttableheader"></th>
-				<th class="sorttableheader"></th>
+				<th class="sorttableheader" (click)="onClickSort('format')">
+					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='format' && reverse" ></i>
+					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='format' && !reverse" ></i>
+				</th>
+				<th class="sorttableheader" (click)="onClickSort('label')">
+					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='label' && reverse" ></i>
+					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='label' && !reverse" ></i>
+				</th>
+				<th class="sorttableheader" (click)="onClickSort('country')">
+					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='country' && reverse" ></i>
+					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='country' && !reverse" ></i>
+				</th>
 				<th class="sorttableheader"></th>
 				<th class="sorttableheader" (click)="onClickSort('year')">
 					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='year' && reverse" ></i>
 					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='year' && !reverse" ></i>
 				</th>
-				<th class="sorttableheader"></th>
+				<th class="sorttableheader" (click)="onClickSort('period')">
+					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='period' && reverse" ></i>
+					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='period' && !reverse" ></i>
+				</th>
 				<th class="sorttableheader"></th>
 				<th class="sorttableheader"></th>
 				<th class="sorttableheader"></th>

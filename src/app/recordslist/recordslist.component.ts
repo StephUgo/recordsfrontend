@@ -131,6 +131,46 @@ export class RecordslistComponent implements OnInit {
         this.reverse = true;
         break;
       }
+      case 7: {
+        this.key = 'format';
+        this.reverse = false;
+        break;
+      }
+      case 8: {
+        this.key = 'format';
+        this.reverse = true;
+        break;
+      }
+      case 9: {
+        this.key = 'label';
+        this.reverse = false;
+        break;
+      }
+      case 10: {
+        this.key = 'label';
+        this.reverse = true;
+        break;
+      }
+      case 11: {
+        this.key = 'country';
+        this.reverse = false;
+        break;
+      }
+      case 12: {
+        this.key = 'country';
+        this.reverse = true;
+        break;
+      }
+      case 13: {
+        this.key = 'period';
+        this.reverse = false;
+        break;
+      }
+      case 14: {
+        this.key = 'period';
+        this.reverse = true;
+        break;
+      }
     }
   }
 }

@@ -111,36 +111,7 @@ export class AppComponent implements OnInit {
    */
   public onSortRequested(sortRequest: [string, boolean]): void {
     if (this.lastSearchRequest != null) {
-      switch (sortRequest[0]) {
-        case 'artist': {
-          if (sortRequest[1] === false) {
-            this.lastSearchRequest.Sort = 1;
-          } else {
-            this.lastSearchRequest.Sort = 2;
-          }
-          break;
-        }
-        case 'year': {
-          if (sortRequest[1] === false) {
-            this.lastSearchRequest.Sort = 3;
-          } else {
-            this.lastSearchRequest.Sort = 4;
-          }
-          break;
-        }
-        case 'title': {
-          if (sortRequest[1] === false) {
-            this.lastSearchRequest.Sort = 5;
-          } else {
-            this.lastSearchRequest.Sort = 6;
-          }
-          break;
-        }
-        default: {
-          this.lastSearchRequest.Sort = null;
-          break;
-        }
-      }
+      this.updateSortId(sortRequest);
       if (this.lastSearchRequest.Sort !== null) {
         this.onSearchRecordsRequested(this.lastSearchRequest);
       }
@@ -263,7 +234,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-    /**
+  /**
    * Handler for cover upload event (form submit)
    */
   public onUploadCoverRequested(formData: FormData) {
@@ -275,5 +246,70 @@ export class AppComponent implements OnInit {
         console.log('error = ', error);
         alert('File upload error : ' + error);
       });
+  }
+
+  private updateSortId(sortRequest: [string, boolean]) {
+    switch (sortRequest[0]) {
+      case 'artist': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 1;
+        } else {
+          this.lastSearchRequest.Sort = 2;
+        }
+        break;
+      }
+      case 'year': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 3;
+        } else {
+          this.lastSearchRequest.Sort = 4;
+        }
+        break;
+      }
+      case 'title': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 5;
+        } else {
+          this.lastSearchRequest.Sort = 6;
+        }
+        break;
+      }
+      case 'format': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 7;
+        } else {
+          this.lastSearchRequest.Sort = 8;
+        }
+        break;
+      }
+      case 'label': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 9;
+        } else {
+          this.lastSearchRequest.Sort = 10;
+        }
+        break;
+      }
+      case 'country': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 11;
+        } else {
+          this.lastSearchRequest.Sort = 12;
+        }
+        break;
+      }
+      case 'period': {
+        if (sortRequest[1] === false) {
+          this.lastSearchRequest.Sort = 13;
+        } else {
+          this.lastSearchRequest.Sort = 14;
+        }
+        break;
+      }
+      default: {
+        this.lastSearchRequest.Sort = null;
+        break;
+      }
+    }
   }
 }
