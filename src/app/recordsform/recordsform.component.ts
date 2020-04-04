@@ -29,6 +29,8 @@ export class RecordsformComponent implements OnInit {
     { id: 15, name: 'Reggae' },
     { id: 16, name: 'Library' },
     { id: 17, name: 'European' },
+    { id: 18, name: 'Brazilian' },
+    { id: 19, name: 'Japanese' },
   ];
 
   public model: any;
