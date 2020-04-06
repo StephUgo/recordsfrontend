@@ -110,6 +110,9 @@ export class AppComponent implements OnInit {
    * @param sortRequest sort options
    */
   public onSortRequested(sortRequest: [string, boolean]): void {
+    if (this.lastSearchRequest == null) {
+      this.lastSearchRequest = new SearchRequest(null, '', '', '', '', '', null, '', 0, 5, 0);
+    }
     if (this.lastSearchRequest != null) {
       this.updateSortId(sortRequest);
       if (this.lastSearchRequest.Sort !== null) {

@@ -99,6 +99,10 @@ export class RecordslistComponent implements OnInit {
     this.sortRequested.emit([key, this.reverse]);
   }
 
+  /**
+   * Update the sort options pair (key + reverse boolean) given the sort options Id
+   * @param sortId SorttID
+   */
   public updateSortOptionsFromSortId(sortId: number) {
     switch (sortId) {
       case 1: {

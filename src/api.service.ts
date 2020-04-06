@@ -57,7 +57,7 @@ export class ApiService {
     public searchRecords(request: SearchRequest): Observable<any> {
 
         // Build URL Query String from Search request model object.
-        const httpParams = new HttpParams().set('Style', request.Style.toString())
+        const httpParams = new HttpParams().set('Style', request.Style != null ? request.Style.toString() : '')
             .set('Artiste', typeof request.Artiste !== 'undefined' ? request.Artiste : '')
             .set('Titre', typeof request.Titre !== 'undefined' ? request.Titre : '')
             .set('Country', typeof request.Country !== 'undefined' ? request.Country : '')
