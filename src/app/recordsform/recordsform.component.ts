@@ -12,6 +12,7 @@ import { Record } from '../model/Record';
 export class RecordsformComponent implements OnInit {
 
   private styleList = [
+    { id: 0, name: '' },
     { id: 1, name: 'Soul / Funk' },
     { id: 2, name: 'Rap' },
     { id: 3, name: 'Jazz' },
@@ -77,7 +78,8 @@ export class RecordsformComponent implements OnInit {
    * Handler for record search
    */
   onClickSearch() {
-    const request = new SearchRequest(this.model.myStyle.id, this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
+    const request = new SearchRequest((this.model.myStyle.id === 0) ? null : this.model.myStyle.id,
+      this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
       this.model.Country, this.model.Year, this.model.Period, this.model.mySort.id, this.limit, this.skip);
     console.log(request);
     this.searchRecordsRequested.emit(request);
@@ -115,11 +117,15 @@ export class RecordsformComponent implements OnInit {
    * Handler for record saving
    */
   onClickSave() {
-    const record = new Record(this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
-      this.model.Country, null, this.model.Period, this.model.Year, null, null);
-    const postRecord = new RecordPost(this.model.myStyle.id, record);
-    console.log(postRecord);
-    this.saveRecordRequested.emit(postRecord);
+    if (this.model.myStyle.id === 0) {
+      alert('You have to select a style to save a record.');
+    } else {
+      const record = new Record(this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
+        this.model.Country, null, this.model.Period, this.model.Year, null, null);
+      const postRecord = new RecordPost(this.model.myStyle.id, record);
+      console.log(postRecord);
+      this.saveRecordRequested.emit(postRecord);
+    }
   }
 
   /**
