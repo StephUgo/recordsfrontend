@@ -63,7 +63,7 @@ export class RecordslistComponent implements OnInit {
       // If the dialog send a result (i.e. a record) we post it to the backend
       if (typeof result !== 'undefined') {
         this.records[i] = result;
-        const postRecord = new RecordPost(this.style, this.records[i]);
+        const postRecord = new RecordPost(this.records[i].getStyleIdFromStyle(), this.records[i]);
         console.log(postRecord);
         this.updateRecordRequested.emit(postRecord);
       }

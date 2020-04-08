@@ -41,6 +41,7 @@ export class RecordDialogModalComponent implements OnInit {
 
   save() {
     const editedRecord = new Record(
+      this.fromPage.Style, // Style isn't editable for the moment
       this.form.value.artist,
       this.form.value.title,
       this.form.value.format,

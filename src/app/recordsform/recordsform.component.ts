@@ -120,7 +120,7 @@ export class RecordsformComponent implements OnInit {
     if (this.model.myStyle.id === 0) {
       alert('You have to select a style to save a record.');
     } else {
-      const record = new Record(this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
+      const record = new Record(null, this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
         this.model.Country, null, this.model.Period, this.model.Year, null, null);
       const postRecord = new RecordPost(this.model.myStyle.id, record);
       console.log(postRecord);
