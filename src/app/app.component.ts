@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Record } from './model/Record';
+import { Record } from './model/record';
 import { SearchRequest } from './model/searchrequest';
 import { ApiService } from '../api.service';
 import { RecordPost } from './model/recordpost';

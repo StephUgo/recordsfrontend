@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchRequest } from '../model/searchrequest';
 import { RecordPost } from '../model/recordpost';
-import { Record } from '../model/Record';
+import { Record } from '../model/record';
 
 
 @Component({

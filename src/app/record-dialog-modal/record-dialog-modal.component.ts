@@ -1,6 +1,6 @@
 import { Component, Inject, Optional, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Record } from '../model/Record';
+import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({

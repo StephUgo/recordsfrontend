@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { Record } from '../model/Record';
+import { Record } from '../model/record';
 import { MatDialog } from '@angular/material';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
 import { RecordPost } from '../model/recordpost';
