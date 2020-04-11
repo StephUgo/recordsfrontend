@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recordsfrontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recordsfrontend
+  template:
+    metadata:
+      labels:
+        app: recordsfrontend
+    spec:
+      containers:
+        - name: recordsfrontendcontainer
+          image: recordsfrontend:0.1
+          ports:
+            - containerPort: 4200
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recordsfrontend
+spec:
+  selector:
+    app: recordsfrontend
+  ports:
+    - port: 4200
+      targetPort: 4200
+  type: LoadBalancer
