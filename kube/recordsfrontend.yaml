@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: recordsfrontendcontainer
-          image: recordsfrontend:0.1
+          image: recordsfrontend:0.2
           ports:
-            - containerPort: 4200
+            - containerPort: 80
 
 ---
 apiVersion: v1
@@ -27,6 +27,6 @@ spec:
   selector:
     app: recordsfrontend
   ports:
-    - port: 4200
-      targetPort: 4200
+    - port: 9080
+      targetPort: 80
   type: LoadBalancer
