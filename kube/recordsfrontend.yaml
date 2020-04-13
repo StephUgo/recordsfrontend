@@ -17,6 +17,7 @@ spec:
           image: recordsfrontend:0.2
           ports:
             - containerPort: 80
+            - containerPort: 3000
 
 ---
 apiVersion: v1
@@ -27,6 +28,12 @@ spec:
   selector:
     app: recordsfrontend
   ports:
-    - port: 9080
+    - name: frontend
+      protocol: TCP
+      port: 9080
       targetPort: 80
+    - name: backendproxy
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
   type: LoadBalancer

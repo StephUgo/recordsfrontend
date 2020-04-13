@@ -32,8 +32,12 @@ FROM nginx:1.17.9-alpine
 # copy artifact build from the 'build environment'
 COPY --from=build /app/dist /usr/share/nginx/html
 
+# copy additional nginx configuration file for the front end to serve as a backend proxy
+COPY ./nginx/frontend.conf /etc/nginx/conf.d 
+
 # expose port 80
 EXPOSE 80
+EXPOSE 3000
 
 # run nginx
 CMD ["nginx", "-g", "daemon off;"]
