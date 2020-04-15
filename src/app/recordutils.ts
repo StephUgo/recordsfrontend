@@ -35,14 +35,20 @@ export class RecordUtils {
                 case 'European': return 17;
                 case 'Brazilian': return 18;
                 case 'Japanese': return 19;
+                case 'Electro': return 20;
+                case 'Brit Funk': return 21;
             }
         }
         return null;
     }
 
 
-    public getRecordDeletionID(record: Record) {
-        return new RecordDeletionID(this.getStyleIdFromStyle(record), record._id);
+    public getRecordDeletionID(record: Record): RecordDeletionID {
+        if (record !== null) {
+            return new RecordDeletionID(this.getStyleIdFromStyle(record), record._id);
+        } else {
+            return null;
+        }
     }
 
     public getObjectForHTTPPost(record: Record): any {

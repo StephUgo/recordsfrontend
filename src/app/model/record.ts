@@ -64,6 +64,10 @@ export class Record {
                 break;
                 case 19: this.Style =  'Japanese';
                 break;
+                case 20: this.Style =  'Electro';
+                break;
+                case 21: this.Style =  'Brit Funk';
+                break;
             }
         }
     }
