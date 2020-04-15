@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Record } from '../model/record';
+import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
-import { RecordPost } from '../model/recordpost';
-import { RecordID } from '../model/recordID';
+import { RecordDeletionID } from '../model/recorddeletionID';
 
 @Component({
   selector: 'app-recordslist',
@@ -18,11 +18,11 @@ export class RecordslistComponent implements OnInit {
   @Input() public config: any; // NGxPagination configuration
 
   // Event emitter for saving a record after its edition in the modal dialog
-  @Output() public saveRecordRequested: EventEmitter<RecordPost> = new EventEmitter<RecordPost>();
+  @Output() public saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for deleting a record after clicking in the corresponding button in the list
-  @Output() public deleteRecordRequested: EventEmitter<RecordID> = new EventEmitter<RecordID>();
+  @Output() public deleteRecordRequested: EventEmitter<RecordDeletionID> = new EventEmitter<RecordDeletionID>();
   // Event emitter for updating a record after its edition in the modal dialog
-  @Output() public updateRecordRequested: EventEmitter<RecordPost> = new EventEmitter<RecordPost>();
+  @Output() public updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for launching a new search request after a page change
   @Output() public pageChanged: EventEmitter<number> = new EventEmitter<number>();
   // Event emitter for launching a sort event
@@ -33,7 +33,7 @@ export class RecordslistComponent implements OnInit {
   public key = 'id';
   public reverse  = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private recordUtils: RecordUtils) { }
 
   ngOnInit() {
 
@@ -63,9 +63,8 @@ export class RecordslistComponent implements OnInit {
       // If the dialog send a result (i.e. a record) we post it to the backend
       if (typeof result !== 'undefined') {
         this.records[i] = result;
-        const postRecord = new RecordPost(this.records[i].getStyleIdFromStyle(), this.records[i]);
-        console.log(postRecord);
-        this.updateRecordRequested.emit(postRecord);
+        console.log(this.records[i]);
+        this.updateRecordRequested.emit(this.records[i]);
       }
     });
   }
@@ -76,9 +75,9 @@ export class RecordslistComponent implements OnInit {
    * @param i the index of the record
    */
   onClickDelete(event, i) {
-    const recordIDPost = new RecordID(this.style, this.records[i]._id);
-    console.log(recordIDPost);
-    this.deleteRecordRequested.emit(recordIDPost);
+    const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
+    console.log(recordDeletionID);
+    this.deleteRecordRequested.emit(recordDeletionID);
   }
 
   /**

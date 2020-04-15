@@ -1,5 +1,7 @@
+import { RecordDeletionID } from './recorddeletionID';
+
 /**
- * Record model object.
+ * Record model object (used within frontend <=> backend communications).
  */
 export class Record {
 
@@ -14,34 +16,55 @@ export class Record {
         public Period: string,
         public Year: number,
         public ImageFileName: string,
-        public Comments: string) {}
+        public Comments: string) { }
 
     public _id: string;
 
-    public getStyleIdFromStyle(): number {
-        if (this.Style !== null) {
-            switch (this.Style) {
-                case  'Soul/Funk': return 1;
-                case  'Rap': return 2;
-                case  'Jazz': return 3;
-                case  'Soundtracks': return 4;
-                case  'Misc.': return 5;
-                case  'AOR': return 6;
-                case  'Audiophile': return 7;
-                case  'Latin': return 8;
-                case  'African': return 9;
-                case  'Island': return 10;
-                case  'Hawaii': return 11;
-                case  'Classical': return 12;
-                case  'Spiritual Jazz': return 13;
-                case  'Rock': return 14;
-                case  'Reggae': return 15;
-                case  'Library': return 16;
-                case  'European': return 17;
-                case  'Brazilian': return 18;
-                case  'Japanese': return 19;
+    /**
+     * Set the style string value from the style numeric id.
+     */
+    public setStyleFromStyleId(styleId: number) {
+        if (styleId !== null) {
+            switch (styleId) {
+                case 1: this.Style = 'Soul/Funk';
+                break;
+                case 2: this.Style = 'Rap';
+                break;
+                case 3: this.Style =  'Jazz';
+                break;
+                case 4: this.Style =  'Soundtracks';
+                break;
+                case 5: this.Style =  'Misc';
+                break;
+                case 6: this.Style =  'AOR';
+                break;
+                case 7: this.Style =  'Audiophile';
+                break;
+                case 8: this.Style =  'Latin';
+                break;
+                case 9: this.Style =  'African';
+                break;
+                case 10: this.Style =  'Island';
+                break;
+                case 11: this.Style =  'Hawaii';
+                break;
+                case 12: this.Style =  'Classical';
+                break;
+                case 13: this.Style =  'Spiritual Jazz';
+                break;
+                case 14: this.Style =  'Rock';
+                break;
+                case 15: this.Style =  'Reggae';
+                break;
+                case 16: this.Style =  'Library';
+                break;
+                case 17: this.Style =  'European';
+                break;
+                case 18: this.Style =  'Brazilian';
+                break;
+                case 19: this.Style =  'Japanese';
+                break;
             }
         }
-        return null;
     }
 }

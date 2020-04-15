@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Record } from './model/record';
 import { SearchRequest } from './model/searchrequest';
 import { ApiService } from '../api.service';
-import { RecordPost } from './model/recordpost';
+import { RecordUtils } from './recordutils';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { RecordID } from './model/recordID';
+import { RecordDeletionID } from './model/recorddeletionID';
 import { Constants } from './constants';
 import { RecordslistComponent } from './recordslist/recordslist.component';
 
@@ -28,7 +28,8 @@ export class AppComponent implements OnInit {
 
   constructor(private api: ApiService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer) {
+    private domSanitizer: DomSanitizer,
+    private recordUtils: RecordUtils) {
     this.matIconRegistry.addSvgIcon('edit', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/edit.svg'));
     this.matIconRegistry.addSvgIcon('delete', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/delete.svg'));
   }
@@ -125,15 +126,15 @@ export class AppComponent implements OnInit {
    * SAVE a Record
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
-  public onSaveRecordRequested(recordToSave: RecordPost): void {
-    this.currentStyle = recordToSave.style;
+  public onSaveRecordRequested(recordToSave: Record): void {
+    this.currentStyle = this.recordUtils.getStyleIdFromStyle(recordToSave);
     if (this.api) {
 
-      const newRecord = recordToSave.getObjectForHTTPPost();
+      const newRecord = this.recordUtils.getObjectForHTTPPost(recordToSave);
 
       // 1st delete the previous version of the record
-      if (recordToSave.record._id != null) {
-        const deleteQueryString: string = '?Style=' + recordToSave.style.toString() + '&ID=' + recordToSave.record._id;
+      if (recordToSave._id != null) {
+        const deleteQueryString: string = this.recordUtils.getRecordDeletionID(recordToSave).getParamsForHTTPQueryString();
         console.log('DeleteRecord before save : ' + deleteQueryString);
         this.api.deleteRecord(deleteQueryString).subscribe(res => {
           console.log(res);
@@ -147,7 +148,7 @@ export class AppComponent implements OnInit {
       this.api.saveRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(recordToSave.style, '', '', '', '', '', undefined, '', 0, null, null);
+        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', undefined, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           this.lastSearchRequest = request;
           console.log(searchRes);
@@ -172,10 +173,10 @@ export class AppComponent implements OnInit {
    * DELETE a Record
    * @param recordToDelete the RecordID as transmitted by the RecordListComponent
    */
-  public onDeleteRecordRequested(recordToDelete: RecordID): void {
+  public onDeleteRecordRequested(recordToDelete: RecordDeletionID): void {
     if (this.api) {
       // Build the QueryString
-      const deleteQueryString: string = '?Style=' + recordToDelete.style.toString() + '&ID=' + recordToDelete.ID;
+      const deleteQueryString: string = recordToDelete.getParamsForHTTPQueryString();
 
       console.log('deleteRecord : ' + deleteQueryString);
       this.api.deleteRecord(deleteQueryString).subscribe(res => {
@@ -206,17 +207,17 @@ export class AppComponent implements OnInit {
    * UPDATE a Record
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
-  public onUpdateRecordRequested(recordToSave: RecordPost): void {
-    this.currentStyle = recordToSave.style;
+  public onUpdateRecordRequested(recordToSave: Record): void {
+    this.currentStyle = this.recordUtils.getStyleIdFromStyle( recordToSave);
     if (this.api) {
 
-      const newRecord = recordToSave.getUpdatedObjectForHTTPPost();
+      const newRecord = this.recordUtils.getUpdatedObjectForHTTPPost(recordToSave);
       console.log('updateRecord : ' + newRecord);
 
       this.api.updateRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(recordToSave.style, '', '', '', '', '', undefined, '', 0, null, null);
+        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', undefined, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           console.log(searchRes);
           this.lastSearchRequest = request;

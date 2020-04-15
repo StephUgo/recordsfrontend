@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchRequest } from '../model/searchrequest';
-import { RecordPost } from '../model/recordpost';
 import { Record } from '../model/record';
 
 
@@ -51,7 +50,7 @@ export class RecordsformComponent implements OnInit {
   // Event emitter for searching for a new record according to the criteria filled in the form
   @Output() public searchRecordsRequested: EventEmitter<SearchRequest> = new EventEmitter<SearchRequest>();
   // Event emitter for saving a new record after its edition in the form
-  @Output() public saveRecordRequested: EventEmitter<RecordPost> = new EventEmitter<RecordPost>();
+  @Output() public saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for uploading a new cover
   @Output() public uploadCoverRequested: EventEmitter<FormData> = new EventEmitter<FormData>();
   formData: FormData;
@@ -122,9 +121,9 @@ export class RecordsformComponent implements OnInit {
     } else {
       const record = new Record(null, this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
         this.model.Country, null, this.model.Period, this.model.Year, null, null);
-      const postRecord = new RecordPost(this.model.myStyle.id, record);
-      console.log(postRecord);
-      this.saveRecordRequested.emit(postRecord);
+      record.setStyleFromStyleId(this.model.myStyle.id);
+      console.log(record);
+      this.saveRecordRequested.emit(record);
     }
   }
 
