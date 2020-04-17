@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   public config: any; // NGxPagination configuration
   public lastSearchRequest: SearchRequest; // The last search request
 
-  @ViewChild(RecordslistComponent, { static: false })
+  @ViewChild(RecordslistComponent)
   recordListComponent: RecordslistComponent;
 
   constructor(private api: ApiService,
