@@ -10,7 +10,7 @@ import { Record } from '../model/record';
 })
 export class RecordsformComponent implements OnInit {
 
-  private styleList = [
+  public styleList = [
     { id: 0, name: '' },
     { id: 1, name: 'Soul / Funk' },
     { id: 2, name: 'Rap' },

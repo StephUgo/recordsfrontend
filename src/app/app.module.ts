@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
-
 
 import { AppComponent } from './app.component';
 import { RecordsformComponent } from './recordsform/recordsform.component';
@@ -17,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatIconModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    AngularFontAwesomeModule
+    FontAwesomeModule
   ],
   entryComponents: [
     RecordDialogModalComponent
