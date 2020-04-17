@@ -11,13 +11,11 @@ import { RecordsformComponent } from './recordsform/recordsform.component';
 import { RecordslistComponent } from './recordslist/recordslist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecordDialogModalComponent } from './record-dialog-modal/record-dialog-modal.component';
-import {
-  MatFormFieldModule,
-  MatDialogModule,
-  MatInputModule,
-  MatButtonModule,
-  MatIconModule,
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({

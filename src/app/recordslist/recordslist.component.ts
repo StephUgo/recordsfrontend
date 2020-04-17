@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
 import { RecordDeletionID } from '../model/recorddeletionID';
 
