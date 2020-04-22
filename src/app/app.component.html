@@ -7,6 +7,7 @@
   <div id="leftpart">
     <app-recordsform (searchRecordsRequested)='onSearchRecordsRequested($event)'
       (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'></app-recordsform>
+    <app-login></app-login>
   </div>
   <div id="rightpart">
     <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'

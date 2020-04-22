@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 @Component({
     selector: 'app-login',
-    template: './login.component.html'
+    templateUrl: './login.component.html'
 })
 export class LoginComponent {
     form: FormGroup;
@@ -15,6 +15,7 @@ export class LoginComponent {
         private router: Router) {
 
         this.form = this.fb.group({
+            name: ['', Validators.required],
             email: ['', Validators.required],
             password: ['', Validators.required]
         });
@@ -23,8 +24,8 @@ export class LoginComponent {
     login() {
         const val = this.form.value;
 
-        if (val.email && val.password) {
-            this.authService.login(val.email, val.password)
+        if (val.name && val.email && val.password) {
+            this.authService.login(val.name, val.email, val.password)
                 .subscribe(
                     () => {
                         console.log('User is logged in');
