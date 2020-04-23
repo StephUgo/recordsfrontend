@@ -21,7 +21,7 @@ export class LoginComponent {
         });
     }
 
-    login() {
+    onLoginClick() {
         const val = this.form.value;
 
         if (val.name && val.email && val.password) {
@@ -29,9 +29,38 @@ export class LoginComponent {
                 .subscribe(
                     () => {
                         console.log('User is logged in');
+                        alert('User is logged in');
                         this.router.navigateByUrl('/');
-                    }
-                );
+                    },
+                    (error) => {
+                        console.log('Login error = ', error);
+                        alert('Login error : ' + JSON.stringify(error));
+                      }
+                    );
+        }
+    }
+
+    onLogoutClick() {
+        this.authService.logout();
+    }
+
+
+    onRegisterClick() {
+        const val = this.form.value;
+
+        if (val.name && val.email && val.password) {
+            this.authService.register(val.name, val.email, val.password)
+                .subscribe(
+                    () => {
+                        console.log('User is registered');
+                        alert('User is registered');
+                        this.router.navigateByUrl('/');
+                    },
+                    (error) => {
+                        console.log('Registration error = ', error);
+                        alert('Registration error : ' + JSON.stringify(error));
+                      }
+                    );
         }
     }
 }

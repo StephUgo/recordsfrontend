@@ -15,8 +15,10 @@ export class AuthService {
         return this.http.post('http://localhost:3000/users/login', {name, email, password}).pipe(
             map(this.setSession)
         ).pipe(shareReplay());
-            // this is just the HTTP call,
-            // we still need to handle the reception of the token
+    }
+
+    register(name: string, email: string, password: string ) {
+        return this.http.post('http://localhost:3000/users/register', {name, email, password});
     }
 
     private setSession(authResult) {
