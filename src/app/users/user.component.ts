@@ -52,6 +52,7 @@ export class UserComponent {
 
     onLogoutClick() {
         this.authService.logout();
+        alert('User is logged out');
     }
 
     onRegisterClick() {
