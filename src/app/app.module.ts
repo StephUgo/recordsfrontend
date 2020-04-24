@@ -10,6 +10,8 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
 import { LoginComponent } from './sec/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecordDialogModalComponent } from './record-dialog-modal/record-dialog-modal.component';
+import { UserDialogComponent } from './users/user-dialog-modal.component';
+import { UserComponent } from './users/user.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,13 +25,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './sec/authinterceptor';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
     RecordsformComponent,
     RecordslistComponent,
     RecordDialogModalComponent,
-    LoginComponent
+    UserDialogComponent,
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,8 @@ import { AuthInterceptor } from './sec/authinterceptor';
     RouterModule.forRoot([])
   ],
   entryComponents: [
-    RecordDialogModalComponent
+    RecordDialogModalComponent,
+    UserDialogComponent
   ],
   providers: [
     {
