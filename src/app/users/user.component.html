@@ -2,7 +2,7 @@
     <button class="dropbtn">User Accounts</button>
     <div class="dropdown-content">
       <a (click)="onRegisterClick()">Register</a>
-      <a (click)="onLoginClick()">Login</a>
-      <a (click)="onLogoutClick()">Logout</a>
+      <a *ngIf="isLoggedOut()" (click)="onLoginClick()">Login</a>
+      <a *ngIf="isLoggedIn()" (click)="onLogoutClick()">Logout</a>
     </div>
 </div>

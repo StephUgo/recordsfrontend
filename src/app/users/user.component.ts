@@ -93,4 +93,12 @@ export class UserComponent {
             }
         });
     }
+
+    public isLoggedIn(): boolean {
+        return this.authService.isLoggedIn();
+    }
+
+    public isLoggedOut(): boolean {
+        return this.authService.isLoggedOut();
+    }
 }
