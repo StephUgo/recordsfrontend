@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { shareReplay, takeUntil, map } from 'rxjs/operators';
 import * as moment from 'moment';
+import { User } from '../users/user.model';
+
+const usersBackendURLPrefix = 'http://localhost:3000/users/';
 
 @Injectable({
     providedIn: 'root'
@@ -11,14 +14,30 @@ export class AuthService {
     constructor(private http: HttpClient) {
     }
 
-    login(name: string, email: string, password: string ) {
-        return this.http.post('http://localhost:3000/users/login', {name, email, password}).pipe(
-            map(this.setSession)
+    /**
+     * Login service (calls the NodeJS Backen associated service)
+     * If ok, the JWT token is stored in the local storage.
+     * @param user user to log in
+     */
+    public login(user: User) {
+        return this.http.post(usersBackendURLPrefix + 'login', user).pipe(map(this.setSession)
         ).pipe(shareReplay());
     }
 
-    register(name: string, email: string, password: string ) {
-        return this.http.post('http://localhost:3000/users/register', {name, email, password});
+    /**
+     * Registration service (calls the NodeJS Backen associated service)
+     * @param user user to log in
+     */
+    public register(user: User) {
+        return this.http.post(usersBackendURLPrefix + 'register', user);
+    }
+
+    /**
+     * Logout service (local for the moment)
+     */
+    public logout() {
+        localStorage.removeItem('id_token');
+        localStorage.removeItem('expires_at');
     }
 
     private setSession(authResult) {
@@ -26,11 +45,6 @@ export class AuthService {
 
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
-    }
-
-    logout() {
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('expires_at');
     }
 
     public isLoggedIn() {
@@ -46,5 +60,4 @@ export class AuthService {
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
     }
-
 }

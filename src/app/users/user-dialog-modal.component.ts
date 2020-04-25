@@ -1,6 +1,6 @@
 import { Component, Inject, Optional, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { User } from '../sec/user.model';
+import { User } from './user.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -12,7 +12,7 @@ export class UserDialogComponent implements OnInit {
 
   form: FormGroup;
   fromUser: User;
-  isLogin: boolean;
+  isLogin: boolean; // If true, we are in a User Login dialog otherwise it's a User Registration dialog.
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<UserDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -20,7 +20,7 @@ export class UserDialogComponent implements OnInit {
     this.isLogin = data.isLogin;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Init the form group with a formbuilder, we take the initial data from the user
     this.form = this.fb.group({
       name: [this.fromUser.name, []],
@@ -29,11 +29,11 @@ export class UserDialogComponent implements OnInit {
     });
   }
 
-  close() {
+  public close() {
     this.dialogRef.close();
   }
 
-  save() {
+  public save() {
     const editedUser = new User(
       this.form.value.name,
       this.form.value.email,
