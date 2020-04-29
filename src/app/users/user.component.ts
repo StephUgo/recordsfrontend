@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../sec/auth.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { User } from './user.model';
 import { UserDialogComponent } from './user-dialog-modal.component';
 
@@ -13,6 +13,7 @@ import { UserDialogComponent } from './user-dialog-modal.component';
 export class UserComponent {
 
     private fromUser: User;
+    private dialogRef: MatDialogRef<UserDialogComponent>;
 
     constructor(public dialog: MatDialog, private authService: AuthService, private router: Router) {
         this.fromUser = new User('', '', '');
@@ -22,7 +23,8 @@ export class UserComponent {
      * Handler for click on the Login button.
      */
     public onLoginClick() {
-        const dialogRef = this.dialog.open(UserDialogComponent, {
+        if (this.dialogRef !== undefined) { return; }
+        this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
             height: '400px',
             backdropClass: 'custom-dialog-backdrop-class',
@@ -32,7 +34,7 @@ export class UserComponent {
             data: { isLogin: true, user: this.fromUser }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.afterClosed().subscribe(result => {
             console.log('The User Login dialog was closed', result);
             // If the dialog send a result (i.e. a user) we post it to the backend
             if (typeof result !== 'undefined') {
@@ -43,12 +45,13 @@ export class UserComponent {
                         alert('User is logged in');
                         this.router.navigateByUrl('/');
                     },
-                    (error) => {
-                        console.log('Login error = ', error);
-                        alert('Login error : ' + JSON.stringify(error));
+                    (errorResponse) => {
+                        console.log('Login error = ', errorResponse);
+                        alert('Login error : ' + errorResponse.error);
                     }
                 );
             }
+            this.dialogRef = undefined;
         });
     }
 
@@ -64,7 +67,8 @@ export class UserComponent {
      * Handler for click on the Register button.
      */
     public onRegisterClick() {
-        const dialogRef = this.dialog.open(UserDialogComponent, {
+        if (this.dialogRef !== undefined) { return; }
+        this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
             height: '400px',
             backdropClass: 'custom-dialog-backdrop-class',
@@ -74,7 +78,7 @@ export class UserComponent {
             data: { isLogin: false, user: this.fromUser }
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        this.dialogRef.afterClosed().subscribe(result => {
             console.log('The edit dialog was closed', result);
             // If the dialog send a result (i.e. a user) we post it to the backend
             if (typeof result !== 'undefined') {
@@ -85,12 +89,13 @@ export class UserComponent {
                         alert('User is registered');
                         this.router.navigateByUrl('/');
                     },
-                    (error) => {
-                        console.log('Registration error = ', error);
-                        alert('Registration error : ' + JSON.stringify(error));
+                    (errorResponse) => {
+                        console.log('Registration error = ', errorResponse);
+                        alert('Registration error : ' + errorResponse.error);
                     }
                 );
             }
+            this.dialogRef = undefined;
         });
     }
 
