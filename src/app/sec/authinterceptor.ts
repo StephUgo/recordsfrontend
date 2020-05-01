@@ -6,9 +6,12 @@ import {
     HttpInterceptor
   } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+
+    constructor(private authService: AuthService) { }
 
     /**
      * Interceptor which add the user token (if any) to HTTP request
@@ -21,11 +24,15 @@ export class AuthInterceptor implements HttpInterceptor {
         const idToken = localStorage.getItem('id_token');
 
         if (idToken) {
-            const cloned = req.clone({
-                headers: req.headers.set('authorization', idToken)
-            });
-
-            return next.handle(cloned);
+            if (this.authService.isLoggedOut()) {
+                this.authService.logout();
+                return next.handle(req);
+            } else {
+                const cloned = req.clone({
+                    headers: req.headers.set('authorization', idToken)
+                });
+                return next.handle(cloned);
+            }
         } else {
             return next.handle(req);
         }
