@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { shareReplay, takeUntil, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { User } from '../users/user.model';
+import { environment } from '../../environments/environment';
 
-const usersBackendURLPrefix = 'http://localhost:3000/users/';
+const backendServerURL = environment.backendURL + ':' + environment.backendPort;
+const usersBackendURLPrefix = backendServerURL + '/users/';
 
 @Injectable({
     providedIn: 'root'

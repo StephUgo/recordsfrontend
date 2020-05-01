@@ -81,7 +81,7 @@
 				<div *ngIf="record.ImageFileName ; else elseBlock">
 					<td style="display:table-cell;vertical-align:middle">
 						<div>
-							<img src="http://localhost:3000/uploads/{{record.ImageFileName}}" alt="" border=3 height=100
+							<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" border=3 height=100
 								width=100>
 						</div>
 					</td>

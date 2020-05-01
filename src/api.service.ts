@@ -3,14 +3,16 @@ import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { SearchRequest } from './app/model/searchrequest';
+import { environment } from './environments/environment';
 
 const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-const apiUrlByDefault = 'http://localhost:3000/records/searchrecordsdefault/';
-const apiSearchRecordsUrl = 'http://localhost:3000/records/searchrecords/';
-const apiSaveRecordUrl = 'http://localhost:3000/records/saverecord/';
-const apiUpdateRecordUrl = 'http://localhost:3000/records/updaterecord/';
-const apiDeleteRecordUrl = 'http://localhost:3000/records/deleterecord/';
-const apiUploadCoverUrl = 'http://localhost:3000/records/uploadcover/';
+const backendServerURL = environment.backendURL + ':' + environment.backendPort;
+const apiUrlByDefault = backendServerURL + '/records/searchrecordsdefault/';
+const apiSearchRecordsUrl = backendServerURL + '/records/searchrecords/';
+const apiSaveRecordUrl = backendServerURL + '/records/saverecord/';
+const apiUpdateRecordUrl = backendServerURL + '/records/updaterecord/';
+const apiDeleteRecordUrl = backendServerURL + '/records/deleterecord/';
+const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 
 @Injectable({
     providedIn: 'root'

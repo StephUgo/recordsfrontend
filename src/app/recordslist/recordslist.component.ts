@@ -4,6 +4,8 @@ import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
 import { RecordDeletionID } from '../model/recorddeletionID';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'app-recordslist',
@@ -28,6 +30,7 @@ export class RecordslistComponent implements OnInit {
   // Event emitter for launching a sort event
   @Output() public sortRequested: EventEmitter<[string, boolean]> = new EventEmitter<[string, boolean]>();
 
+  public backendServerURL = environment.backendURL + ':' + environment.backendPort;
 
   // Sorting attributes
   public key = 'id';
