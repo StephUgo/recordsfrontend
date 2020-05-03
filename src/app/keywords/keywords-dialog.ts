@@ -1,12 +1,8 @@
-import {Component, OnInit, Inject} from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
-export interface Keyword {
-    keyword: string;
-    position: number;
-}
+import { stringify } from 'querystring';
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -17,28 +13,24 @@ export interface Keyword {
   templateUrl: 'keywords-dialog.html',
 })
 export class KeywordsTableDialogComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'keyword', 'deleteAction'];
+  displayedColumns: string[] = ['index', 'keyword', 'deleteAction'];
 
-  public keywords: Keyword[] = [];
+  public keywords: string[] = [];
   public versionIndex = 0;
-  public record: any; // TODO use record type
+  public fromRecord: Record;
   form: FormGroup;
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<KeywordsTableDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any) {
-        this.record = data.selectedRecord;
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.fromRecord = data.selectedRecord;
   }
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  ngOnInit() {
-    this.keywords.push({position: 1, keyword: 'Audiophile'});
-    this.keywords.push({position: 2, keyword: 'Rudy Van Gelder'});
-    this.keywords.push({position: 3, keyword: 'Bernie Grundman'});
-    this.keywords.push({position: 4, keyword: 'RTI'});
-    this.record.keywords = this.keywords;
+  public ngOnInit() {
+    this.keywords = Object.assign([], this.fromRecord.keywords);
 
     this.form = this.fb.group({
       newKeyword: ['', []]
@@ -46,8 +38,30 @@ export class KeywordsTableDialogComponent implements OnInit {
 
   }
 
-  delete(item) {
+  public delete(item) {
     // your delete code
-    console.log('Delete keyword ' + item.keyword);
+    console.log('Delete keyword index ' + item);
+  }
+
+  public addKeyword() {
+    if (this.form.value.newKeyword !== null) {
+      let keyword: string;
+      keyword = this.form.value.newKeyword as string;
+      if (keyword.length > 0) {
+        let newKeywords: string[];
+        newKeywords = Object.assign([], this.keywords);
+        newKeywords.push(keyword);
+        this.keywords = newKeywords;
+      }
+    }
+  }
+
+  public close() {
+    this.dialogRef.close();
+  }
+
+  public save() {
+    this.fromRecord.keywords = this.keywords;
+    this.dialogRef.close(this.fromRecord);
   }
 }

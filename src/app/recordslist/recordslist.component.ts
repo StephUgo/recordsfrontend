@@ -38,7 +38,7 @@ export class RecordslistComponent implements OnInit {
 
   // Sorting attributes
   public key = 'id';
-  public reverse  = false;
+  public reverse = false;
 
   @ViewChild('recordMenu') recordMenu: TemplateRef<any>;
 
@@ -47,9 +47,9 @@ export class RecordslistComponent implements OnInit {
   sub: Subscription;
 
   constructor(public dialog: MatDialog,
-              private recordUtils: RecordUtils,
-              public overlay: Overlay,
-              public viewContainerRef: ViewContainerRef) { }
+    private recordUtils: RecordUtils,
+    public overlay: Overlay,
+    public viewContainerRef: ViewContainerRef) { }
 
   ngOnInit() {
 
@@ -63,6 +63,7 @@ export class RecordslistComponent implements OnInit {
   public openDialog(event, i): void {
 
     console.log('Open edit dialog event received : ', event);
+    this.closeContextualMenu(); // If it was opened from the contextual menu
 
     const dialogRef = this.dialog.open(RecordDialogModalComponent, {
       width: '400px',
@@ -82,20 +83,26 @@ export class RecordslistComponent implements OnInit {
         console.log(this.records[i]);
         this.updateRecordRequested.emit(this.records[i]);
       }
-      this.closeContextualMenu(); // If it was opened from the contextual menu
     });
   }
 
   public openKeywordsDialog(event, i): void {
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
     const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
       width: '400px',
-      height: '400px',
+      height: '500px',
       data: { selectedRecord: this.records[i] }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The keywords dialog was closed');
-      this.closeContextualMenu(); // If it was opened from the contextual menu
+      // If the dialog send a result (i.e. a record) we post it to the backend
+      if (typeof result !== 'undefined') {
+        this.records[i] = result;
+        console.log(this.records[i]);
+        this.updateRecordRequested.emit(this.records[i]);
+      }
     });
   }
 

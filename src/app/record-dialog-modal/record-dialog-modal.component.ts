@@ -51,7 +51,9 @@ export class RecordDialogModalComponent implements OnInit {
       this.form.value.period,
       this.form.value.year,
       this.form.value.imageFileName,
-      this.form.value.comments);
+      this.form.value.comments,
+      this.fromPage.keywords // Keywords are editable from a specific dialoog
+      );
       editedRecord._id = this.fromPage._id;
       this.dialogRef.close(editedRecord);
   }

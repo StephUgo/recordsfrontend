@@ -122,7 +122,7 @@ export class RecordsformComponent implements OnInit {
       alert('You have to select a style to save a record.');
     } else {
       const record = new Record(null, this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
-        this.model.Country, null, this.model.Period, this.model.Year, null, null);
+        this.model.Country, null, this.model.Period, this.model.Year, null, null, null);
       record.setStyleFromStyleId(this.model.myStyle.id);
       console.log(record);
       this.saveRecordRequested.emit(record);
