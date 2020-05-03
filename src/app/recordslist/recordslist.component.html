@@ -117,6 +117,6 @@
 	  <div (click)="openDialog($event, wrapper.index)">Update {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
 	  <div (click)="openKeywordsDialog($event, wrapper.index)">Update keywords</div>
 	  <hr>
-	  <div>Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+	  <div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
 	</section>
 </ng-template>

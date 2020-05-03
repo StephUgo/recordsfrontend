@@ -38,9 +38,15 @@ export class KeywordsTableDialogComponent implements OnInit {
 
   }
 
-  public delete(item) {
-    // your delete code
-    console.log('Delete keyword index ' + item);
+  public delete(index: number) {
+    console.log('Delete keyword index ' + index);
+    const updatedKeywords: string [] = [];
+    for (let i = 0; i < this.keywords.length; i++) {
+        if (i !== index) {
+          updatedKeywords.push(this.keywords[i]);
+        }
+    }
+    this.keywords = updatedKeywords;
   }
 
   public addKeyword() {
