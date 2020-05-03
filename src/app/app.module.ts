@@ -16,12 +16,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './sec/authinterceptor';
+import { KeywordsTableDialogComponent } from './keywords/keywords-dialog';
+import { CdkTableModule } from '@angular/cdk/table';
 
 
 
@@ -32,6 +35,7 @@ import { AuthInterceptor } from './sec/authinterceptor';
     RecordslistComponent,
     RecordDialogModalComponent,
     UserDialogComponent,
+    KeywordsTableDialogComponent,
     UserComponent
   ],
   imports: [
@@ -39,11 +43,13 @@ import { AuthInterceptor } from './sec/authinterceptor';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    CdkTableModule,
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatTableModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     FontAwesomeModule,

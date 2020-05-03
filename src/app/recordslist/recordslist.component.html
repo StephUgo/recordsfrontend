@@ -1,3 +1,4 @@
+<section>
 <div id="recordsList">
 	<table>
 		<colgroup>
@@ -67,7 +68,8 @@
 		</thead>
 		<tbody>
 			<tr
-				*ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i">
+				*ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
+				(contextmenu)="openContextualMenu($event, i, record)">
 				<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}</td>
 				<td>{{record.Artist}}</td>
 				<td>{{record.Title}}</td>
@@ -109,3 +111,12 @@
 		<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
 	</div>
 </div>
+</section>
+<ng-template #recordMenu let-wrapper>
+	<section class="record-menu">
+	  <div (click)="openDialog($event, wrapper.index)">Update {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+	  <div (click)="openKeywordsDialog($event, wrapper.index)">Update keywords</div>
+	  <hr>
+	  <div>Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+	</section>
+</ng-template>

@@ -1,10 +1,14 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
 import { RecordDeletionID } from '../model/recorddeletionID';
 import { environment } from '../../environments/environment';
+import { OverlayRef, Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { Subscription } from 'rxjs';
+import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
 
 
 @Component({
@@ -36,7 +40,16 @@ export class RecordslistComponent implements OnInit {
   public key = 'id';
   public reverse  = false;
 
-  constructor(public dialog: MatDialog, private recordUtils: RecordUtils) { }
+  @ViewChild('recordMenu') recordMenu: TemplateRef<any>;
+
+  overlayRef: OverlayRef | null;
+
+  sub: Subscription;
+
+  constructor(public dialog: MatDialog,
+              private recordUtils: RecordUtils,
+              public overlay: Overlay,
+              public viewContainerRef: ViewContainerRef) { }
 
   ngOnInit() {
 
@@ -47,7 +60,7 @@ export class RecordslistComponent implements OnInit {
    * @param event the event
    * @param i the index of the record
    */
-  openDialog(event, i): void {
+  public openDialog(event, i): void {
 
     console.log('Open edit dialog event received : ', event);
 
@@ -69,6 +82,20 @@ export class RecordslistComponent implements OnInit {
         console.log(this.records[i]);
         this.updateRecordRequested.emit(this.records[i]);
       }
+      this.closeContextualMenu(); // If it was opened from the contextual menu
+    });
+  }
+
+  public openKeywordsDialog(event, i): void {
+    const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
+      width: '400px',
+      height: '400px',
+      data: { selectedRecord: this.records[i] }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The keywords dialog was closed');
+      this.closeContextualMenu(); // If it was opened from the contextual menu
     });
   }
 
@@ -177,6 +204,56 @@ export class RecordslistComponent implements OnInit {
         this.reverse = true;
         break;
       }
+    }
+  }
+
+  public openContextualMenu($event, i, record) {
+
+    $event.preventDefault();
+    let mouseEvent: MouseEvent;
+    mouseEvent = $event;
+    const x = mouseEvent.x;
+    const y = mouseEvent.y;
+
+    this.closeContextualMenu();
+
+    const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo({ x, y })
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'bottom',
+          overlayX: 'end',
+          overlayY: 'top',
+        }
+      ]);
+
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop'
+    });
+
+    this.overlayRef.backdropClick().subscribe(() => this.closeContextualMenu());
+
+    const wrapper = {
+      item: record,
+      index: i
+    };
+
+    this.overlayRef.attach(new TemplatePortal(this.recordMenu, this.viewContainerRef, {
+      $implicit: wrapper
+    }));
+  }
+
+  public closeContextualMenu() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.overlayRef) {
+      this.overlayRef.dispose();
+      this.overlayRef = null;
     }
   }
 }
