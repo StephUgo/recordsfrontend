@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { SearchRequest } from './app/model/searchrequest';
 import { environment } from './environments/environment';
+import { Record } from './app/model/record';
 
 const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 const backendServerURL = environment.backendURL + ':' + environment.backendPort;
@@ -36,18 +37,17 @@ export class ApiService {
         return throwError('Something bad happened; please try again later.');
     }
 
-    private extractData(res: Response) {
-        const body = res;
-        return body || {};
+    private extractData(res: Record[]): Record[] {
+        return res || {};
     }
 
     /**
      * Default records retrieval when accessing root app page
      */
-    public getRecords(): Observable<any> {
+    getRecords(): Observable<any> {
         const httpParams = new HttpParams().set('Limit', '5');
         const httpOptions = { headers: httpHeaders, params: httpParams };
-        return this.http.get(apiUrlByDefault, httpOptions).pipe(
+        return this.http.get<Record[]>(apiUrlByDefault, httpOptions).pipe(
             map(this.extractData),
             catchError(this.handleError));
     }
@@ -56,20 +56,20 @@ export class ApiService {
      * Search records according to the request object provided in parameter.
      * @param request request object
      */
-    public searchRecords(request: SearchRequest): Observable<any> {
+    searchRecords(request: SearchRequest): Observable<any> {
 
         // Build URL Query String from Search request model object.
         const httpParams = new HttpParams().set('Style', request.Style != null ? request.Style.toString() : '')
-            .set('Artiste', typeof request.Artiste !== 'undefined' ? request.Artiste : '')
-            .set('Titre', typeof request.Titre !== 'undefined' ? request.Titre : '')
-            .set('Country', typeof request.Country !== 'undefined' ? request.Country : '')
-            .set('Format', typeof request.Format !== 'undefined' ? request.Format : '')
-            .set('Year', typeof request.Year !== 'undefined' && request.Year !== null ? request.Year.toString() : '')
-            .set('Period', typeof request.Period !== 'undefined' ? request.Period : '')
-            .set('Label', typeof request.Label !== 'undefined' ? request.Label : '')
-            .set('Sort', typeof request.Sort !== 'undefined' ? request.Sort.toString() : '1')
-            .set('Limit', request.Limit != null ? request.Limit.toString() : '')
-            .set('Skip', request.Skip != null ? request.Skip.toString() : '');
+            .set('Artiste', request.Artiste !== undefined && request.Artiste !== null ? request.Artiste : '')
+            .set('Titre', request.Titre !== undefined && request.Titre !== null ? request.Titre : '')
+            .set('Country', request.Country !== undefined && request.Country !== null ? request.Country : '')
+            .set('Format', request.Format !== undefined && request.Format !== null ? request.Format : '')
+            .set('Year', request.Year !== undefined && request.Year !== null ? request.Year.toString() : '')
+            .set('Period', request.Period !== undefined && request.Period !== null ? request.Period : '')
+            .set('Label', request.Label !== undefined &&  request.Label !== null ? request.Label : '')
+            .set('Sort', request.Sort !== undefined && request.Sort !== null ? request.Sort.toString() : '1')
+            .set('Limit', request.Limit !== undefined && request.Limit != null ? request.Limit.toString() : '')
+            .set('Skip', request.Skip !== undefined && request.Skip != null ? request.Skip.toString() : '');
 
         console.log(httpParams);
 
@@ -80,28 +80,28 @@ export class ApiService {
 
         console.log(httpOptions);
 
-        return this.http.get(apiSearchRecordsUrl, httpOptions).pipe(
+        return this.http.get<Record[]>(apiSearchRecordsUrl, httpOptions).pipe(
             map(this.extractData),
             catchError(this.handleError));
     }
 
 
     /**
-     * Save record according to the request object provided in parameter.
-     * @param saveRequest save request object
+     * Save record according to the object provided in parameter.
+     * @param recordPostObject  object to be posted
      */
-    public saveRecord(saveRequest: Object): Observable<any> {
+    saveRecord(recordPostObject: Object): Observable<any> {
 
-        console.log(saveRequest);
+        console.log(recordPostObject);
 
-        return this.http.post(apiSaveRecordUrl, saveRequest);
+        return this.http.post(apiSaveRecordUrl, recordPostObject);
     }
 
     /**
      * Delete record according to the request object provided in parameter.
      * @param deleteRequest request object
      */
-    public deleteRecord(deleteRequest: string): Observable<any> {
+    deleteRecord(deleteRequest: string): Observable<any> {
 
         console.log(deleteRequest);
 
@@ -109,20 +109,20 @@ export class ApiService {
     }
 
     /**
-     * Update record according to the request object provided in parameter.
-     * @param saveRequest save request object
+     * Update record according to the object provided in parameter.
+     * @param recordPostObject object to be posted
      */
-    public updateRecord(saveRequest: Object): Observable<any> {
+    updateRecord(recordPostObject: Object): Observable<any> {
 
-        console.log(saveRequest);
+        console.log(recordPostObject);
 
-        return this.http.post(apiUpdateRecordUrl, saveRequest);
+        return this.http.post(apiUpdateRecordUrl, recordPostObject);
     }
 
     /**
      * Handler for cover upload event
      */
-    public uploadCover(formData: FormData): Observable<any> {
+    uploadCover(formData: FormData): Observable<any> {
         return this.http.post(apiUploadCoverUrl, formData);
     }
 }

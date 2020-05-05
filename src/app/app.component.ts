@@ -18,13 +18,12 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
 export class AppComponent implements OnInit {
   public title = Constants.appTitle;
 
-  public records: Array<Record>; // The current displayed list of records
-  public currentStyle: number; // The current selected style (TODO : remove ?)
+  public records: Array<Record>|null = null; // The current displayed list of records
+  public currentStyle: number | null = null; // The current selected style (TODO : remove ?)
   public config: any; // NGxPagination configuration
-  public lastSearchRequest: SearchRequest; // The last search request
+  public lastSearchRequest: SearchRequest | null = null; // The last search request
 
-  @ViewChild(RecordslistComponent)
-  recordListComponent: RecordslistComponent;
+  @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
 
   constructor(private api: ApiService,
     private matIconRegistry: MatIconRegistry,
@@ -58,7 +57,7 @@ export class AppComponent implements OnInit {
    * SEARCH for records
    * @param request Record search request
    */
-  public onSearchRecordsRequested(request: SearchRequest): void {
+  onSearchRecordsRequested(request: SearchRequest): void {
     this.currentStyle = request.Style;
     this.config.itemsPerPage = request.Limit;
     request.Limit = this.config.itemsPerPage;
@@ -82,7 +81,9 @@ export class AppComponent implements OnInit {
         } else {
           this.records = res;
         }
-        this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
+        if ((this.recordListComponent !== null) && (this.lastSearchRequest.Sort !== null)) {
+          this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
+        }
       }, err => {
         console.log(err);
       });
@@ -95,12 +96,12 @@ export class AppComponent implements OnInit {
    * Page changed event handler
    * @param newPage Page number
    */
-  public onPageChanged(newPage: number): void {
+  onPageChanged(newPage: number): void {
     if (this.lastSearchRequest != null) {
       this.lastSearchRequest.Skip = (newPage - 1) * this.config.itemsPerPage;
       this.lastSearchRequest.Limit = this.config.itemsPerPage;
     } else {
-      this.lastSearchRequest = new SearchRequest(1, undefined, undefined, undefined, undefined, undefined, undefined, undefined, 1,
+      this.lastSearchRequest = new SearchRequest(1, null, null, null, null, null, null, null, 1,
         this.config.itemsPerPage, (newPage - 1) * this.config.itemsPerPage);
     }
     this.onSearchRecordsRequested(this.lastSearchRequest);
@@ -110,7 +111,7 @@ export class AppComponent implements OnInit {
    * Sort requested
    * @param sortRequest sort options
    */
-  public onSortRequested(sortRequest: [string, boolean]): void {
+  onSortRequested(sortRequest: [string, boolean]): void {
     if (this.lastSearchRequest == null) {
       this.lastSearchRequest = new SearchRequest(null, '', '', '', '', '', null, '', 0, 5, 0);
     }
@@ -126,14 +127,14 @@ export class AppComponent implements OnInit {
    * SAVE a Record
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
-  public onSaveRecordRequested(recordToSave: Record): void {
+  onSaveRecordRequested(recordToSave: Record): void {
     this.currentStyle = this.recordUtils.getStyleIdFromStyle(recordToSave);
     if (this.api) {
 
       const newRecord = this.recordUtils.getObjectForHTTPPost(recordToSave);
 
       // 1st delete the previous version of the record
-      if (recordToSave._id != null) {
+      if (recordToSave._id !== null) {
         const deleteQueryString: string = this.recordUtils.getRecordDeletionID(recordToSave).getParamsForHTTPQueryString();
         console.log('DeleteRecord before save : ' + deleteQueryString);
         this.api.deleteRecord(deleteQueryString).subscribe(res => {
@@ -148,7 +149,7 @@ export class AppComponent implements OnInit {
       this.api.saveRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', undefined, '', 0, null, null);
+        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           this.lastSearchRequest = request;
           console.log(searchRes);
@@ -173,7 +174,7 @@ export class AppComponent implements OnInit {
    * DELETE a Record
    * @param recordToDelete the RecordID as transmitted by the RecordListComponent
    */
-  public onDeleteRecordRequested(recordToDelete: RecordDeletionID): void {
+  onDeleteRecordRequested(recordToDelete: RecordDeletionID): void {
     if (this.api) {
       // Build the QueryString
       const deleteQueryString: string = recordToDelete.getParamsForHTTPQueryString();
@@ -182,7 +183,7 @@ export class AppComponent implements OnInit {
       this.api.deleteRecord(deleteQueryString).subscribe(res => {
         // If Ok, we relaunch a search on the selected style
         console.log(res);
-        const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', undefined, '', 0, null, null);
+        const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(res2 => {
           this.lastSearchRequest = request;
           console.log(res2);
@@ -207,7 +208,7 @@ export class AppComponent implements OnInit {
    * UPDATE a Record
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
-  public onUpdateRecordRequested(recordToSave: Record): void {
+  onUpdateRecordRequested(recordToSave: Record): void {
     this.currentStyle = this.recordUtils.getStyleIdFromStyle( recordToSave);
     if (this.api) {
 
@@ -217,7 +218,7 @@ export class AppComponent implements OnInit {
       this.api.updateRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', undefined, '', 0, null, null);
+        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           console.log(searchRes);
           this.lastSearchRequest = request;
@@ -241,7 +242,7 @@ export class AppComponent implements OnInit {
   /**
    * Handler for cover upload event (form submit)
    */
-  public onUploadCoverRequested(formData: FormData) {
+  onUploadCoverRequested(formData: FormData) {
     this.api.uploadCover(formData).subscribe((response) => {
         console.log('response  = ', response);
         alert('File uploaded successfully !');
@@ -253,66 +254,68 @@ export class AppComponent implements OnInit {
   }
 
   private updateSortId(sortRequest: [string, boolean]) {
-    switch (sortRequest[0]) {
-      case 'artist': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 1;
-        } else {
-          this.lastSearchRequest.Sort = 2;
+    if (this.lastSearchRequest !== null) {
+      switch (sortRequest[0]) {
+        case 'artist': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 1;
+          } else {
+            this.lastSearchRequest.Sort = 2;
+          }
+          break;
         }
-        break;
-      }
-      case 'year': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 3;
-        } else {
-          this.lastSearchRequest.Sort = 4;
+        case 'year': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 3;
+          } else {
+            this.lastSearchRequest.Sort = 4;
+          }
+          break;
         }
-        break;
-      }
-      case 'title': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 5;
-        } else {
-          this.lastSearchRequest.Sort = 6;
+        case 'title': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 5;
+          } else {
+            this.lastSearchRequest.Sort = 6;
+          }
+          break;
         }
-        break;
-      }
-      case 'format': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 7;
-        } else {
-          this.lastSearchRequest.Sort = 8;
+        case 'format': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 7;
+          } else {
+            this.lastSearchRequest.Sort = 8;
+          }
+          break;
         }
-        break;
-      }
-      case 'label': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 9;
-        } else {
-          this.lastSearchRequest.Sort = 10;
+        case 'label': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 9;
+          } else {
+            this.lastSearchRequest.Sort = 10;
+          }
+          break;
         }
-        break;
-      }
-      case 'country': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 11;
-        } else {
-          this.lastSearchRequest.Sort = 12;
+        case 'country': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 11;
+          } else {
+            this.lastSearchRequest.Sort = 12;
+          }
+          break;
         }
-        break;
-      }
-      case 'period': {
-        if (sortRequest[1] === false) {
-          this.lastSearchRequest.Sort = 13;
-        } else {
-          this.lastSearchRequest.Sort = 14;
+        case 'period': {
+          if (sortRequest[1] === false) {
+            this.lastSearchRequest.Sort = 13;
+          } else {
+            this.lastSearchRequest.Sort = 14;
+          }
+          break;
         }
-        break;
-      }
-      default: {
-        this.lastSearchRequest.Sort = null;
-        break;
+        default: {
+          this.lastSearchRequest.Sort = null;
+          break;
+        }
       }
     }
   }

@@ -1,8 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { stringify } from 'querystring';
 
 /**
  * @title Basic use of `<table mat-table>`
@@ -12,7 +11,7 @@ import { stringify } from 'querystring';
   styleUrls: ['keywords-dialog.css'],
   templateUrl: 'keywords-dialog.html',
 })
-export class KeywordsTableDialogComponent implements OnInit {
+export class KeywordsTableDialogComponent {
   displayedColumns: string[] = ['index', 'keyword', 'deleteAction'];
 
   public keywords: string[] = [];
@@ -23,22 +22,18 @@ export class KeywordsTableDialogComponent implements OnInit {
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<KeywordsTableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.fromRecord = data.selectedRecord;
-  }
-
-  public onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  public ngOnInit() {
     this.keywords = Object.assign([], this.fromRecord.keywords);
-
     this.form = this.fb.group({
       newKeyword: ['', []]
     });
-
   }
 
-  public delete(index: number) {
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+  delete(index: number) {
     console.log('Delete keyword index ' + index);
     const updatedKeywords: string [] = [];
     for (let i = 0; i < this.keywords.length; i++) {
@@ -49,7 +44,7 @@ export class KeywordsTableDialogComponent implements OnInit {
     this.keywords = updatedKeywords;
   }
 
-  public addKeyword() {
+  addKeyword() {
     if (this.form.value.newKeyword !== null) {
       let keyword: string;
       keyword = this.form.value.newKeyword as string;
@@ -62,11 +57,11 @@ export class KeywordsTableDialogComponent implements OnInit {
     }
   }
 
-  public close() {
+  close() {
     this.dialogRef.close();
   }
 
-  public save() {
+  save() {
     this.fromRecord.keywords = this.keywords;
     this.dialogRef.close(this.fromRecord);
   }

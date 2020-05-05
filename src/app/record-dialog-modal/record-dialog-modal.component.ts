@@ -1,4 +1,4 @@
-import { Component, Inject, Optional, OnInit } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -8,17 +8,16 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './record-dialog-modal.component.html',
   styleUrls: ['./record-dialog-modal.component.css']
 })
-export class RecordDialogModalComponent implements OnInit {
+export class RecordDialogModalComponent {
 
   form: FormGroup;
   fromPage: Record; // The record to edit coming from the RecordListComponent
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.fromPage = data.selectedRecord;
-  }
 
-  ngOnInit() {
+    this.fromPage = data.selectedRecord;
+
     // Init the form group with a formbuilder, we take the initial data from the record
     // selected in the record list (nb : we dont edit the id of course...)
     this.form = this.fb.group({

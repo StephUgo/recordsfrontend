@@ -1,4 +1,4 @@
-import { Component, Inject, Optional, OnInit } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from './user.model';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './user-dialog-modal.component.html',
   styleUrls: ['./user-dialog-modal.component.css']
 })
-export class UserDialogComponent implements OnInit {
+export class UserDialogComponent {
 
   form: FormGroup;
   fromUser: User;
@@ -18,9 +18,6 @@ export class UserDialogComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
     this.fromUser = data.user;
     this.isLogin = data.isLogin;
-  }
-
-  public ngOnInit() {
     // Init the form group with a formbuilder, we take the initial data from the user
     this.form = this.fb.group({
       name: [this.fromUser.name, []],
@@ -29,15 +26,15 @@ export class UserDialogComponent implements OnInit {
     });
   }
 
-  public close() {
+  close() {
     this.dialogRef.close();
   }
 
-  public save() {
+  save() {
     const editedUser = new User(
       this.form.value.name,
       this.form.value.email,
       this.form.value.password);
-      this.dialogRef.close(editedUser);
+    this.dialogRef.close(editedUser);
   }
 }

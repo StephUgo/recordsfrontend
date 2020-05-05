@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { shareReplay, takeUntil, map } from 'rxjs/operators';
+import { shareReplay, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { User } from '../users/user.model';
 import { environment } from '../../environments/environment';
@@ -17,48 +17,52 @@ export class AuthService {
     }
 
     /**
-     * Login service (calls the NodeJS Backen associated service)
+     * Login service (calls the NodeJS Backend associated service)
      * If ok, the JWT token is stored in the local storage.
      * @param user user to log in
      */
-    public login(user: User) {
+    login(user: User) {
         return this.http.post(usersBackendURLPrefix + 'login', user).pipe(map(this.setSession)
         ).pipe(shareReplay());
     }
 
     /**
      * Registration service (calls the NodeJS Backen associated service)
-     * @param user user to log in
+     * @param user user to register
      */
-    public register(user: User) {
+    register(user: User) {
         return this.http.post(usersBackendURLPrefix + 'register', user);
     }
 
     /**
      * Logout service (local for the moment)
      */
-    public logout() {
+    logout() {
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
     }
 
-    private setSession(authResult) {
+    setSession(authResult: any) {
         const expiresAt = moment().add(authResult.expiresIn, 'second');
 
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
     }
 
-    public isLoggedIn() {
-        return moment().isBefore(this.getExpiration());
+    isLoggedIn() {
+        const expiration = localStorage.getItem('expires_at');
+        if (expiration !== null) {
+            return moment().isBefore(this.getExpiration(expiration));
+        } else {
+            return false;
+        }
     }
 
-    public isLoggedOut() {
+    isLoggedOut() {
         return !this.isLoggedIn();
     }
 
-    public getExpiration() {
-        const expiration = localStorage.getItem('expires_at');
+    private getExpiration(expiration: string) {
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
     }

@@ -4,15 +4,15 @@
 export class SearchRequest {
 
     constructor(
-        public Style: number,
-        public Artiste: string,
-        public Titre: string,
-        public Format: string,
-        public Label: string,
-        public Country: string,
-        public Year: number,
-        public Period: string,
-        public Sort: number,
-        public Limit: number,
-        public Skip: number) {}
+        public Style: number | null,
+        public Artiste: string | null,
+        public Titre: string | null,
+        public Format: string | null,
+        public Label: string | null,
+        public Country: string | null,
+        public Year: number | null,
+        public Period: string | null,
+        public Sort: number | null,
+        public Limit: number | null,
+        public Skip: number | null) {}
 }

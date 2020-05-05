@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +7,6 @@ import { RecordDeletionID } from '../model/recorddeletionID';
 import { environment } from '../../environments/environment';
 import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { Subscription } from 'rxjs';
 import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
 
 
@@ -17,10 +16,10 @@ import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
   styleUrls: ['./recordslist.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecordslistComponent implements OnInit {
+export class RecordslistComponent {
 
-  @Input() public records: Array<Record>; // The records to display
-  @Input() public style: number; // The current selected style
+  @Input() public records: Array<Record> | null = null; // The records to display
+  @Input() public style: number | null = null; // The current selected style
   @Input() public config: any; // NGxPagination configuration
 
   // Event emitter for saving a record after its edition in the modal dialog
@@ -40,70 +39,68 @@ export class RecordslistComponent implements OnInit {
   public key = 'id';
   public reverse = false;
 
-  @ViewChild('recordMenu') recordMenu: TemplateRef<any>;
+  @ViewChild('recordMenu') recordMenu: TemplateRef<any> | null = null;
 
-  overlayRef: OverlayRef | null;
-
-  sub: Subscription;
+  overlayRef: OverlayRef | null = null;
 
   constructor(public dialog: MatDialog,
     private recordUtils: RecordUtils,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef) { }
 
-  ngOnInit() {
-
-  }
-
   /**
    * Handler for record edition dialog
    * @param event the event
    * @param i the index of the record
    */
-  public openDialog(event, i): void {
+  openDialog(event: any, i: number): void {
 
     console.log('Open edit dialog event received : ', event);
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
-    const dialogRef = this.dialog.open(RecordDialogModalComponent, {
-      width: '400px',
-      height: '600px',
-      backdropClass: 'custom-dialog-backdrop-class',
-      panelClass: 'custom-dialog-panel-class',
-      disableClose: true,
-      autoFocus: true,
-      data: { selectedRecord: this.records[i] }
-    });
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
+      const dialogRef = this.dialog.open(RecordDialogModalComponent, {
+        width: '400px',
+        height: '600px',
+        backdropClass: 'custom-dialog-backdrop-class',
+        panelClass: 'custom-dialog-panel-class',
+        disableClose: true,
+        autoFocus: true,
+        data: { selectedRecord: this.records[i] }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The edit dialog was closed', result);
-      // If the dialog send a result (i.e. a record) we post it to the backend
-      if (typeof result !== 'undefined') {
-        this.records[i] = result;
-        console.log(this.records[i]);
-        this.updateRecordRequested.emit(this.records[i]);
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The edit dialog was closed', result);
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== 'undefined') && (this.records !== null)) {
+          this.records[i] = result;
+          console.log(this.records[i]);
+          this.updateRecordRequested.emit(this.records[i]);
+        }
+      });
+    }
   }
 
-  public openKeywordsDialog(event, i): void {
+  public openKeywordsDialog(event: any, i: number): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
-    const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
-      width: '400px',
-      height: '500px',
-      data: { selectedRecord: this.records[i] }
-    });
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length))  {
+      const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
+        width: '400px',
+        height: '500px',
+        data: { selectedRecord: this.records[i] }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The keywords dialog was closed');
-      // If the dialog send a result (i.e. a record) we post it to the backend
-      if (typeof result !== 'undefined') {
-        this.records[i] = result;
-        console.log(this.records[i]);
-        this.updateRecordRequested.emit(this.records[i]);
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The keywords dialog was closed');
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== 'undefined')  && (this.records !== null)) {
+          this.records[i] = result;
+          console.log(this.records[i]);
+          this.updateRecordRequested.emit(this.records[i]);
+        }
+      });
+    }
   }
 
   /**
@@ -111,17 +108,20 @@ export class RecordslistComponent implements OnInit {
    * @param event the event
    * @param i the index of the record
    */
-  onClickDelete(event, i) {
-    const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
-    console.log(recordDeletionID);
-    this.deleteRecordRequested.emit(recordDeletionID);
+  onClickDelete(event: any, i: number) {
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
+      const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
+      console.log(recordDeletionID);
+      this.deleteRecordRequested.emit(recordDeletionID);
+    }
+
   }
 
   /**
    * Handler for the page changed event
    * @param newPage the page number
    */
-  public onPageChanged(newPage: number): void {
+  onPageChanged(newPage: number): void {
     this.pageChanged.emit(newPage);
   }
 
@@ -129,7 +129,7 @@ export class RecordslistComponent implements OnInit {
    * Handler for column sorting.
    * @param key column name
    */
-  public onClickSort(key: string) {
+  onClickSort(key: string) {
     this.key = key;
     this.reverse = !this.reverse;
     this.sortRequested.emit([key, this.reverse]);
@@ -139,7 +139,7 @@ export class RecordslistComponent implements OnInit {
    * Update the sort options pair (key + reverse boolean) given the sort options Id
    * @param sortId SorttID
    */
-  public updateSortOptionsFromSortId(sortId: number) {
+  updateSortOptionsFromSortId(sortId: number) {
     switch (sortId) {
       case 1: {
         this.key = 'artist';
@@ -214,11 +214,11 @@ export class RecordslistComponent implements OnInit {
     }
   }
 
-  public openContextualMenu($event, i, record) {
+  openContextualMenu(event: any, i: number, record: Record) {
 
-    $event.preventDefault();
+    event.preventDefault();
     let mouseEvent: MouseEvent;
-    mouseEvent = $event;
+    mouseEvent = event;
     const x = mouseEvent.x;
     const y = mouseEvent.y;
 
@@ -249,15 +249,15 @@ export class RecordslistComponent implements OnInit {
       index: i
     };
 
-    this.overlayRef.attach(new TemplatePortal(this.recordMenu, this.viewContainerRef, {
-      $implicit: wrapper
-    }));
+    if (this.recordMenu !== null) {
+      this.overlayRef.attach(new TemplatePortal(this.recordMenu, this.viewContainerRef, {
+        $implicit: wrapper
+      }));
+    }
+
   }
 
   public closeContextualMenu() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;

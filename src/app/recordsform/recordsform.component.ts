@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SearchRequest } from '../model/searchrequest';
 import { Record } from '../model/record';
+import { RecordUtils } from '../recordutils';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { Record } from '../model/record';
 })
 export class RecordsformComponent implements OnInit {
 
-  public styleList = [
+  public styleList: Array<{id: number, name: string}> = [
     { id: 0, name: '' },
     { id: 1, name: 'Soul / Funk' },
     { id: 2, name: 'Rap' },
@@ -45,7 +46,7 @@ export class RecordsformComponent implements OnInit {
     { id: 6, name: 'Sort by Title (desc)' }
   ];
 
-  public skip: number = null;
+  public skip: number | null = null;
   public limit = 5;
 
 
@@ -55,9 +56,9 @@ export class RecordsformComponent implements OnInit {
   @Output() public saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for uploading a new cover
   @Output() public uploadCoverRequested: EventEmitter<FormData> = new EventEmitter<FormData>();
-  formData: FormData;
+  formData: FormData | null = null;
 
-  constructor() { }
+  constructor(private recordUtils: RecordUtils) { }
 
   ngOnInit() {
     this.styleList.sort((n1, n2) => {
@@ -121,9 +122,9 @@ export class RecordsformComponent implements OnInit {
     if (this.model.myStyle.id === 0) {
       alert('You have to select a style to save a record.');
     } else {
-      const record = new Record(null, this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
-        this.model.Country, null, this.model.Period, this.model.Year, null, null, null);
-      record.setStyleFromStyleId(this.model.myStyle.id);
+      const record = new Record(this.recordUtils.getStyleFromStyleId(this.model.myStyle.id), this.model.artiste,
+        this.model.Titre, this.model.Format, this.model.Label,
+        this.model.Country, null, this.model.Period, this.model.Year);
       console.log(record);
       this.saveRecordRequested.emit(record);
     }
@@ -132,7 +133,7 @@ export class RecordsformComponent implements OnInit {
   /**
    * Handler for cover file changed
    */
-  onFileChange(coverfile) {
+  onFileChange(coverfile: any) {
     console.log('file changed to ', coverfile);
     this.formData = new FormData();
     this.formData.append('imageupload', coverfile[0], coverfile[0]['name']);
@@ -142,6 +143,8 @@ export class RecordsformComponent implements OnInit {
    * Handler for cover upload event (form submit)
    */
   onClickUpload() {
-    this.uploadCoverRequested.emit(this.formData);
+    if (this.formData !== null) {
+      this.uploadCoverRequested.emit(this.formData);
+    }
   }
 }
