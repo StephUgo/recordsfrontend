@@ -79,7 +79,7 @@
 				<td>{{record.Reference}}</td>
 				<td>{{record.Year}}</td>
 				<td>{{record.Period}}</td>
-				<td style="text-align:justify!important">{{record.Comments}}</td>
+				<td style="text-align:justify!important">{{getKeywordsCellContents(record)}}<p>{{getCommentsCellContents(record)}}</p></td>
 				<div *ngIf="record.ImageFileName ; else elseBlock">
 					<td style="display:table-cell;vertical-align:middle">
 						<div>
@@ -101,6 +101,10 @@
 						<p></p>
 						<button mat-raised-button (click)="onClickDelete($event, i)">
 							<mat-icon svgIcon="delete"></mat-icon>
+						</button>
+						<p></p>
+						<button mat-raised-button>
+							<mat-icon svgIcon="comments"></mat-icon>
 						</button>
 					</div>
 				</td>

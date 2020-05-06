@@ -9,7 +9,6 @@ import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
 
-
 @Component({
   selector: 'app-recordslist',
   templateUrl: './recordslist.component.html',
@@ -212,6 +211,36 @@ export class RecordslistComponent {
         break;
       }
     }
+  }
+
+  getKeywordsCellContents(record: Record): string {
+    let keywords = '';
+    if ((record.keywords !== undefined) && (record.keywords !== null)) {
+      for (let index = 0; index < record.keywords.length; index++) {
+        if (index === 0) {
+          keywords = 'Keywords: ';
+        }
+        const element = record.keywords[index];
+        keywords += element;
+        if (index === record.keywords.length - 1) {
+          keywords += '.';
+        } else {
+          keywords += ', ';
+        }
+      }
+    }
+    return keywords;
+  }
+
+  getCommentsCellContents(record: Record): string {
+    if ((record.Comments !== undefined) && (record.Comments !== null)) {
+      if (record.Comments.length <= 175) {
+        return record.Comments;
+      } else {
+        return record.Comments.substring(0, 172) + '...';
+      }
+    }
+    return '';
   }
 
   openContextualMenu(event: any, i: number, record: Record) {
