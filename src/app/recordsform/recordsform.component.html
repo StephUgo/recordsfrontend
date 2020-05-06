@@ -11,7 +11,7 @@
             </td>
             <td>
                 <select [ngModel]=model.myStyle  (ngModelChange)="selectStyleChange($event)" name="style">
-                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption">{{oneOption.name}}</option>
+                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption">{{oneOption.label}}</option>
                 </select>
             </td>        
         </tr>

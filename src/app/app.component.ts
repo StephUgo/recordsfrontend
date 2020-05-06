@@ -128,7 +128,7 @@ export class AppComponent implements OnInit {
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
   onSaveRecordRequested(recordToSave: Record): void {
-    this.currentStyle = this.recordUtils.getStyleIdFromStyle(recordToSave);
+    this.currentStyle = this.recordUtils.getStyleIdFromStyleName(recordToSave);
     if (this.api) {
 
       const newRecord = this.recordUtils.getObjectForHTTPPost(recordToSave);
@@ -209,7 +209,7 @@ export class AppComponent implements OnInit {
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
   onUpdateRecordRequested(recordToSave: Record): void {
-    this.currentStyle = this.recordUtils.getStyleIdFromStyle( recordToSave);
+    this.currentStyle = this.recordUtils.getStyleIdFromStyleName( recordToSave);
     if (this.api) {
 
       const newRecord = this.recordUtils.getUpdatedObjectForHTTPPost(recordToSave);

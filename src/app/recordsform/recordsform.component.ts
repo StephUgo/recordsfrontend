@@ -11,31 +11,7 @@ import { RecordUtils } from '../recordutils';
 })
 export class RecordsformComponent implements OnInit {
 
-  public styleList: Array<{id: number, name: string}> = [
-    { id: 0, name: '' },
-    { id: 1, name: 'Soul / Funk' },
-    { id: 2, name: 'Rap' },
-    { id: 3, name: 'Jazz' },
-    { id: 4, name: 'Soundtracks' },
-    { id: 5, name: 'Misc.' },
-    { id: 6, name: 'AOR' },
-    { id: 7, name: 'Audiophile' },
-    { id: 8, name: 'Latin' },
-    { id: 9, name: 'African' },
-    { id: 10, name: 'Island' },
-    { id: 11, name: 'Hawaii' },
-    { id: 12, name: 'Classical' },
-    { id: 13, name: 'Spiritual Jazz' },
-    { id: 14, name: 'Rock' },
-    { id: 15, name: 'Reggae' },
-    { id: 16, name: 'Library' },
-    { id: 17, name: 'European' },
-    { id: 18, name: 'Brazilian' },
-    { id: 19, name: 'Japanese' },
-    { id: 20, name: 'Electro' },
-    { id: 21, name: 'Brit Funk' },
-  ];
-
+  public styleList: Array<{id: number, name: string, label: string}>;
   public model: any;
   public sortOptions = [
     { id: 1, name: 'Sort by Artist (asc)' },
@@ -58,7 +34,9 @@ export class RecordsformComponent implements OnInit {
   @Output() public uploadCoverRequested: EventEmitter<FormData> = new EventEmitter<FormData>();
   formData: FormData | null = null;
 
-  constructor(private recordUtils: RecordUtils) { }
+  constructor(private recordUtils: RecordUtils) {
+    this.styleList =  Object.assign([], recordUtils.getStyles());
+  }
 
   ngOnInit() {
     this.styleList.sort((n1, n2) => {
@@ -122,7 +100,7 @@ export class RecordsformComponent implements OnInit {
     if (this.model.myStyle.id === 0) {
       alert('You have to select a style to save a record.');
     } else {
-      const record = new Record(this.recordUtils.getStyleFromStyleId(this.model.myStyle.id), this.model.artiste,
+      const record = new Record(this.recordUtils.getStyleNameFromStyleId(this.model.myStyle.id), this.model.artiste,
         this.model.Titre, this.model.Format, this.model.Label,
         this.model.Country, null, this.model.Period, this.model.Year);
       console.log(record);
