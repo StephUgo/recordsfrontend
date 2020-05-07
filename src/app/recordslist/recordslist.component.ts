@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
+import { CommentsDialogComponent } from '../comments/comments-dialog';
 
 @Component({
   selector: 'app-recordslist',
@@ -80,7 +81,36 @@ export class RecordslistComponent {
     }
   }
 
-  public openKeywordsDialog(event: any, i: number): void {
+  /**
+   * Handler for comments edition dialog
+   * @param event the event
+   * @param i the index of the record
+   */
+  openCommentsDialog(event: any, i: number): void {
+
+    console.log('Open edit comments dialog event received : ', event);
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
+      const dialogRef = this.dialog.open(CommentsDialogComponent, {
+        width: '400px',
+        height: '600px',
+        data: { selectedRecord: this.records[i] }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The edit comments dialog was closed', result);
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== 'undefined') && (this.records !== null)) {
+          this.records[i] = result;
+          console.log(this.records[i]);
+          this.updateRecordRequested.emit(this.records[i]);
+        }
+      });
+    }
+  }
+
+  openKeywordsDialog(event: any, i: number): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
     if ((this.records !== null) && (i >= 0) && (i < this.records.length))  {

@@ -25,6 +25,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './sec/authinterceptor';
 import { KeywordsTableDialogComponent } from './keywords/keywords-dialog';
 import { CdkTableModule } from '@angular/cdk/table';
+import { CommentsDialogComponent } from './comments/comments-dialog';
 
 
 
@@ -36,6 +37,7 @@ import { CdkTableModule } from '@angular/cdk/table';
     RecordDialogModalComponent,
     UserDialogComponent,
     KeywordsTableDialogComponent,
+    CommentsDialogComponent,
     UserComponent
   ],
   imports: [

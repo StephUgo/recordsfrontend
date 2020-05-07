@@ -1,0 +1,10 @@
+<h2>Edit the comments of "{{editedRecord.Title}}" by {{editedRecord.Artist}}</h2>
+<mat-dialog-content [formGroup]="form">
+	<mat-form-field>
+		<textarea matInput rows="20" cols="80" placeholder="Comments" [autofocus]="false" [(ngModel)]="editedRecord.Comments" formControlName="comments"></textarea>
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="mat-raised-button mat-primary"  (click)='save()'>Save</button>
+  <button mat-raised-button (click)='close()'>Close</button>
+</mat-dialog-actions>

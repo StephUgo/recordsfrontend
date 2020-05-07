@@ -3,9 +3,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
-/**
- * @title Basic use of `<table mat-table>`
- */
 @Component({
   selector: 'app-keywords-dialog',
   styleUrls: ['keywords-dialog.css'],
