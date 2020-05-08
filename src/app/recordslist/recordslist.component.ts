@@ -110,6 +110,11 @@ export class RecordslistComponent {
     }
   }
 
+  /**
+   * Handler for keywords edition dialog
+   * @param event the event
+   * @param i the index of the record
+   */
   openKeywordsDialog(event: any, i: number): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 

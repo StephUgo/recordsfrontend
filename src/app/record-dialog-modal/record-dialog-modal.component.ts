@@ -29,8 +29,7 @@ export class RecordDialogModalComponent {
       reference: [this.fromPage.Reference, []],
       period: [this.fromPage.Period, []],
       year: [this.fromPage.Year, []],
-      imageFileName: [this.fromPage.ImageFileName, []],
-      comments: [this.fromPage.Comments, []]
+      imageFileName: [this.fromPage.ImageFileName, []]
     });
   }
 
@@ -50,7 +49,7 @@ export class RecordDialogModalComponent {
       this.form.value.period,
       this.form.value.year,
       this.form.value.imageFileName,
-      this.form.value.comments,
+      this.fromPage.Comments,
       this.fromPage.keywords // Keywords are editable from a specific dialoog
       );
       editedRecord._id = this.fromPage._id;

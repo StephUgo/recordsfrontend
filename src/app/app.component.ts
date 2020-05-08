@@ -102,7 +102,7 @@ export class AppComponent implements OnInit {
       this.lastSearchRequest.Skip = (newPage - 1) * this.config.itemsPerPage;
       this.lastSearchRequest.Limit = this.config.itemsPerPage;
     } else {
-      this.lastSearchRequest = new SearchRequest(1, null, null, null, null, null, null, null, 1,
+      this.lastSearchRequest = new SearchRequest(null, null, null, null, null, null, null, null, 1,
         this.config.itemsPerPage, (newPage - 1) * this.config.itemsPerPage);
     }
     this.onSearchRecordsRequested(this.lastSearchRequest);
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit {
       this.api.saveRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
+        const request = new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           this.lastSearchRequest = request;
           console.log(searchRes);
@@ -219,7 +219,8 @@ export class AppComponent implements OnInit {
       this.api.updateRecord(newRecord).subscribe(saveRes => {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
+        const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
+                      new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           console.log(searchRes);
           this.lastSearchRequest = request;
