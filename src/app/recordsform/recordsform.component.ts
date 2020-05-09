@@ -102,7 +102,7 @@ export class RecordsformComponent implements OnInit {
     } else {
       const record = new Record(this.recordUtils.getStyleNameFromStyleId(this.model.myStyle.id), this.model.artiste,
         this.model.Titre, this.model.Format, this.model.Label,
-        this.model.Country, null, this.model.Period, this.model.Year);
+        this.model.Country, '', this.model.Period, this.model.Year);
       console.log(record);
       this.saveRecordRequested.emit(record);
     }

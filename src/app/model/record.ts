@@ -10,7 +10,7 @@ export class Record {
         public Format: string,
         public Label: string,
         public Country: string,
-        public Reference: string | null,
+        public Reference: string,
         public Period: string,
         public Year: number,
         public ImageFileName?: string,
