@@ -21,13 +21,13 @@ export class RecordDialogModalComponent {
     // Init the form group with a formbuilder, we take the initial data from the record
     // selected in the record list (nb : we dont edit the id of course...)
     this.form = this.fb.group({
-      artist: [this.fromPage.Artist, []],
-      title: [this.fromPage.Title, []],
-      format: [this.fromPage.Format, []],
-      label: [this.fromPage.Label, []],
-      country: [this.fromPage.Country, []],
-      reference: [this.fromPage.Reference, []],
-      period: [this.fromPage.Period, []],
+      artist: [this.fromPage.Artist.trim(), []],
+      title: [this.fromPage.Title.trim(), []],
+      format: [this.fromPage.Format.trim(), []],
+      label: [this.fromPage.Label.trim(), []],
+      country: [this.fromPage.Country.trim(), []],
+      reference: [this.fromPage.Reference.trim(), []],
+      period: [this.fromPage.Period.trim(), []],
       year: [this.fromPage.Year, []],
       imageFileName: [this.fromPage.ImageFileName, []]
     });
@@ -40,13 +40,13 @@ export class RecordDialogModalComponent {
   save() {
     const editedRecord = new Record(
       this.fromPage.Style, // Style isn't editable for the moment
-      this.form.value.artist,
-      this.form.value.title,
-      this.form.value.format,
-      this.form.value.label,
-      this.form.value.country,
-      this.form.value.reference,
-      this.form.value.period,
+      this.form.value.artist.trim(),
+      this.form.value.title.trim(),
+      this.form.value.format.trim(),
+      this.form.value.label.trim(),
+      this.form.value.country.trim(),
+      this.form.value.reference.trim(),
+      this.form.value.period.trim(),
       this.form.value.year,
       this.form.value.imageFileName,
       this.fromPage.Comments,
