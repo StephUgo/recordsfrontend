@@ -32,6 +32,9 @@ export class ApiService {
             console.error(
                 `Backend returned code ${error.status}, ` +
                 `body was: ${error.error}`);
+            if (error.status === 401) {
+                alert('You\'re not authorized to access the backend server. Please login.');
+            }
         }
         // return an observable with a user-facing error message
         return throwError('Something bad happened; please try again later.');
@@ -94,7 +97,7 @@ export class ApiService {
 
         console.log(recordPostObject);
 
-        return this.http.post(apiSaveRecordUrl, recordPostObject);
+        return this.http.post(apiSaveRecordUrl, recordPostObject).pipe(catchError(this.handleError));
     }
 
     /**
@@ -105,7 +108,7 @@ export class ApiService {
 
         console.log(deleteRequest);
 
-        return this.http.delete(apiDeleteRecordUrl + deleteRequest);
+        return this.http.delete(apiDeleteRecordUrl + deleteRequest).pipe(catchError(this.handleError));
     }
 
     /**
@@ -116,13 +119,13 @@ export class ApiService {
 
         console.log(recordPostObject);
 
-        return this.http.post(apiUpdateRecordUrl, recordPostObject);
+        return this.http.post(apiUpdateRecordUrl, recordPostObject).pipe(catchError(this.handleError));
     }
 
     /**
      * Handler for cover upload event
      */
     uploadCover(formData: FormData): Observable<any> {
-        return this.http.post(apiUploadCoverUrl, formData);
+        return this.http.post(apiUploadCoverUrl, formData).pipe(catchError(this.handleError));
     }
 }
