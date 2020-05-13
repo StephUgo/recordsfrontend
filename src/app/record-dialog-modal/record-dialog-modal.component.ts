@@ -21,13 +21,13 @@ export class RecordDialogModalComponent {
     // Init the form group with a formbuilder, we take the initial data from the record
     // selected in the record list (nb : we dont edit the id of course...)
     this.form = this.fb.group({
-      artist: [this.fromPage.Artist.trim(), []],
-      title: [this.fromPage.Title.trim(), []],
-      format: [this.fromPage.Format.trim(), []],
-      label: [this.fromPage.Label.trim(), []],
-      country: [this.fromPage.Country.trim(), []],
-      reference: [this.fromPage.Reference.trim(), []],
-      period: [this.fromPage.Period.trim(), []],
+      artist: [(this.fromPage.Artist) ? this.fromPage.Artist.trim() : '', []],
+      title: [(this.fromPage.Title) ? this.fromPage.Title.trim() : '', []],
+      format: [(this.fromPage.Format) ? this.fromPage.Format.trim() : '', []],
+      label: [(this.fromPage.Label) ? this.fromPage.Label.trim() : '', []],
+      country: [(this.fromPage.Country) ? this.fromPage.Country.trim() : '', []],
+      reference: [(this.fromPage.Reference) ? this.fromPage.Reference.trim() : '', []],
+      period: [(this.fromPage.Period) ? this.fromPage.Period.trim() : '', []],
       year: [this.fromPage.Year, []],
       imageFileName: [this.fromPage.ImageFileName, []]
     });
