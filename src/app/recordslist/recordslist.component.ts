@@ -1,4 +1,5 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
+   OnChanges, SimpleChanges } from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +17,7 @@ import { CommentsDialogComponent } from '../comments/comments-dialog';
   styleUrls: ['./recordslist.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecordslistComponent {
+export class RecordslistComponent implements OnChanges {
 
   @Input() public records: Array<Record> | null = null; // The records to display
   @Input() public style: number | null = null; // The current selected style
@@ -43,6 +44,8 @@ export class RecordslistComponent {
 
   overlayRef: OverlayRef | null = null;
 
+  private checkedItems: number[] = [];
+
   constructor(public dialog: MatDialog,
     private recordUtils: RecordUtils,
     public overlay: Overlay,
@@ -57,6 +60,13 @@ export class RecordslistComponent {
 
     console.log('Open edit dialog event received : ', event);
     this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
+      return;
+    }
+    if (i === -1) {
+      i = this.getFirstCheckedIndex();
+    }
 
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
       const dialogRef = this.dialog.open(RecordDialogModalComponent, {
@@ -91,6 +101,13 @@ export class RecordslistComponent {
     console.log('Open edit comments dialog event received : ', event);
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
+    if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
+      return;
+    }
+    if (i === -1) {
+      i = this.getFirstCheckedIndex();
+    }
+
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
       const dialogRef = this.dialog.open(CommentsDialogComponent, {
         width: '400px',
@@ -118,7 +135,7 @@ export class RecordslistComponent {
   openKeywordsDialog(event: any, i: number): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
-    if ((this.records !== null) && (i >= 0) && (i < this.records.length))  {
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
       const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
         width: '400px',
         height: '500px',
@@ -128,7 +145,7 @@ export class RecordslistComponent {
       dialogRef.afterClosed().subscribe(result => {
         console.log('The keywords dialog was closed');
         // If the dialog send a result (i.e. a record) we post it to the backend
-        if ((typeof result !== 'undefined')  && (this.records !== null)) {
+        if ((typeof result !== 'undefined') && (this.records !== null)) {
           this.records[i] = result;
           console.log(this.records[i]);
           this.updateRecordRequested.emit(this.records[i]);
@@ -143,6 +160,13 @@ export class RecordslistComponent {
    * @param i the index of the record
    */
   onClickDelete(event: any, i: number) {
+    if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
+      return;
+    }
+    if (i === -1) {
+      i = this.getFirstCheckedIndex();
+    }
+
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
       const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
       console.log(recordDeletionID);
@@ -248,6 +272,34 @@ export class RecordslistComponent {
     }
   }
 
+  /**
+   * Handler for checkbox checks.
+   * @param event DOM event
+   * @param i index of the checkbox which has changed
+   */
+  onCheckChanged(event: any, i: number) {
+    if (event.target.checked) {
+      for (let index = 0; index < this.checkedItems.length; index++) {
+        const element = this.checkedItems[index];
+        if (element === undefined) {
+          this.checkedItems[index] = i;
+          console.log(this.checkedItems);
+          return;
+        }
+      }
+      this.checkedItems.push(i);
+    } else {
+      for (let index = 0; index < this.checkedItems.length; index++) {
+        const element = this.checkedItems[index];
+        if (element === i) {
+          delete this.checkedItems[index];
+          console.log(this.checkedItems);
+          return;
+        }
+      }
+    }
+  }
+
   getKeywordsCellContents(record: Record): string {
     let keywords = '';
     if ((record.keywords !== undefined) && (record.keywords !== null)) {
@@ -269,10 +321,10 @@ export class RecordslistComponent {
 
   getCommentsCellContents(record: Record): string {
     if ((record.Comments !== undefined) && (record.Comments !== null)) {
-      if (record.Comments.length <= 175) {
+      if (record.Comments.length <= 200) {
         return record.Comments;
       } else {
-        return record.Comments.substring(0, 172) + '...';
+        return record.Comments.substring(0, 197) + '...';
       }
     }
     return '';
@@ -321,10 +373,48 @@ export class RecordslistComponent {
 
   }
 
-  public closeContextualMenu() {
+  closeContextualMenu() {
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.records) {
+      this.checkedItems = [];
+    }
+  }
+
+  private multiSelectionIsAvoided(): boolean {
+    if (this.isMultiSelection()) {
+      alert('Multi selection isn\'t supported for this operation.');
+      return true;
+    }
+    return false;
+  }
+
+  private isMultiSelection(): boolean {
+    return this.checkedItems.length > 1;
+  }
+
+  private isSelectionEmpty(): boolean {
+    for (let index = 0; index < this.checkedItems.length; index++) {
+      const element = this.checkedItems[index];
+      if (element !== undefined) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private getFirstCheckedIndex(): number {
+    for (let index = 0; index < this.checkedItems.length; index++) {
+      const element = this.checkedItems[index];
+      if (element !== undefined) {
+        return element;
+      }
+    }
+    return -1;
   }
 }
