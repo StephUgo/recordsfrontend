@@ -395,7 +395,14 @@ export class RecordslistComponent implements OnChanges {
   }
 
   private isMultiSelection(): boolean {
-    return this.checkedItems.length > 1;
+    let numberOfCheckedItems = 0;
+    for (let index = 0; index < this.checkedItems.length; index++) {
+      const element = this.checkedItems[index];
+      if (element !== undefined) {
+        numberOfCheckedItems++;
+      }
+    }
+    return numberOfCheckedItems > 1;
   }
 
   private isSelectionEmpty(): boolean {
