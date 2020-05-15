@@ -18,6 +18,11 @@ export class RecordDialogModalComponent {
 
     this.fromPage = data.selectedRecord;
 
+    // TODO : fix or generalize to other fields
+    if (typeof data.selectedRecord.Reference === 'number') {
+      this.fromPage.Reference = String(data.selectedRecord.Reference);
+    }
+
     // Init the form group with a formbuilder, we take the initial data from the record
     // selected in the record list (nb : we dont edit the id of course...)
     this.form = this.fb.group({
