@@ -1,12 +1,15 @@
 <section>
 	<div class="listtoolbar">
-		<button class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
+		<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
 			<mat-icon svgIcon="delete"></mat-icon>
 		</button>
-		<button class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+		<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
+			<mat-icon svgIcon="keywords"></mat-icon>
+		</button>
+		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
 			<mat-icon svgIcon="edit"></mat-icon>
 		</button>
-		<button class="toolbarbutton" mat-raised-button (click)="openCommentsDialog($event, -1)">
+		<button title="Edit comments" class="toolbarbutton" mat-raised-button (click)="openCommentsDialog($event, -1)">
 			<mat-icon svgIcon="comments"></mat-icon>
 		</button>
 	</div>

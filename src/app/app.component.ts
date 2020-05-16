@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIcon('edit', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/edit.svg'));
     this.matIconRegistry.addSvgIcon('delete', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/delete.svg'));
     this.matIconRegistry.addSvgIcon('comments', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/comments.svg'));
+    this.matIconRegistry.addSvgIcon('keywords', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/post_add.svg'));
   }
 
   ngOnInit(): void {
@@ -221,6 +222,39 @@ export class AppComponent implements OnInit {
         console.log(saveRes);
         const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
                       new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
+        this.api.searchRecords(request).subscribe(searchRes => {
+          console.log(searchRes);
+          this.lastSearchRequest = request;
+          if (searchRes.records != null) {
+            this.records = searchRes.records;
+          } else {
+            this.records = searchRes;
+          }
+          this.config.currentPage = 1;
+        }, err => {
+          console.log(err);
+        });
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      console.log('Save record backend service is undefined !');
+    }
+  }
+
+
+    /**
+   * UPDATE a Record
+   * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
+   */
+  onAddKeywordsRequested(recordsToSave: Record[]): void {
+    if (this.api) {
+
+      this.api.updateKeywords(recordsToSave).subscribe(saveRes => {
+        // If Ok, we relaunch a search on the selected style
+        console.log(saveRes);
+        const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
+                      new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           console.log(searchRes);
           this.lastSearchRequest = request;

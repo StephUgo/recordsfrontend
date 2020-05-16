@@ -1,5 +1,7 @@
-import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
-   OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
+  OnChanges, SimpleChanges
+} from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
@@ -29,6 +31,8 @@ export class RecordslistComponent implements OnChanges {
   @Output() public deleteRecordRequested: EventEmitter<RecordDeletionID> = new EventEmitter<RecordDeletionID>();
   // Event emitter for updating a record after its edition in the modal dialog
   @Output() public updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
+  // Event emitter for adding keywords to a list of records
+  @Output() public addKeywordsRequested: EventEmitter<Record[]> = new EventEmitter<Record[]>();
   // Event emitter for launching a new search request after a page change
   @Output() public pageChanged: EventEmitter<number> = new EventEmitter<number>();
   // Event emitter for launching a sort event
@@ -82,7 +86,7 @@ export class RecordslistComponent implements OnChanges {
       dialogRef.afterClosed().subscribe(result => {
         console.log('The edit dialog was closed', result);
         // If the dialog send a result (i.e. a record) we post it to the backend
-        if ((typeof result !== 'undefined') && (this.records !== null)) {
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
           this.records[i] = result;
           console.log(this.records[i]);
           this.updateRecordRequested.emit(this.records[i]);
@@ -118,7 +122,7 @@ export class RecordslistComponent implements OnChanges {
       dialogRef.afterClosed().subscribe(result => {
         console.log('The edit comments dialog was closed', result);
         // If the dialog send a result (i.e. a record) we post it to the backend
-        if ((typeof result !== 'undefined') && (this.records !== null)) {
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
           this.records[i] = result;
           console.log(this.records[i]);
           this.updateRecordRequested.emit(this.records[i]);
@@ -139,16 +143,66 @@ export class RecordslistComponent implements OnChanges {
       const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
         width: '400px',
         height: '500px',
-        data: { selectedRecord: this.records[i] }
+        data: { selectedRecord: this.records[i], isAddKeywordsOnly: false }
       });
 
       dialogRef.afterClosed().subscribe(result => {
         console.log('The keywords dialog was closed');
         // If the dialog send a result (i.e. a record) we post it to the backend
-        if ((typeof result !== 'undefined') && (this.records !== null)) {
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
           this.records[i] = result;
           console.log(this.records[i]);
           this.updateRecordRequested.emit(this.records[i]);
+        }
+      });
+    }
+  }
+
+  /**
+   * Handler for adding keywords to one or several records
+   * @param event the event
+   */
+  addKeywordsDialog(event: any): void {
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if (this.isSelectionEmpty()) {
+      return;
+    }
+
+    let record = new Record('', '', '', '', '', '', '', '', 0);
+
+    if (this.records !== null) {
+      const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
+        width: '400px',
+        height: '500px',
+        data: { selectedRecord: record, isAddKeywordsOnly: true }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The keywords dialog was closed');
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
+          record = result;
+          console.log(record);
+          if (record.keywords !== undefined && record.keywords.length > 0) {
+            const editedRecords: Record[] = [];
+            for (let index = 0; index < this.checkedItems.length; index++) {
+              const selectedIndex = this.checkedItems[index];
+              if (selectedIndex !== undefined) {
+                editedRecords.push(this.records[selectedIndex]);
+              }
+            }
+            for (let index = 0; index < editedRecords.length; index++) {
+              const selectedRecord = editedRecords[index];
+              if (typeof selectedRecord.keywords === typeof undefined) {
+                selectedRecord.keywords = Object.assign([], record.keywords);
+              } else  {
+                selectedRecord.keywords = selectedRecord.keywords?.concat(record.keywords);
+              }
+            }
+            console.log(editedRecords);
+            this.addKeywordsRequested.emit(editedRecords);
+          }
         }
       });
     }

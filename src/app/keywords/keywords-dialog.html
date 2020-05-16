@@ -1,4 +1,8 @@
-<h2>Edit the keywords of "{{fromRecord.Title}}" by {{fromRecord.Artist}}</h2>
+<div *ngIf="isAddOnlyKeywordsDialog; else elseBlock"><h2>Add keywords to the selected records</h2>
+</div>
+<ng-template #elseBlock><h2>Edit the keywords of "{{fromRecord.Title}}" by {{fromRecord.Artist}}</h2>
+</ng-template>
+
 <mat-dialog-content [formGroup]="form">
 <table mat-table [dataSource]="keywords" class="mat-elevation-z8">
 

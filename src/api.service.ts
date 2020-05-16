@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { SearchRequest } from './app/model/searchrequest';
 import { environment } from './environments/environment';
 import { Record } from './app/model/record';
+import { RecordUtils } from './app/recordutils';
 
 const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 const backendServerURL = environment.backendURL + ':' + environment.backendPort;
@@ -12,6 +13,7 @@ const apiUrlByDefault = backendServerURL + '/records/searchrecordsdefault/';
 const apiSearchRecordsUrl = backendServerURL + '/records/searchrecords/';
 const apiSaveRecordUrl = backendServerURL + '/records/saverecord/';
 const apiUpdateRecordUrl = backendServerURL + '/records/updaterecord/';
+const apiUpdateKeywordsUrl = backendServerURL + '/records/updatekeywords/';
 const apiDeleteRecordUrl = backendServerURL + '/records/deleterecord/';
 const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 
@@ -20,7 +22,7 @@ const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 })
 export class ApiService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private recordUtils: RecordUtils) { }
 
     private handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
@@ -122,6 +124,21 @@ export class ApiService {
         return this.http.post(apiUpdateRecordUrl, recordPostObject).pipe(catchError(this.handleError));
     }
 
+
+    /**
+     * Update keywords of several records according to the array of records provided in parameter.
+     * @param records the array of records to be posted
+     */
+    updateKeywords(records: Record[]): Observable<any> {
+
+        console.log(records);
+
+        const recordsPostArray: Object[] = [];
+
+        records.forEach( (record) => { recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record)); });
+
+        return this.http.post(apiUpdateKeywordsUrl, recordsPostArray).pipe(catchError(this.handleError));
+    }
     /**
      * Handler for cover upload event
      */

@@ -15,10 +15,12 @@ export class KeywordsTableDialogComponent {
   public versionIndex = 0;
   public fromRecord: Record;
   form: FormGroup;
+  public isAddOnlyKeywordsDialog = false;
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<KeywordsTableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.fromRecord = data.selectedRecord;
+    this.isAddOnlyKeywordsDialog = data.isAddKeywordsOnly;
     this.keywords = Object.assign([], this.fromRecord.keywords);
     this.form = this.fb.group({
       newKeyword: ['', []]

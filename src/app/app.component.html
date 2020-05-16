@@ -11,7 +11,8 @@
   </div>
   <div id="rightpart">
     <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
-      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)'
+      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)' 
+      (addKeywordsRequested)='onAddKeywordsRequested($event)'
       (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-recordslist>
   </div>
 </div>
