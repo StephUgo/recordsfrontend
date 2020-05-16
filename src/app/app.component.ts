@@ -18,7 +18,7 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
 export class AppComponent implements OnInit {
   public title = Constants.appTitle;
 
-  public records: Array<Record>|null = null; // The current displayed list of records
+  public records: Array<Record> | null = null; // The current displayed list of records
   public currentStyle: number | null = null; // The current selected style (TODO : remove ?)
   public config: any; // NGxPagination configuration
   public lastSearchRequest: SearchRequest | null = null; // The last search request
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
           this.config.currentPage = 1;
         }
         console.log(res);
-        if (res.totalCount != null)  {
+        if (res.totalCount != null) {
           this.config.totalItems = res.totalCount;
         } else {
           this.config.totalItems = res.length;
@@ -153,14 +153,7 @@ export class AppComponent implements OnInit {
         console.log(saveRes);
         const request = new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
-          this.lastSearchRequest = request;
-          console.log(searchRes);
-          if (searchRes.records != null) {
-            this.records = searchRes.records;
-          } else {
-            this.records = searchRes;
-          }
-          this.config.currentPage = 1;
+          this.handleLastSearchResults(searchRes, request);
         }, err => {
           console.log(err);
         });
@@ -186,15 +179,8 @@ export class AppComponent implements OnInit {
         // If Ok, we relaunch a search on the selected style
         console.log(res);
         const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', 0, null, null);
-        this.api.searchRecords(request).subscribe(res2 => {
-          this.lastSearchRequest = request;
-          console.log(res2);
-          if (res2.records != null) {
-            this.records = res2.records;
-          } else {
-            this.records = res2;
-          }
-          this.config.currentPage = 1;
+        this.api.searchRecords(request).subscribe(searchRes => {
+          this.handleLastSearchResults(searchRes, request);
         }, err => {
           console.log(err);
         });
@@ -211,7 +197,7 @@ export class AppComponent implements OnInit {
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
   onUpdateRecordRequested(recordToSave: Record): void {
-    this.currentStyle = this.recordUtils.getStyleIdFromStyleName( recordToSave);
+    this.currentStyle = this.recordUtils.getStyleIdFromStyleName(recordToSave);
     if (this.api) {
 
       const newRecord = this.recordUtils.getUpdatedObjectForHTTPPost(recordToSave);
@@ -221,16 +207,9 @@ export class AppComponent implements OnInit {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
         const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
-                      new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
+          new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
-          console.log(searchRes);
-          this.lastSearchRequest = request;
-          if (searchRes.records != null) {
-            this.records = searchRes.records;
-          } else {
-            this.records = searchRes;
-          }
-          this.config.currentPage = 1;
+          this.handleLastSearchResults(searchRes, request);
         }, err => {
           console.log(err);
         });
@@ -243,10 +222,10 @@ export class AppComponent implements OnInit {
   }
 
 
-    /**
-   * UPDATE a Record
-   * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
-   */
+  /**
+ * UPDATE a Record
+ * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
+ */
   onAddKeywordsRequested(recordsToSave: Record[]): void {
     if (this.api) {
 
@@ -254,16 +233,9 @@ export class AppComponent implements OnInit {
         // If Ok, we relaunch a search on the selected style
         console.log(saveRes);
         const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
-                      new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
+          new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
-          console.log(searchRes);
-          this.lastSearchRequest = request;
-          if (searchRes.records != null) {
-            this.records = searchRes.records;
-          } else {
-            this.records = searchRes;
-          }
-          this.config.currentPage = 1;
+          this.handleLastSearchResults(searchRes, request);
         }, err => {
           console.log(err);
         });
@@ -275,14 +247,25 @@ export class AppComponent implements OnInit {
     }
   }
 
+  private handleLastSearchResults(searchRes: any, lastRequest: SearchRequest) {
+    console.log(searchRes);
+    this.lastSearchRequest = lastRequest;
+    if (searchRes.records != null) {
+      this.records = searchRes.records;
+    } else {
+      this.records = searchRes;
+    }
+    this.config.currentPage = 1;
+  }
+
   /**
    * Handler for cover upload event (form submit)
    */
   onUploadCoverRequested(formData: FormData) {
     this.api.uploadCover(formData).subscribe((response) => {
-        console.log('response  = ', response);
-        alert('File uploaded successfully !');
-      },
+      console.log('response  = ', response);
+      alert('File uploaded successfully !');
+    },
       (error) => {
         console.log('error = ', error);
         alert('File upload error : ' + error);
