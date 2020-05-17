@@ -222,9 +222,11 @@ export class RecordslistComponent implements OnChanges {
     }
 
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
-      const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
-      console.log(recordDeletionID);
-      this.deleteRecordRequested.emit(recordDeletionID);
+      if (confirm('Please confirm the deletion of the record ' + (this.records[i].Title !== undefined ? this.records[i].Title : ''))) {
+        const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
+        console.log(recordDeletionID);
+        this.deleteRecordRequested.emit(recordDeletionID);
+      }
     }
 
   }
