@@ -1,5 +1,5 @@
 #recordsList {
-	margin:10px 0 5px 0;
+	margin:5px 0 5px 0;
 }
 #recordsList table {
 	border-collapse:separate;
@@ -163,18 +163,19 @@
 
 .listtoolbar {
 	margin-top: 10px;
+	margin-bottom: 8px;
 	width: 100%;
 	height: 36px;
 }
 
 .toolbarbutton {
-	float: right;
+	float: left;
 	height: 36px;
 	width: 36px;
 	min-width: 36px;
 	padding-left: 2px;
 	padding-right: 2px;
-	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .tablecellbutton {
@@ -183,4 +184,37 @@
 	min-width: 36px;
 	padding-left: 2px;
 	padding-right: 2px;
+}
+
+.coverlistitem {
+	display:inline-block;
+	vertical-align: top;
+	min-width: 204px;
+	min-height: 204px;
+	max-width: 204px;
+	max-height: 204px;
+	background-color: white;
+	border: 2px solid black;
+	margin-right: 6px;
+	margin-bottom: 2px;
+}
+
+.coverimage {
+	display: block;
+	margin-top: 1px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2px;
+	width: 136px;
+	height: 136px;
+	border: 2px solid black;
+	line-height: 136px;
+	text-align: center;
+	font-style: italic!important;
+}
+
+.covertext {
+	margin-left: 1px;
+	margin-right: 1px;
+	text-align: center;
 }

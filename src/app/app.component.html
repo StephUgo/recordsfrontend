@@ -1,27 +1,23 @@
 <header class="bandeau">
   <ul>
-    <li><app-user></app-user></li>
-    <li><h1 style="margin-left: 250px;margin-right: 250px;">Welcome to our {{ title }}...</h1></li>
-  </ul>  
+    <li>
+      <app-user></app-user>
+    </li>
+    <li>
+      <h1 style="margin-left: 250px;margin-right: 250px;">Welcome to our {{ title }}...</h1>
+    </li>
+  </ul>
 </header>
 <div class="souslebandeau">
   <div id="leftpart">
     <app-recordsform (searchRecordsRequested)='onSearchRecordsRequested($event)'
-      (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'></app-recordsform>
+      (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'>
+    </app-recordsform>
   </div>
   <div id="rightpart">
-    <div *ngIf="isDisplayCoverList; else elseBlock">
-      <app-coverlist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
-      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)' 
-      (addKeywordsRequested)='onAddKeywordsRequested($event)'
-      (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-coverlist>
-    </div>
-    <ng-template #elseBlock>
-      <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
-      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)' 
-      (addKeywordsRequested)='onAddKeywordsRequested($event)'
+    <app-recordslist [records]="records" [style]="currentStyle" [config]="config"
+      (saveRecordRequested)='onSaveRecordRequested($event)' (deleteRecordRequested)='onDeleteRecordRequested($event)'
+      (updateRecordRequested)='onUpdateRecordRequested($event)' (addKeywordsRequested)='onAddKeywordsRequested($event)'
       (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-recordslist>
-    </ng-template>
   </div>
-</div>
-<!--div appCesium></div-->
+  <!--div appCesium></div-->

@@ -1,126 +1,147 @@
-<section>
-	<div class="listtoolbar">
-		<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
-			<mat-icon svgIcon="delete"></mat-icon>
-		</button>
-		<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
-			<mat-icon svgIcon="keywords"></mat-icon>
-		</button>
-		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
-			<mat-icon svgIcon="edit"></mat-icon>
-		</button>
-		<button title="Edit comments" class="toolbarbutton" mat-raised-button (click)="openCommentsDialog($event, -1)">
-			<mat-icon svgIcon="comments"></mat-icon>
-		</button>
-	</div>
-	<div id="recordsList">
-		<table>
-			<colgroup>
-				<col span="1" style="width:3%">
-				<col span="1" style="width:15%">
-				<col span="1" style="width:15%">
-				<col span="1" style="width:3%">
-				<col span="1" style="width:4%">
-				<col span="1" style="width:3%">
-				<col span="1" style="width:2%">
-				<col span="1" style="width:2%">
-				<col span="1" style="width:3%">
-				<col span="1" style="width:47%">
-				<col span="1" style="width:3%">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Artist or Group</th>
-					<th>Title</th>
-					<th>Format</th>
-					<th>Label</th>
-					<th>Country</th>
-					<th>Reference</th>
-					<th>Year</th>
-					<th>Period</th>
-					<th>Comments</th>
-					<th>Cover</th>
-				</tr>
-				<tr>
-					<th class="sorttableheader"></th>
-					<th class="sorttableheader" (click)="onClickSort('artist')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='artist' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='artist' && !reverse"></i>
-					</th>
-					<th class="sorttableheader" (click)="onClickSort('title')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='title' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='title' && !reverse"></i>
-					</th>
-					<th class="sorttableheader" (click)="onClickSort('format')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='format' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='format' && !reverse"></i>
-					</th>
-					<th class="sorttableheader" (click)="onClickSort('label')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='label' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='label' && !reverse"></i>
-					</th>
-					<th class="sorttableheader" (click)="onClickSort('country')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='country' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='country' && !reverse"></i>
-					</th>
-					<th class="sorttableheader"></th>
-					<th class="sorttableheader" (click)="onClickSort('year')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='year' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='year' && !reverse"></i>
-					</th>
-					<th class="sorttableheader" (click)="onClickSort('period')">
-						<i class="fa fa-chevron-down fa-xs" *ngIf="key =='period' && reverse"></i>
-						<i class="fa fa-chevron-up fa-xs" *ngIf="key =='period' && !reverse"></i>
-					</th>
-					<th class="sorttableheader"></th>
-					<th class="sorttableheader"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
-					(contextmenu)="openContextualMenu($event, i, record)">
-					<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}<input type="checkbox"
-							(change)="onCheckChanged($event, i )"></td>
-					<td>{{record.Artist}}</td>
-					<td>{{record.Title}}</td>
-					<td>{{record.Format}}</td>
-					<td>{{record.Label}}</td>
-					<td>{{record.Country}}</td>
-					<td>{{record.Reference}}</td>
-					<td>{{record.Year}}</td>
-					<td>{{record.Period}}</td>
-					<td style="text-align:justify!important">{{getKeywordsCellContents(record)}}<p>
-							{{getCommentsCellContents(record)}}</p>
-					</td>
-					<div *ngIf="record.ImageFileName ; else elseBlock">
-						<td style="display:table-cell;vertical-align:middle">
-							<div>
-								<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" border=3
-									height=100 width=100>
-							</div>
+<div class="listtoolbar">
+	<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
+		<mat-icon svgIcon="delete"></mat-icon>
+	</button>
+	<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
+		<mat-icon svgIcon="keywords"></mat-icon>
+	</button>
+	<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+		<mat-icon svgIcon="edit"></mat-icon>
+	</button>
+	<button title="Edit comments" class="toolbarbutton" mat-raised-button
+		(click)="openCommentsDialog($event, -1)">
+		<mat-icon svgIcon="comments"></mat-icon>
+	</button>
+</div>
+<div *ngIf="!isDisplayCoverList(); else coverListBlock">
+	<section>
+		<div id="recordsList">
+			<table>
+				<colgroup>
+					<col span="1" style="width:3%">
+					<col span="1" style="width:15%">
+					<col span="1" style="width:15%">
+					<col span="1" style="width:3%">
+					<col span="1" style="width:4%">
+					<col span="1" style="width:3%">
+					<col span="1" style="width:2%">
+					<col span="1" style="width:2%">
+					<col span="1" style="width:3%">
+					<col span="1" style="width:47%">
+					<col span="1" style="width:3%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Artist or Group</th>
+						<th>Title</th>
+						<th>Format</th>
+						<th>Label</th>
+						<th>Country</th>
+						<th>Reference</th>
+						<th>Year</th>
+						<th>Period</th>
+						<th>Comments</th>
+						<th>Cover</th>
+					</tr>
+					<tr>
+						<th class="sorttableheader"></th>
+						<th class="sorttableheader" (click)="onClickSort('artist')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='artist' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='artist' && !reverse"></i>
+						</th>
+						<th class="sorttableheader" (click)="onClickSort('title')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='title' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='title' && !reverse"></i>
+						</th>
+						<th class="sorttableheader" (click)="onClickSort('format')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='format' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='format' && !reverse"></i>
+						</th>
+						<th class="sorttableheader" (click)="onClickSort('label')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='label' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='label' && !reverse"></i>
+						</th>
+						<th class="sorttableheader" (click)="onClickSort('country')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='country' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='country' && !reverse"></i>
+						</th>
+						<th class="sorttableheader"></th>
+						<th class="sorttableheader" (click)="onClickSort('year')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='year' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='year' && !reverse"></i>
+						</th>
+						<th class="sorttableheader" (click)="onClickSort('period')">
+							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='period' && reverse"></i>
+							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='period' && !reverse"></i>
+						</th>
+						<th class="sorttableheader"></th>
+						<th class="sorttableheader"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
+						(contextmenu)="openContextualMenu($event, i, record)">
+						<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}<input type="checkbox"
+								(change)="onCheckChanged($event, i )"></td>
+						<td>{{record.Artist}}</td>
+						<td>{{record.Title}}</td>
+						<td>{{record.Format}}</td>
+						<td>{{record.Label}}</td>
+						<td>{{record.Country}}</td>
+						<td>{{record.Reference}}</td>
+						<td>{{record.Year}}</td>
+						<td>{{record.Period}}</td>
+						<td style="text-align:justify!important">{{getKeywordsCellContents(record)}}<p>
+								{{getCommentsCellContents(record)}}</p>
 						</td>
-					</div>
-					<ng-template #elseBlock>
-						<td style="text-align: center; font-style: italic!important;">
-							Cover unavailable...
-						</td>
-					</ng-template>
-				</tr>
-			</tbody>
-		</table>
-		<div class="paginationcontrolclass">
-			<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+						<div *ngIf="record.ImageFileName ; else elseBlock">
+							<td style="display:table-cell;vertical-align:middle">
+								<div>
+									<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" border=3
+										height=100 width=100>
+								</div>
+							</td>
+						</div>
+						<ng-template #elseBlock>
+							<td style="text-align: center; font-style: italic!important;">
+								Cover unavailable...
+							</td>
+						</ng-template>
+					</tr>
+				</tbody>
+			</table>
+			<div class="paginationcontrolclass">
+				<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+			</div>
 		</div>
-	</div>
-</section>
-<ng-template #recordMenu let-wrapper>
-	<section class="record-menu">
-		<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
-		<div (click)="openKeywordsDialog($event, wrapper.index)">Edit keywords</div>
-		<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
-		<hr>
-		<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
+	</section>
+	<ng-template #recordMenu let-wrapper>
+		<section class="record-menu">
+			<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+			<div (click)="openKeywordsDialog($event, wrapper.index)">Edit keywords</div>
+			<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
+			<hr>
+			<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
+			</div>
+		</section>
+	</ng-template>
+</div>
+<ng-template #coverListBlock>
+	<section>
+		<div class="coverlist">
+			<div *ngFor="let record of records ; index as i" class="coverlistitem">
+				<div *ngIf="record.ImageFileName ; else noCoverBlock">
+					<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" class="coverimage">
+					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year}})
+					</h5>
+				</div>
+				<ng-template #noCoverBlock>
+					<span class="coverimage">Cover unavailable...</span>
+					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year}})
+					</h5>
+				</ng-template>
+			</div>
 		</div>
 	</section>
 </ng-template>

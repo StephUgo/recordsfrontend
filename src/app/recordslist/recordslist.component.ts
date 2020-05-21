@@ -480,4 +480,8 @@ export class RecordslistComponent implements OnChanges {
     }
     return -1;
   }
+
+  isDisplayCoverList(): boolean {
+    return true;
+  }
 }

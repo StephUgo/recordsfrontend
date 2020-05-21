@@ -83,8 +83,7 @@ export class AppComponent implements OnInit {
         } else {
           this.records = res;
         }
-        if ((this.recordListComponent !== undefined) && (this.recordListComponent !== null)
-        && (this.lastSearchRequest.Sort !== null)) {
+        if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== null)) {
           this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
         }
       }, err => {
@@ -338,9 +337,5 @@ export class AppComponent implements OnInit {
         }
       }
     }
-  }
-
-  isDisplayCoverList(): boolean {
-    return true;
   }
 }
