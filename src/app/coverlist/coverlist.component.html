@@ -1,0 +1,15 @@
+<section>
+	<div class="coverlist">
+		<div *ngFor="let record of records ; index as i" class="coverlistitem">
+			<div *ngIf="record.ImageFileName ; else elseBlock">
+				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" class="coverimage">
+				<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}} / {{record.Year}})</h5>
+			</div>
+			<ng-template #elseBlock>
+				<div style="text-align: center; font-style: italic!important;">
+					Cover unavailable...
+				</div>
+			</ng-template>
+		</div>
+	</div>
+</section>

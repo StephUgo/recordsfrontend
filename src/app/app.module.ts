@@ -26,6 +26,7 @@ import { AuthInterceptor } from './sec/authinterceptor';
 import { KeywordsTableDialogComponent } from './keywords/keywords-dialog';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommentsDialogComponent } from './comments/comments-dialog';
+import { CoverlistComponent } from './coverlist/coverlist.component';
 
 
 
@@ -38,7 +39,8 @@ import { CommentsDialogComponent } from './comments/comments-dialog';
     UserDialogComponent,
     KeywordsTableDialogComponent,
     CommentsDialogComponent,
-    UserComponent
+    UserComponent,
+    CoverlistComponent
   ],
   imports: [
     BrowserModule,

@@ -10,10 +10,18 @@
       (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'></app-recordsform>
   </div>
   <div id="rightpart">
-    <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
+    <div *ngIf="isDisplayCoverList; else elseBlock">
+      <app-coverlist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
+      (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)' 
+      (addKeywordsRequested)='onAddKeywordsRequested($event)'
+      (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-coverlist>
+    </div>
+    <ng-template #elseBlock>
+      <app-recordslist [records]="records" [style]="currentStyle" [config]="config" (saveRecordRequested)='onSaveRecordRequested($event)'
       (deleteRecordRequested)='onDeleteRecordRequested($event)' (updateRecordRequested)='onUpdateRecordRequested($event)' 
       (addKeywordsRequested)='onAddKeywordsRequested($event)'
       (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-recordslist>
+    </ng-template>
   </div>
 </div>
 <!--div appCesium></div-->

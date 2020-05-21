@@ -1,0 +1,29 @@
+
+.coverlistitem {
+	display:inline-block;
+	vertical-align: top;
+	min-width: 204px;
+	min-height: 204px;
+	max-width: 204px;
+	max-height: 204px;
+	background-color: white;
+	border: 2px solid black;
+	margin-right: 6px;
+	margin-bottom: 2px;
+}
+
+.coverimage {
+	display: block;
+	margin-top: 1px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2px;
+	width: 136px;
+	height: 136px;
+	border: 2px solid black;
+}
+
+.covertext {
+	margin-left: 1px;
+	margin-right: 1px;
+}
