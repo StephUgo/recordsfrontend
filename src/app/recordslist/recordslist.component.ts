@@ -50,6 +50,8 @@ export class RecordslistComponent implements OnChanges {
 
   private checkedItems: number[] = [];
 
+  public isDisplayCoverList = true;
+
   constructor(public dialog: MatDialog,
     private recordUtils: RecordUtils,
     public overlay: Overlay,
@@ -442,6 +444,10 @@ export class RecordslistComponent implements OnChanges {
     }
   }
 
+  setDisplayCoverList(value: boolean) {
+    this.isDisplayCoverList = value;
+  }
+
   private multiSelectionIsAvoided(): boolean {
     if (this.isMultiSelection()) {
       alert('Multi selection isn\'t supported for this operation.');
@@ -479,9 +485,5 @@ export class RecordslistComponent implements OnChanges {
       }
     }
     return -1;
-  }
-
-  isDisplayCoverList(): boolean {
-    return true;
   }
 }

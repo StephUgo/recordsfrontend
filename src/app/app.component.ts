@@ -33,6 +33,8 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIcon('delete', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/delete.svg'));
     this.matIconRegistry.addSvgIcon('comments', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/comments.svg'));
     this.matIconRegistry.addSvgIcon('keywords', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/post_add.svg'));
+    this.matIconRegistry.addSvgIcon('view_list', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_list.svg'));
+    this.matIconRegistry.addSvgIcon('view_module', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_module.svg'));
   }
 
   ngOnInit(): void {

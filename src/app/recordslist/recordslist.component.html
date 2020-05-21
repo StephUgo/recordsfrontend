@@ -1,4 +1,10 @@
 <div class="listtoolbar">
+	<button title="Set list view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(false)">
+		<mat-icon svgIcon="view_list"></mat-icon>
+	</button>
+	<button title="Set cover view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(true)">
+		<mat-icon svgIcon="view_module"></mat-icon>
+	</button>
 	<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
 		<mat-icon svgIcon="delete"></mat-icon>
 	</button>
@@ -13,7 +19,7 @@
 		<mat-icon svgIcon="comments"></mat-icon>
 	</button>
 </div>
-<div *ngIf="!isDisplayCoverList(); else coverListBlock">
+<div *ngIf="!isDisplayCoverList; else coverListBlock">
 	<section>
 		<div id="recordsList">
 			<table>
