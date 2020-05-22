@@ -24,15 +24,12 @@
 	padding:0; margin:0;
 	border-collapse:collapse;
 	border-spacing:0px;
-	background:#FFF;
 }
 #recordsList table td {
-	background:#FFF;
 	padding:5px 10px;
 	text-align:center;
 }
 #recordsList table tbody i {
-	background:#FFF;
 	padding:5px 10px;
 	text-align:center;
 	cursor: pointer;
@@ -186,17 +183,25 @@
 	padding-right: 2px;
 }
 
-.coverlistitem {
+.coverlistitem, .selectedcoverlistitem {
 	display:inline-block;
 	vertical-align: top;
 	min-width: 208px;
 	min-height: 208px;
 	max-width: 208px;
 	max-height: 208px;
-	background-color: white;
 	border: 2px solid black;
 	margin-right: 6px;
 	margin-bottom: 2px;
+}
+
+
+.coverlistitem {
+	background-color: white;
+}
+
+.selectedcoverlistitem {
+	background-color: #EEE;
 }
 
 .coverimage {

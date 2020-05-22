@@ -87,9 +87,13 @@
 				</thead>
 				<tbody>
 					<tr *ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
-						(contextmenu)="openContextualMenu($event, i, record)">
-						<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}<input type="checkbox"
-								(change)="onCheckChanged($event, i )"></td>
+						(contextmenu)="openContextualMenu($event, i, record)"
+						[style.background-color]="isRecordSelected(i) ? '#EEE' : 'white'">
+						<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}
+							<div *ngIf="isRecordSelected(i) ; else uncheckedBlock"><input type="checkbox" (change)="onCheckChanged($event, i )" checked></div>
+							<ng-template #uncheckedBlock><input type="checkbox" (change)="onCheckChanged($event, i )">
+							</ng-template>
+						</td>
 						<td>{{record.Artist}}</td>
 						<td>{{record.Title}}</td>
 						<td>{{record.Format}}</td>
@@ -104,7 +108,7 @@
 						<div *ngIf="record.ImageFileName ; else elseBlock">
 							<td style="display:table-cell;vertical-align:middle">
 								<div>
-									<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" border=3
+									<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" style="border: 2px solid black;"
 										height=100 width=100>
 								</div>
 							</td>
@@ -126,8 +130,11 @@
 <ng-template #coverListBlock>
 	<section>
 		<div class="coverlist">
-			<div *ngFor="let record of records ; index as i" class="coverlistitem" (contextmenu)="openContextualMenu($event, i, record)">
-				<input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
+			<div *ngFor="let record of records ; index as i" [class.coverlistitem]="!isRecordSelected(i)"
+			[class.selectedcoverlistitem]="isRecordSelected(i)" (contextmenu)="openContextualMenu($event, i, record)">
+				<div *ngIf="isRecordSelected(i) ; else uncheckedBlock"><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )" checked></div>
+					<ng-template #uncheckedBlock><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
+				</ng-template>
 				<p style="margin-bottom: 0px;"></p>
 				<div *ngIf="record.ImageFileName ; else noCoverBlock">					
 					<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" class="coverimage">

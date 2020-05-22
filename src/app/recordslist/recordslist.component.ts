@@ -486,4 +486,14 @@ export class RecordslistComponent implements OnChanges {
     }
     return -1;
   }
+
+  public isRecordSelected(indexToCheck: number): boolean {
+    for (let index = 0; index < this.checkedItems.length; index++) {
+      const element = this.checkedItems[index];
+      if (element === indexToCheck) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
