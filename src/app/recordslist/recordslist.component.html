@@ -122,32 +122,34 @@
 			</div>
 		</div>
 	</section>
-	<ng-template #recordMenu let-wrapper>
-		<section class="record-menu">
-			<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
-			<div (click)="openKeywordsDialog($event, wrapper.index)">Edit keywords</div>
-			<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
-			<hr>
-			<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
-			</div>
-		</section>
-	</ng-template>
 </div>
 <ng-template #coverListBlock>
 	<section>
 		<div class="coverlist">
-			<div *ngFor="let record of records ; index as i" class="coverlistitem">
-				<div *ngIf="record.ImageFileName ; else noCoverBlock">
+			<div *ngFor="let record of records ; index as i" class="coverlistitem" (contextmenu)="openContextualMenu($event, i, record)">
+				<input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
+				<p style="margin-bottom: 0px;"></p>
+				<div *ngIf="record.ImageFileName ; else noCoverBlock">					
 					<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" class="coverimage">
-					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year}})
+					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year !== 0 ? record.Year : 'NA'}})
 					</h5>
 				</div>
 				<ng-template #noCoverBlock>
 					<span class="coverimage">Cover unavailable...</span>
-					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year}})
+					<h5 class="covertext">{{record.Artist}} - {{record.Title}} ({{record.Format}}/{{record.Year !== 0 ? record.Year : 'NA'}})
 					</h5>
 				</ng-template>
 			</div>
+		</div>
+	</section>
+</ng-template>
+<ng-template #recordMenu let-wrapper>
+	<section class="record-menu">
+		<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+		<div (click)="openKeywordsDialog($event, wrapper.index)">Edit keywords</div>
+		<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
+		<hr>
+		<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
 		</div>
 	</section>
 </ng-template>

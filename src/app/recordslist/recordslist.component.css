@@ -189,10 +189,10 @@
 .coverlistitem {
 	display:inline-block;
 	vertical-align: top;
-	min-width: 204px;
-	min-height: 204px;
-	max-width: 204px;
-	max-height: 204px;
+	min-width: 208px;
+	min-height: 208px;
+	max-width: 208px;
+	max-height: 208px;
 	background-color: white;
 	border: 2px solid black;
 	margin-right: 6px;
@@ -201,10 +201,9 @@
 
 .coverimage {
 	display: block;
-	margin-top: 1px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 2px;
+	margin-top: 0px;
+	margin-left: 34px;
+	margin-right: 34px;
 	width: 136px;
 	height: 136px;
 	border: 2px solid black;
@@ -214,7 +213,14 @@
 }
 
 .covertext {
+	margin-top: 4px;
 	margin-left: 1px;
 	margin-right: 1px;
 	text-align: center;
+}
+
+.covercheckbox {
+	display: block;
+	float: right;
+	margin-bottom: 0px;
 }
