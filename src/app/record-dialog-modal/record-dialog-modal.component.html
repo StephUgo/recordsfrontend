@@ -1,6 +1,11 @@
 <h2>Edit "{{fromPage.Title}}" by {{fromPage.Artist}}</h2>
 <mat-dialog-content [formGroup]="form">
   <mat-form-field>
+    <mat-select placeholder="Style" formControlName="style" ngDefaultControl>
+      <mat-option *ngFor="let style of styleList" [value]="style">{{style}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
     <input matInput placeholder="Artist or Group" formControlName="artist">
   </mat-form-field>
   <mat-form-field>

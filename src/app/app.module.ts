@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
@@ -52,6 +53,7 @@ import { CommentsDialogComponent } from './comments/comments-dialog';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatSelectModule,
     ReactiveFormsModule,
     NgxPaginationModule,
     FontAwesomeModule,

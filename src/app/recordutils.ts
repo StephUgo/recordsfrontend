@@ -10,7 +10,7 @@ import { Record } from './model/record';
 })
 export class RecordUtils {
 
-    private styles: Array<{id: number, name: string, label: string}> = [
+    private styles: Array<{ id: number, name: string, label: string }> = [
         { id: 0, name: '', label: '' },
         { id: 1, name: 'Soul/Funk', label: 'Soul / Funk' },
         { id: 2, name: 'Rap', label: 'Rap' },
@@ -20,7 +20,7 @@ export class RecordUtils {
         { id: 6, name: 'AOR', label: 'AOR' },
         { id: 7, name: 'Audiophile', label: 'Audiophile' },
         { id: 8, name: 'Latin', label: 'Latin' },
-        { id: 9, name:  'African', label: 'African' },
+        { id: 9, name: 'African', label: 'African' },
         { id: 10, name: 'Island', label: 'Island' },
         { id: 11, name: 'Hawaii', label: 'Hawaii' },
         { id: 12, name: 'Classical', label: 'Classical' },
@@ -39,11 +39,18 @@ export class RecordUtils {
      * Returns the style numeric id from the style string value.
      */
     getStyleIdFromStyleName(record: Record): number {
+        return this.getStyleFromStyleName(record).id;
+    }
+
+    /**
+     * Returns the style from the style string value.
+     */
+    getStyleFromStyleName(record: Record): { id: number, name: string, label: string } {
         if (record.Style !== null) {
             for (let index = 0; index < this.styles.length; index++) {
-                const style =  this.styles[index];
+                const style = this.styles[index];
                 if (style.name === record.Style) {
-                    return style.id;
+                    return style;
                 }
             }
         }
@@ -103,7 +110,7 @@ export class RecordUtils {
         };
     }
 
-    getStyles(): ReadonlyArray<{id: number, name: string, label: string}> {
+    getStyles(): ReadonlyArray<{ id: number, name: string, label: string }> {
         return this.styles;
     }
 }

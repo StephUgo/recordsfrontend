@@ -2,6 +2,7 @@ import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { RecordUtils } from '../recordutils';
 
 @Component({
   selector: 'app-record-dialog-modal',
@@ -10,12 +11,17 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class RecordDialogModalComponent {
 
+  styleList: Array<string>;
   form: FormGroup;
   fromPage: Record; // The record to edit coming from the RecordListComponent
 
-  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>,
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>, private recordUtils: RecordUtils,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
+    this.styleList = Object.assign([], this.recordUtils.getStyles().map((currentObject) => {
+      return currentObject.name;
+    }));
+    this.styleList.sort();
     this.fromPage = data.selectedRecord;
 
     // TODO : fix or generalize to other fields
@@ -26,6 +32,7 @@ export class RecordDialogModalComponent {
     // Init the form group with a formbuilder, we take the initial data from the record
     // selected in the record list (nb : we dont edit the id of course...)
     this.form = this.fb.group({
+      style: [this.fromPage.Style, []],
       artist: [(this.fromPage.Artist) ? this.fromPage.Artist.trim() : '', []],
       title: [(this.fromPage.Title) ? this.fromPage.Title.trim() : '', []],
       format: [(this.fromPage.Format) ? this.fromPage.Format.trim() : '', []],
@@ -44,7 +51,7 @@ export class RecordDialogModalComponent {
 
   save() {
     const editedRecord = new Record(
-      this.fromPage.Style, // Style isn't editable for the moment
+      this.form.value.style.length > 0 ? this.form.value.style : this.fromPage.Style,
       this.form.value.artist.trim(),
       this.form.value.title.trim(),
       this.form.value.format.trim(),
@@ -56,8 +63,8 @@ export class RecordDialogModalComponent {
       this.form.value.imageFileName,
       this.fromPage.Comments,
       this.fromPage.keywords // Keywords are editable from a specific dialoog
-      );
-      editedRecord._id = this.fromPage._id;
-      this.dialogRef.close(editedRecord);
+    );
+    editedRecord._id = this.fromPage._id;
+    this.dialogRef.close(editedRecord);
   }
 }
