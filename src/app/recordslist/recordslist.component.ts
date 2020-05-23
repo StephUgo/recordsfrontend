@@ -51,6 +51,7 @@ export class RecordslistComponent implements OnChanges {
   private checkedItems: number[] = [];
 
   public isDisplayCoverList = true;
+  public isSelectAll = false;
 
   constructor(public dialog: MatDialog,
     private recordUtils: RecordUtils,
@@ -495,5 +496,18 @@ export class RecordslistComponent implements OnChanges {
       }
     }
     return false;
+  }
+
+  public onChangeSelectAllCheckbox() {
+    this.isSelectAll = !this.isSelectAll;
+    if (this.isSelectAll && this.records !== null) {
+      const allSelectionArray = [];
+      for (let index = 0; index < this.records.length; index++) {
+        allSelectionArray.push(index);
+      }
+      this.checkedItems = allSelectionArray;
+    } else {
+      this.checkedItems = [];
+    }
   }
 }

@@ -51,7 +51,7 @@
 						<th>Cover</th>
 					</tr>
 					<tr>
-						<th class="sorttableheader"></th>
+						<th class="sorttableheader"><input type="checkbox" [checked]="isSelectAll" (change)="onChangeSelectAllCheckbox()"></th>
 						<th class="sorttableheader" (click)="onClickSort('artist')">
 							<i class="fa fa-chevron-down fa-xs" *ngIf="key =='artist' && reverse"></i>
 							<i class="fa fa-chevron-up fa-xs" *ngIf="key =='artist' && !reverse"></i>
