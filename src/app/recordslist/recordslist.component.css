@@ -5,11 +5,12 @@
 	border-collapse:separate;
 	border-spacing:1px;
 	background:#CCC;
+	table-layout: fixed;
 }
 #recordsList table th {
 	background:#EEE;
 	font-weight:600;
-	padding:4px;
+	padding:4px 3px;
 	text-align: center;
 	cursor: pointer;
 }
@@ -26,7 +27,7 @@
 	border-spacing:0px;
 }
 #recordsList table td {
-	padding:5px 10px;
+	padding:5px 3px;
 	text-align:center;
 }
 #recordsList table tbody i {
