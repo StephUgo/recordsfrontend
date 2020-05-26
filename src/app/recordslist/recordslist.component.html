@@ -1,23 +1,27 @@
 <div class="listtoolbar">
-	<button title="Set list view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(false)">
-		<mat-icon svgIcon="view_list"></mat-icon>
-	</button>
-	<button title="Set cover view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(true)">
-		<mat-icon svgIcon="view_module"></mat-icon>
-	</button>
-	<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
-		<mat-icon svgIcon="delete"></mat-icon>
-	</button>
-	<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
-		<mat-icon svgIcon="keywords"></mat-icon>
-	</button>
-	<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
-		<mat-icon svgIcon="edit"></mat-icon>
-	</button>
-	<button title="Edit comments" class="toolbarbutton" mat-raised-button
-		(click)="openCommentsDialog($event, -1)">
-		<mat-icon svgIcon="comments"></mat-icon>
-	</button>
+	<span class="toolbarbuttongroup">
+		<button title="Set list view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(false)">
+			<mat-icon svgIcon="view_list"></mat-icon>
+		</button>
+		<button title="Set cover view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(true)">
+			<mat-icon svgIcon="view_module"></mat-icon>
+		</button>
+	</span>
+	<span class="toolbarbuttongroup">
+		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+			<mat-icon svgIcon="edit"></mat-icon>
+		</button>
+		<button title="Edit comments" class="toolbarbutton" mat-raised-button
+			(click)="openCommentsDialog($event, -1)">
+			<mat-icon svgIcon="comments"></mat-icon>
+		</button>
+		<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
+			<mat-icon svgIcon="keywords"></mat-icon>
+		</button>
+		<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
+			<mat-icon svgIcon="delete"></mat-icon>
+		</button>
+	</span>
 </div>
 <div *ngIf="!isDisplayCoverList; else coverListBlock">
 	<section>
@@ -100,7 +104,7 @@
 						<td>{{record.Label}}</td>
 						<td>{{record.Country}}</td>
 						<td>{{record.Reference}}</td>
-						<td>{{record.Year}}</td>
+						<td>{{record.Year > 0 ? record.Year : ''}}</td>
 						<td>{{record.Period}}</td>
 						<td style="text-align:justify!important">{{getKeywordsCellContents(record)}}<p>
 								{{getCommentsCellContents(record)}}</p>
