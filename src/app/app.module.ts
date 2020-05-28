@@ -20,13 +20,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RouterModule } from '@angular/router';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './sec/authinterceptor';
 import { KeywordsTableDialogComponent } from './keywords/keywords-dialog';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommentsDialogComponent } from './comments/comments-dialog';
+import { AppRoutingModule } from './app.routingmodule';
 
 
 
@@ -57,7 +57,7 @@ import { CommentsDialogComponent } from './comments/comments-dialog';
     ReactiveFormsModule,
     NgxPaginationModule,
     FontAwesomeModule,
-    RouterModule.forRoot([])
+    AppRoutingModule
   ],
   entryComponents: [
     RecordDialogModalComponent,

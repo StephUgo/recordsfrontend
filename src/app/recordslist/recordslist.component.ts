@@ -1,6 +1,6 @@
 import {
-  Component, Input, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
-  OnChanges, SimpleChanges
+  Component, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
+  OnChanges, SimpleChanges, OnDestroy
 } from '@angular/core';
 import { Record } from '../model/record';
 import { RecordUtils } from '../recordutils';
@@ -12,37 +12,39 @@ import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
 import { CommentsDialogComponent } from '../comments/comments-dialog';
+import { AppSharedStateService } from '../app.sharedstateservice';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recordslist',
   templateUrl: './recordslist.component.html',
-  styleUrls: ['./recordslist.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./recordslist.component.css']
 })
-export class RecordslistComponent implements OnChanges {
+export class RecordslistComponent implements OnChanges, OnDestroy {
 
-  @Input() public records: Array<Record> | null = null; // The records to display
-  @Input() public style: number | null = null; // The current selected style
-  @Input() public config: any; // NGxPagination configuration
+  records: Array<Record> | null = null; // The records to display
+  style: number | null = null; // The current selected style
+  config: any; // NGxPagination configuration
+  subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
 
   // Event emitter for saving a record after its edition in the modal dialog
-  @Output() public saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
+  @Output() saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for deleting a record after clicking in the corresponding button in the list
-  @Output() public deleteRecordRequested: EventEmitter<RecordDeletionID> = new EventEmitter<RecordDeletionID>();
+  @Output() deleteRecordRequested: EventEmitter<RecordDeletionID> = new EventEmitter<RecordDeletionID>();
   // Event emitter for updating a record after its edition in the modal dialog
-  @Output() public updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
+  @Output() updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   // Event emitter for adding keywords to a list of records
-  @Output() public addKeywordsRequested: EventEmitter<Record[]> = new EventEmitter<Record[]>();
+  @Output() addKeywordsRequested: EventEmitter<Record[]> = new EventEmitter<Record[]>();
   // Event emitter for launching a new search request after a page change
-  @Output() public pageChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
   // Event emitter for launching a sort event
-  @Output() public sortRequested: EventEmitter<[string, boolean]> = new EventEmitter<[string, boolean]>();
+  @Output() sortRequested: EventEmitter<[string, boolean]> = new EventEmitter<[string, boolean]>();
 
-  public backendServerURL = environment.backendURL + ':' + environment.backendPort;
+  backendServerURL = environment.backendURL + ':' + environment.backendPort;
 
   // Sorting attributes
-  public key = 'id';
-  public reverse = false;
+  key = 'id';
+  reverse = false;
 
   @ViewChild('recordMenu') recordMenu: TemplateRef<any> | null = null;
 
@@ -50,13 +52,32 @@ export class RecordslistComponent implements OnChanges {
 
   private checkedItems: number[] = [];
 
-  public isDisplayCoverList = true;
-  public isSelectAll = false;
+  isDisplayCoverList = true;
+  isSelectAll = false;
 
   constructor(public dialog: MatDialog,
     private recordUtils: RecordUtils,
     public overlay: Overlay,
-    public viewContainerRef: ViewContainerRef) { }
+    public viewContainerRef: ViewContainerRef,
+    private appStateService: AppSharedStateService) {
+    this.subscription = this.appStateService.setRecords$.subscribe(
+      records => {
+        this.records = records;
+      });
+    this.subscription.add(this.appStateService.setConfig$.subscribe(
+      config => {
+        this.config = config;
+      }));
+    this.subscription.add(this.appStateService.setCurrentStyle$.subscribe(
+      style => {
+        this.style = style;
+      }));
+  }
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+  }
 
   /**
    * Handler for record edition dialog
@@ -199,7 +220,7 @@ export class RecordslistComponent implements OnChanges {
               const selectedRecord = editedRecords[index];
               if (typeof selectedRecord.keywords === typeof undefined) {
                 selectedRecord.keywords = Object.assign([], record.keywords);
-              } else  {
+              } else {
                 selectedRecord.keywords = selectedRecord.keywords?.concat(record.keywords);
               }
             }

@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RecordDeletionID } from './model/recorddeletionID';
 import { Constants } from './constants';
 import { RecordslistComponent } from './recordslist/recordslist.component';
+import { AppSharedStateService } from './app.sharedstateservice';
 
 
 @Component({
@@ -16,19 +17,20 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public title = Constants.appTitle;
+  title = Constants.appTitle;
 
-  public records: Array<Record> | null = null; // The current displayed list of records
-  public currentStyle: number | null = null; // The current selected style (TODO : remove ?)
-  public config: any; // NGxPagination configuration
-  public lastSearchRequest: SearchRequest | null = null; // The last search request
+  records: Array<Record> | null = null; // The current displayed list of records
+  currentStyle: number | null = null; // The current selected style (TODO : remove ?)
+  config: any; // NGxPagination configuration
+  lastSearchRequest: SearchRequest | null = null; // The last search request
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
 
   constructor(private api: ApiService,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
-    private recordUtils: RecordUtils) {
+    private recordUtils: RecordUtils,
+    private appStateService: AppSharedStateService) {
     this.matIconRegistry.addSvgIcon('edit', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/edit.svg'));
     this.matIconRegistry.addSvgIcon('delete', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/delete.svg'));
     this.matIconRegistry.addSvgIcon('comments', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/comments.svg'));
@@ -42,19 +44,20 @@ export class AppComponent implements OnInit {
       // By default, display the inital list of records
       this.api.getRecords().subscribe(res => {
         console.log(res);
-        this.records = res;
+        this.setRecords(res);
       }, err => {
         console.log(err);
       });
     } else {
       console.log('The backend service is undefined !');
     }
-    this.currentStyle = 1;
+    this.setCurrentStyle(1);
     this.config = {
       currentPage: 1,
       itemsPerPage: 5,
       totalItems: 0
     };
+    this.appStateService.setConfig(this.config);
   }
 
   /**
@@ -62,7 +65,9 @@ export class AppComponent implements OnInit {
    * @param request Record search request
    */
   onSearchRecordsRequested(request: SearchRequest): void {
-    this.currentStyle = request.Style;
+    if (request.Style !== null) {
+      this.setCurrentStyle(request.Style);
+    }
     this.config.itemsPerPage = request.Limit;
     request.Limit = this.config.itemsPerPage;
     if (this.api) {
@@ -80,10 +85,12 @@ export class AppComponent implements OnInit {
         } else {
           this.config.totalItems = res.length;
         }
+        this.appStateService.setConfig(this.config);
+
         if (res.records != null) {
-          this.records = res.records;
+          this.setRecords(res.records);
         } else {
-          this.records = res;
+          this.setRecords(res);
         }
         if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== null)) {
           this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
@@ -132,7 +139,7 @@ export class AppComponent implements OnInit {
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
   onSaveRecordRequested(recordToSave: Record): void {
-    this.currentStyle = this.recordUtils.getStyleIdFromStyleName(recordToSave);
+    this.setCurrentStyle(this.recordUtils.getStyleIdFromStyleName(recordToSave));
     if (this.api) {
 
       const newRecord = this.recordUtils.getObjectForHTTPPost(recordToSave);
@@ -199,7 +206,7 @@ export class AppComponent implements OnInit {
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
    */
   onUpdateRecordRequested(recordToSave: Record): void {
-    this.currentStyle = this.recordUtils.getStyleIdFromStyleName(recordToSave);
+    this.setCurrentStyle(this.recordUtils.getStyleIdFromStyleName(recordToSave));
     if (this.api) {
 
       const newRecord = this.recordUtils.getUpdatedObjectForHTTPPost(recordToSave);
@@ -253,11 +260,12 @@ export class AppComponent implements OnInit {
     console.log(searchRes);
     this.lastSearchRequest = lastRequest;
     if (searchRes.records != null) {
-      this.records = searchRes.records;
+      this.setRecords(searchRes.records);
     } else {
-      this.records = searchRes;
+      this.setRecords(searchRes);
     }
     this.config.currentPage = 1;
+    this.appStateService.setConfig(this.config);
   }
 
   /**
@@ -273,6 +281,25 @@ export class AppComponent implements OnInit {
         alert('File upload error : ' + error);
       });
   }
+
+  /**
+   * Set records and update application state service (which triggers the associated observable)
+   * @param newRecords
+   */
+  private setRecords(newRecords: any) {
+    this.records = newRecords;
+    this.appStateService.setRecords(this.records !== null ? this.records : []);
+  }
+
+  /**
+   * Set current style and update application state service (which triggers the associated observable)
+   * @param newStyle
+   */
+  private setCurrentStyle(newStyle: number) {
+    this.currentStyle = newStyle;
+    this.appStateService.setCurrentStyle(this.currentStyle);
+  }
+
 
   private updateSortId(sortRequest: [string, boolean]) {
     if (this.lastSearchRequest !== null) {
