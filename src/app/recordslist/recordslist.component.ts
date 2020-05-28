@@ -1,5 +1,5 @@
 import {
-  Component, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
+  Component, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
   OnChanges, SimpleChanges, OnDestroy
 } from '@angular/core';
 import { Record } from '../model/record';
