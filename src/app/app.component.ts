@@ -60,6 +60,28 @@ export class AppComponent implements OnInit {
     this.appStateService.setConfig(this.config);
   }
 
+  onActivate(componentReference: RecordslistComponent) {
+    console.log(componentReference);
+    componentReference.saveRecordRequested.subscribe((record: Record) => {
+      this.onSaveRecordRequested(record);
+    });
+    componentReference.deleteRecordRequested.subscribe((recordDeletionID: RecordDeletionID) => {
+      this.onDeleteRecordRequested(recordDeletionID);
+    });
+    componentReference.updateRecordRequested.subscribe((record: Record) => {
+      this.onUpdateRecordRequested(record);
+    });
+    componentReference.addKeywordsRequested.subscribe((records: Record[]) => {
+      this.onAddKeywordsRequested(records);
+    });
+    componentReference.pageChanged.subscribe((newPage: number) => {
+      this.onPageChanged(newPage);
+    });
+    componentReference.sortRequested.subscribe((sortRequest: [string, boolean]) => {
+      this.onSortRequested(sortRequest);
+    });
+ }
+
   /**
    * SEARCH for records
    * @param request Record search request

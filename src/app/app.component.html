@@ -15,8 +15,7 @@
     </app-recordsform>
   </div>
   <div id="rightpart">
-    <app-recordslist (saveRecordRequested)='onSaveRecordRequested($event)' (deleteRecordRequested)='onDeleteRecordRequested($event)'
-      (updateRecordRequested)='onUpdateRecordRequested($event)' (addKeywordsRequested)='onAddKeywordsRequested($event)'
-      (pageChanged)='onPageChanged($event)' (sortRequested)='onSortRequested($event)'></app-recordslist>
+    <!-- The routed views render in the <router-outlet>-->
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
   <!--div appCesium></div-->
