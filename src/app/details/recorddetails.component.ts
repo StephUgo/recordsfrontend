@@ -17,6 +17,10 @@ export class RecordDetailsComponent implements OnInit {
   record: Record | null = null; // The record to display
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
+  tracklist: string | null = null;
+  companies: string | null = null;
+  credits: string | null = null;
+  notes: string | null = null;
 
   constructor(public recordUtils: RecordUtils, private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
@@ -35,9 +39,32 @@ export class RecordDetailsComponent implements OnInit {
           const foundRecord = this.records.find(record => record._id === recordId);
           if (foundRecord !== undefined) {
             this.record = foundRecord;
+            this.parseComments();
           }
         }
       }
     });
+  }
+
+  parseComments() {
+    this.tracklist = null;
+    this.companies = null;
+    this.credits = null;
+    this.notes = null;
+    if ((this.record !== null) && (this.record.Comments !== undefined) && (this.record.Comments !== null)) {
+      const indexOfCompanies = this.record.Comments.indexOf('Companies, etc.');
+      if (indexOfCompanies !== -1) {
+        this.tracklist = this.record.Comments.substring(0, indexOfCompanies);
+        const indexOfCredits = this.record.Comments.indexOf('Credits');
+        if (indexOfCredits > indexOfCompanies) {
+          this.companies = this.record.Comments.substring(indexOfCompanies, indexOfCredits);
+        }
+        const indexOfNotes = this.record.Comments.lastIndexOf('Notes');
+        if (indexOfNotes > indexOfCredits) {
+          this.credits = this.record.Comments.substring(indexOfCredits, indexOfNotes);
+          this.notes = this.record.Comments.substring(indexOfNotes);
+        }
+      }
+    }
   }
 }
