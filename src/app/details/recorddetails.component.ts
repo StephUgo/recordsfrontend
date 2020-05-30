@@ -27,11 +27,12 @@ export class RecordDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       if (params !== null) {
-        const indexAsString = params.get('recordId');
-        console.log('indexAsString = ' +  indexAsString);
-        if (indexAsString !== null) {
-          const index = +indexAsString;
-          this.record = this.records[index];
+        const recordId = params.get('recordId');
+        if (recordId !== null) {
+          const foundRecord = this.records.find(record => record._id === recordId);
+          if (foundRecord !== undefined) {
+            this.record = foundRecord;
+          }
         }
       }
     });
