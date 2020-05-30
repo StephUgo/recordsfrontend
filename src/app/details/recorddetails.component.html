@@ -1,12 +1,26 @@
-<div style="background-color: white; border: 2px solid black;">
+<div class="recorddetails">
 	<div *ngIf="(record !== undefined) && (record !== null) ; else noRecordToDisplayBlock">
-		<h1>
-			Record ID : {{ record._id }}
-		</h1>
-		<p>{{ record.Artist }} - {{ record.Title }}</p>
+		<div class="recordcover">
+			<div *ngIf="record.ImageFileName ; else elseBlock">
+				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" height=200 width=200>
+			</div>
+			<ng-template #elseBlock>
+				<div style="text-align: center; font-style: italic!important;">
+					Cover unavailable...
+				</div>
+			</ng-template>
+		</div>
+		<div class="recorddescription">
+			<p style="margin-top: 2px; margin-bottom: 2px;">{{ record.Artist }} - {{ record.Title }}</p>
+			<p style="margin-top: 2px; margin-bottom: 2px;">Format: {{ record.Format }} - Label: {{ record.Label }}</p>
+			<p style="margin-top: 2px; margin-bottom: 2px;">Country: {{ record.Country }} - Reference: {{ record.Reference }}</p>
+			<p style="margin-top: 2px; margin-bottom: 2px;">Year: {{ record.Year }} - Period: {{ record.Period }}</p>
+			<p style="margin-top: 2px; margin-bottom: 2px;">Description: </p>
+			<p style="margin-top: 2px; margin-bottom: 2px;">{{ record.Comments }}</p>
+		</div>
 	</div>
 	<ng-template #noRecordToDisplayBlock>
 		<h1>No record to display</h1>
 	</ng-template>
-	<a routerLink="/list">Go back to Records List</a>
+	<a style="margin: 2px" routerLink="/list">Go back to Records List</a>
 </div>

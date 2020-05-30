@@ -3,6 +3,7 @@ import { Record } from '../model/record';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recorddetails',
@@ -14,6 +15,7 @@ export class RecordDetailsComponent implements OnInit {
   records: Array<Record> = []; // The records to display
   record: Record | null = null; // The record to display
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
+  backendServerURL = environment.backendURL + ':' + environment.backendPort;
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
