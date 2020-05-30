@@ -4,6 +4,7 @@ import { AppSharedStateService } from '../app.sharedstateservice';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { RecordUtils } from '../recordutils';
 
 @Component({
   selector: 'app-recorddetails',
@@ -17,7 +18,7 @@ export class RecordDetailsComponent implements OnInit {
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
 
-  constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
+  constructor(public recordUtils: RecordUtils, private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
         console.log('Details notification : records = ' +  records);

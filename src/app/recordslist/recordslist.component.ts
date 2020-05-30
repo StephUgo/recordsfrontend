@@ -381,22 +381,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
   }
 
   getKeywordsCellContents(record: Record): string {
-    let keywords = '';
-    if ((record.keywords !== undefined) && (record.keywords !== null)) {
-      for (let index = 0; index < record.keywords.length; index++) {
-        if (index === 0) {
-          keywords = 'Keywords: ';
-        }
-        const element = record.keywords[index];
-        keywords += element;
-        if (index === record.keywords.length - 1) {
-          keywords += '.';
-        } else {
-          keywords += ', ';
-        }
-      }
-    }
-    return keywords;
+    return this.recordUtils.getKeywordsContents(record);
   }
 
   getCommentsCellContents(record: Record): string {
