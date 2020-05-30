@@ -93,7 +93,7 @@
 					<tr *ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
 						(contextmenu)="openContextualMenu($event, i, record)"
 						[style.background-color]="isRecordSelected(i) ? '#EEE' : 'white'">
-						<td>{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}
+						<td><a routerLink= "/record/{{i}}">{{(config.currentPage - 1) * config.itemsPerPage +  i+1}}</a>
 							<div *ngIf="isRecordSelected(i) ; else uncheckedBlock"><input type="checkbox" (change)="onCheckChanged($event, i )" checked></div>
 							<ng-template #uncheckedBlock><input type="checkbox" (change)="onCheckChanged($event, i )">
 							</ng-template>

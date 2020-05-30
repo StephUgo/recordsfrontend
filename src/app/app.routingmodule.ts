@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router'; // CLI imports router
 import { RecordslistComponent } from './recordslist/recordslist.component';
 import { PageNotFoundComponent } from './pagenotfound.component';
+import { RecordDetailsComponent } from './details/recorddetails.component';
 
 const routes: Routes = [
     { path: 'list', component: RecordslistComponent },
-    // { path: 'details', component: RecordDetailsComponent },
+    { path: 'record/:recordId', component: RecordDetailsComponent },
     { path: '',   redirectTo: '/list', pathMatch: 'full' }, // redirect to `first-component`
     { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
     ];

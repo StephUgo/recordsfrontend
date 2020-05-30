@@ -1,0 +1,12 @@
+<div style="background-color: white; border: 2px solid black;">
+	<div *ngIf="(record !== undefined) && (record !== null) ; else noRecordToDisplayBlock">
+		<h1>
+			Record ID : {{ record._id }}
+		</h1>
+		<p>{{ record.Artist }} - {{ record.Title }}</p>
+	</div>
+	<ng-template #noRecordToDisplayBlock>
+		<h1>No record to display</h1>
+	</ng-template>
+	<a routerLink="/list">Go back to Records List</a>
+</div>

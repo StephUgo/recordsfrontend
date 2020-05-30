@@ -27,6 +27,7 @@ import { KeywordsTableDialogComponent } from './keywords/keywords-dialog';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CommentsDialogComponent } from './comments/comments-dialog';
 import { AppRoutingModule } from './app.routingmodule';
+import { RecordDetailsComponent } from './details/recorddetails.component';
 
 
 
@@ -35,6 +36,7 @@ import { AppRoutingModule } from './app.routingmodule';
     AppComponent,
     RecordsformComponent,
     RecordslistComponent,
+    RecordDetailsComponent,
     RecordDialogModalComponent,
     UserDialogComponent,
     KeywordsTableDialogComponent,
