@@ -22,6 +22,9 @@
 			<mat-icon svgIcon="delete"></mat-icon>
 		</button>
 	</span>
+	<span *ngIf="records!== null && records.length > 0;" class="paginationcontrolclass">
+		<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+	</span>
 </div>
 <div *ngIf="!isDisplayCoverList; else coverListBlock">
 	<section>
@@ -125,17 +128,14 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="paginationcontrolclass">
-				<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
-			</div>
 		</div>
 	</section>
 </div>
 <ng-template #coverListBlock>
 	<section>
 		<div class="coverlist">
-			<div *ngFor="let record of records ; index as i" [class.coverlistitem]="!isRecordSelected(i)"
-			[class.selectedcoverlistitem]="isRecordSelected(i)" (contextmenu)="openContextualMenu($event, i, record)">
+			<div *ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i" 
+			[class.coverlistitem]="!isRecordSelected(i)" [class.selectedcoverlistitem]="isRecordSelected(i)" (contextmenu)="openContextualMenu($event, i, record)">
 				<div *ngIf="isRecordSelected(i) ; else uncheckedBlock"><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )" checked></div>
 					<ng-template #uncheckedBlock><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
 				</ng-template>

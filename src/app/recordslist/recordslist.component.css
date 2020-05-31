@@ -37,17 +37,23 @@
 }
 
 .paginationcontrolclass {
-	border: 1px;
-	border-style: solid;
-	border-color: lightgrey;
+	display: inline-block;
+	border: 2px solid black;
+	border-radius: 4px;
+	vertical-align: top;
 	background-color: white;
+	height: 46px;
+	padding-right: 50px!important;
 }
 
 .my-pagination {
 	font-size: 15px;
+	vertical-align: top;
 }
+
 .my-pagination /deep/ .ngx-pagination .current {
-    background: rgb(119, 212, 13);
+	background: rgb(119, 212, 13);
+	border: 1px solid black!important;
 	border-radius: 3px;
 }
 
@@ -174,6 +180,7 @@
 	padding-left: 2px;
 	padding-right: 2px;
 	margin: 5px 5px 5px 5px;
+	border: 1px solid black;
 }
 
 .toolbarbuttongroup {
@@ -181,6 +188,7 @@
 	border: 2px solid black;
 	border-radius: 4px;
 	margin-right: 5px;
+	background-color: white;
 }
 
 .tablecellbutton {
