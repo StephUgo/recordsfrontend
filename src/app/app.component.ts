@@ -9,6 +9,7 @@ import { RecordDeletionID } from './model/recorddeletionID';
 import { Constants } from './constants';
 import { RecordslistComponent } from './recordslist/recordslist.component';
 import { AppSharedStateService } from './app.sharedstateservice';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private recordUtils: RecordUtils,
-    private appStateService: AppSharedStateService) {
+    private appStateService: AppSharedStateService,
+    private router: Router) {
     this.matIconRegistry.addSvgIcon('edit', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/edit.svg'));
     this.matIconRegistry.addSvgIcon('delete', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/delete.svg'));
     this.matIconRegistry.addSvgIcon('comments', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/comments.svg'));
@@ -119,6 +121,7 @@ export class AppComponent implements OnInit {
         if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== undefined) && (this.recordListComponent !== null)) {
           this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
         }
+        this.router.navigate(['/list']);
       }, err => {
         console.log(err);
       });
@@ -290,6 +293,7 @@ export class AppComponent implements OnInit {
     }
     this.config.currentPage = 1;
     this.appStateService.setConfig(this.config);
+    this.router.navigate(['/list']);
   }
 
   /**
