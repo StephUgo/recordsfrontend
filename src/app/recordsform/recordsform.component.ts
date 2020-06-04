@@ -60,7 +60,7 @@ export class RecordsformComponent implements OnInit {
   onClickSearch() {
     const request = new SearchRequest((this.model.myStyle.id === 0) ? null : this.model.myStyle.id,
       this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
-      this.model.Country, this.model.Year, this.model.Period, this.model.mySort.id, this.limit, this.skip);
+      this.model.Country, this.model.Year, this.model.Period, this.model.Keywords, this.model.mySort.id, this.limit, this.skip);
     console.log(request);
     this.searchRecordsRequested.emit(request);
   }

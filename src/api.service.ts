@@ -71,6 +71,7 @@ export class ApiService {
             .set('Format', request.Format !== undefined && request.Format !== null ? request.Format : '')
             .set('Year', request.Year !== undefined && request.Year !== null ? request.Year.toString() : '')
             .set('Period', request.Period !== undefined && request.Period !== null ? request.Period : '')
+            .set('Keywords', request.Keywords !== undefined && request.Keywords !== null ? request.Keywords : '')
             .set('Label', request.Label !== undefined &&  request.Label !== null ? request.Label : '')
             .set('Sort', request.Sort !== undefined && request.Sort !== null ? request.Sort.toString() : '1')
             .set('Limit', request.Limit !== undefined && request.Limit != null ? request.Limit.toString() : '')
