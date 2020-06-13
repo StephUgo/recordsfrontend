@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RecordUtils } from '../recordutils';
+import { CoverViewOverlayRef } from '../coverview/coverview.overlayref';
+import { CoverViewOverlayService } from '../coverview/coverview.service';
 
 @Component({
   selector: 'app-recorddetails',
@@ -22,7 +24,8 @@ export class RecordDetailsComponent implements OnInit {
   credits: string | null = null;
   notes: string | null = null;
 
-  constructor(public recordUtils: RecordUtils, private route: ActivatedRoute, private appStateService: AppSharedStateService) {
+  constructor(public recordUtils: RecordUtils, public coverViewService: CoverViewOverlayService,
+    private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
         console.log('Details notification : records = ' +  records);
@@ -66,5 +69,17 @@ export class RecordDetailsComponent implements OnInit {
         }
       }
     }
+  }
+
+  displayCover() {
+    // Returns a handle to the open overlay
+    const dialogRef: CoverViewOverlayRef = this.coverViewService.open({
+      record: this.record
+    });
+
+    // Close overlay after 5 seconds
+    setTimeout(() => {
+      dialogRef.close();
+    }, 5000);
   }
 }
