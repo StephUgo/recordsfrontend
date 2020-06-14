@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { RecordUtils } from '../recordutils';
-import { CoverViewOverlayRef } from '../coverview/coverview.overlayref';
 import { CoverViewOverlayService } from '../coverview/coverview.service';
 
 @Component({
@@ -73,13 +72,8 @@ export class RecordDetailsComponent implements OnInit {
 
   displayCover() {
     // Returns a handle to the open overlay
-    const dialogRef: CoverViewOverlayRef = this.coverViewService.open({
+    this.coverViewService.open({
       record: this.record
     });
-
-    // Close overlay after 5 seconds
-    setTimeout(() => {
-      dialogRef.close();
-    }, 5000);
   }
 }

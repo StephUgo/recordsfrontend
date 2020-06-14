@@ -154,6 +154,34 @@
 		</div>
 	</section>
 </ng-template>
+<div *ngIf="records !== null && records.length > 20" class="listtoolbar">
+	<span class="toolbarbuttongroup">
+		<button title="Set list view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(false)">
+			<mat-icon svgIcon="view_list"></mat-icon>
+		</button>
+		<button title="Set cover view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(true)">
+			<mat-icon svgIcon="view_module"></mat-icon>
+		</button>
+	</span>
+	<span class="toolbarbuttongroup">
+		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+			<mat-icon svgIcon="edit"></mat-icon>
+		</button>
+		<button title="Edit comments" class="toolbarbutton" mat-raised-button
+			(click)="openCommentsDialog($event, -1)">
+			<mat-icon svgIcon="comments"></mat-icon>
+		</button>
+		<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="addKeywordsDialog($event)">
+			<mat-icon svgIcon="keywords"></mat-icon>
+		</button>
+		<button title="Delete" class="toolbarbutton" mat-raised-button (click)="onClickDelete($event, -1)">
+			<mat-icon svgIcon="delete"></mat-icon>
+		</button>
+	</span>
+	<span *ngIf="records!== null && records.length > 0;" class="paginationcontrolclass">
+		<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+	</span>
+</div>
 <ng-template #recordMenu let-wrapper>
 	<section class="record-menu">
 		<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>

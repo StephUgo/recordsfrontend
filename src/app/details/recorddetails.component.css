@@ -16,6 +16,11 @@
     max-width:200px;
 }
 
+.recordcover:hover {
+    cursor: pointer;
+}
+  
+
 .recorddescription {
     margin: 8px 4px 4px 4px;
 }

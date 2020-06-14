@@ -1,9 +1,10 @@
-import { Injectable, InjectionToken, ComponentRef, Injector } from '@angular/core';
+import { Injectable, ComponentRef, Injector } from '@angular/core';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { CoverViewOverlayComponent } from './coverview.component';
 import { CoverViewOverlayRef } from './coverview.overlayref';
 import { Record } from '../model/record';
+import { COVER_VIEW_DIALOG_DATA } from './coverview.injectiontoken';
 
 
 // Each property can be overridden by the consumer
@@ -21,7 +22,6 @@ const DEFAULT_CONFIG: CoverViewOverlayConfig = {
     panelClass: 'tm-file-preview-dialog-panel'
 };
 
-export const COVER_VIEW_DIALOG_DATA = new InjectionToken<Record>('FILE_PREVIEW_DIALOG_DATA');
 
 @Injectable({
     providedIn: 'root'

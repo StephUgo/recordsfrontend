@@ -27,3 +27,8 @@ h1 {
 	padding: 20px 30px;
 	color: grey;
 }
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing.dark-backdrop {
+  background: #000;
+  opacity: 0.85 !important;
+}

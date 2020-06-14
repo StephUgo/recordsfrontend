@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { CoverViewOverlayRef } from './coverview.overlayref';
-import { COVER_VIEW_DIALOG_DATA } from './coverview.service';
+import { COVER_VIEW_DIALOG_DATA } from './coverview.injectiontoken';
 import { environment } from 'src/environments/environment';
 
 @Component({
