@@ -1,0 +1,40 @@
+<div *ngIf="isAddOnlyDialog; else elseBlock"><h2>Add {{getElementLabel() + 's'}} to the selected records</h2>
+</div>
+<ng-template #elseBlock><h2>Edit the {{getElementLabel() + 's'}} of "{{fromRecord.Title}}" by {{fromRecord.Artist}}</h2>
+</ng-template>
+
+<mat-dialog-content [formGroup]="form">
+<table mat-table [dataSource]="values" class="mat-elevation-z8">
+
+	<!--- Note that these columns can be defined in any order.
+    	The actual rendered columns are set as a property on the row definition -->
+
+	<ng-container matColumnDef="index">
+		<th mat-header-cell *matHeaderCellDef> No. </th>
+		<td mat-cell *matCellDef="let element; let i = index;"> {{i + 1}} </td>
+	</ng-container>
+
+	<!-- Value Column -->
+	<ng-container matColumnDef="value">
+		<th mat-header-cell *matHeaderCellDef> {{capitalize(getElementLabel())}} </th>
+		<td mat-cell *matCellDef="let element"> {{element}} </td>
+	</ng-container>
+
+	<ng-container cdkColumnDef="deleteAction">
+		<th mat-header-cell *matHeaderCellDef> Action </th>
+		<td mat-cell *matCellDef="let element; let i = index;"><mat-icon svgIcon="delete" (click)="delete(i)"></mat-icon>
+	</ng-container>
+
+<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+<tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"></tr>
+</table>
+	<p>Add new {{getElementLabel()}}</p>
+	<mat-form-field>
+    	<input matInput placeholder="New value" formControlName="newValue">
+	</mat-form-field>
+	<button mat-raised-button (click)='add()'>Update {{getElementLabel() + 's'}}</button>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="mat-raised-button mat-primary"  (click)='save()'>Save</button>
+  <button mat-raised-button (click)='close()'>Close</button>
+</mat-dialog-actions>

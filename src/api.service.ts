@@ -43,7 +43,7 @@ export class ApiService {
     }
 
     private extractData(res: Record[]): Record[] {
-        return res || {};
+        return res || new Array<Record>();
     }
 
     /**

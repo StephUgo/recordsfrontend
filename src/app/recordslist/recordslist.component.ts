@@ -14,6 +14,7 @@ import { KeywordsTableDialogComponent } from '../keywords/keywords-dialog';
 import { CommentsDialogComponent } from '../comments/comments-dialog';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { Subscription } from 'rxjs';
+import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData } from '../stringlistedit/stringlist-dialog';
 
 @Component({
   selector: 'app-recordslist',
@@ -164,10 +165,14 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
-      const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
+
+      const dialogInputData: StringListDialogData = { selectedRecord: this.records[i], isAddOnly: false,
+         dialogFlavor: StringListDialogFlavor.Keywords };
+
+      const dialogRef = this.dialog.open(StringListDialogComponent, {
         width: '400px',
         height: '500px',
-        data: { selectedRecord: this.records[i], isAddKeywordsOnly: false }
+        data: dialogInputData
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -196,10 +201,13 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     let record = new Record('', '', '', '', '', '', '', '', 0);
 
     if (this.records !== null) {
+      const dialogInputData: StringListDialogData = { selectedRecord: record, isAddOnly: true ,
+         dialogFlavor: StringListDialogFlavor.Keywords };
+
       const dialogRef = this.dialog.open(KeywordsTableDialogComponent, {
         width: '400px',
         height: '500px',
-        data: { selectedRecord: record, isAddKeywordsOnly: true }
+        data: dialogInputData
       });
 
       dialogRef.afterClosed().subscribe(result => {

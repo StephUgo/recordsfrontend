@@ -15,7 +15,8 @@ export class Record {
         public Year: number,
         public ImageFileName?: string,
         public Comments?: string,
-        public keywords?: string[]) { }
+        public keywords?: string[],
+        public additionalPics?: string[]) { }
 
     public _id: string | null = null;
 }

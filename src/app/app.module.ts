@@ -29,6 +29,7 @@ import { CommentsDialogComponent } from './comments/comments-dialog';
 import { AppRoutingModule } from './app.routingmodule';
 import { RecordDetailsComponent } from './details/recorddetails.component';
 import { CoverViewOverlayComponent } from './coverview/coverview.component';
+import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { CoverViewOverlayComponent } from './coverview/coverview.component';
     RecordDialogModalComponent,
     UserDialogComponent,
     KeywordsTableDialogComponent,
+    StringListDialogComponent,
     CommentsDialogComponent,
     UserComponent
   ],
