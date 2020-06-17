@@ -185,8 +185,9 @@
 <ng-template #recordMenu let-wrapper>
 	<section class="record-menu">
 		<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
-		<div (click)="openKeywordsDialog($event, wrapper.index)">Edit keywords</div>
+		<div (click)="openStringListDialog($event, 0, wrapper.index)">Edit keywords</div>
 		<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
+		<div (click)="openStringListDialog($event, 1, wrapper.index)">Manage additional pictures</div>
 		<hr>
 		<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
 		</div>

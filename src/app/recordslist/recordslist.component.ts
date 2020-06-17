@@ -157,17 +157,18 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Handler for keywords edition dialog
+   * Handler for string list edition dialog
    * @param event the event
+   * @param flavor the "kind" of  string elements in the list
    * @param i the index of the record
    */
-  openKeywordsDialog(event: any, i: number): void {
+  openStringListDialog(event: any, flavor: StringListDialogFlavor, i: number): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
     if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
 
       const dialogInputData: StringListDialogData = { selectedRecord: this.records[i], isAddOnly: false,
-         dialogFlavor: StringListDialogFlavor.Keywords };
+         dialogFlavor: flavor };
 
       const dialogRef = this.dialog.open(StringListDialogComponent, {
         width: '400px',
@@ -176,7 +177,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log('The keywords dialog was closed');
+        console.log('The string list edition dialog was closed');
         // If the dialog send a result (i.e. a record) we post it to the backend
         if ((typeof result !== typeof undefined) && (this.records !== null)) {
           this.records[i] = result;
@@ -186,6 +187,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
       });
     }
   }
+
 
   /**
    * Handler for adding keywords to one or several records

@@ -106,7 +106,8 @@ export class RecordUtils {
             'Reference': record.Reference,
             'Comments': record.Comments,
             'ImageFileName': record.ImageFileName,
-            'keywords': record.keywords
+            'keywords': record.keywords,
+            'additionalPics': record.additionalPics
         };
     }
 

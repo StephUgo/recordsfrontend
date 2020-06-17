@@ -4,8 +4,8 @@ import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 export enum StringListDialogFlavor {
-  Keywords,
-  AdditionalPics
+  Keywords  = 0,
+  AdditionalPics = 1
 }
 
 export interface StringListDialogData {
