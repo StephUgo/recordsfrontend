@@ -8,7 +8,7 @@
 		</button>
 	</span>
 	<span class="toolbarbuttongroup">
-		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openRecordEditionDialog($event, -1)">
 			<mat-icon svgIcon="edit"></mat-icon>
 		</button>
 		<button title="Edit comments" class="toolbarbutton" mat-raised-button
@@ -164,7 +164,7 @@
 		</button>
 	</span>
 	<span class="toolbarbuttongroup">
-		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openDialog($event, -1)">
+		<button title="Update record" class="toolbarbutton" mat-raised-button (click)="openRecordEditionDialog($event, -1)">
 			<mat-icon svgIcon="edit"></mat-icon>
 		</button>
 		<button title="Edit comments" class="toolbarbutton" mat-raised-button
@@ -184,7 +184,7 @@
 </div>
 <ng-template #recordMenu let-wrapper>
 	<section class="record-menu">
-		<div (click)="openDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
+		<div (click)="openRecordEditionDialog($event, wrapper.index)">Edit {{wrapper.item.Artist}} - {{wrapper.item.Title}}</div>
 		<div (click)="openStringListDialog($event, 0, wrapper.index)">Edit keywords</div>
 		<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
 		<div (click)="openStringListDialog($event, 1, wrapper.index)">Manage additional pictures</div>

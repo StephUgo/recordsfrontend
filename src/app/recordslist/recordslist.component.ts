@@ -85,7 +85,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
    * @param event the event
    * @param i the index of the record
    */
-  openDialog(event: any, i: number): void {
+  openRecordEditionDialog(event: any, i: number): void {
 
     console.log('Open edit dialog event received : ', event);
     this.closeContextualMenu(); // If it was opened from the contextual menu

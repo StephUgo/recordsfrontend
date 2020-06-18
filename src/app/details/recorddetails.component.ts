@@ -3,7 +3,7 @@ import { Record } from '../model/record';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { RecordUtils } from '../recordutils';
 import { CoverViewOverlayService } from '../coverview/coverview.service';
 

@@ -1,3 +1,5 @@
 <div class="overlay-content">
-	<img [src]="backendServerURL+'/uploads/'+record.ImageFileName">
+	<button (click)="nextImage()"><i class="fa fa-chevron-left fa-4" *ngIf="true"></i></button>
+	<img [src]="backendServerURL+'/uploads/'+ currentImage">
+	<button (click)="nextImage()"><i class="fa fa-chevron-right fa-4" *ngIf="true"></i></button>
 </div>
