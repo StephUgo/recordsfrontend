@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { CoverViewOverlayRef } from './coverview.overlayref';
 import { COVER_VIEW_DIALOG_DATA } from './coverview.injectiontoken';
 import { environment } from '../../environments/environment';
-import { Record } from '../model/record';
+import { Record, hasAdditionalPictures } from '../model/record';
 
 @Component({
   templateUrl: './coverview.component.html',
@@ -13,6 +13,7 @@ export class CoverViewOverlayComponent {
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
   currentImage: string | undefined;
   private currentIndex = 0;
+  hasAdditionalPictures = false;
 
   constructor(
     public dialogRef: CoverViewOverlayRef,
@@ -20,12 +21,13 @@ export class CoverViewOverlayComponent {
   ) {
     if ((record !== undefined) && (record !== null)) {
       this.currentImage = record.ImageFileName;
+      this.hasAdditionalPictures = hasAdditionalPictures(record);
     }
   }
 
   nextImage() {
     if (this.currentImage === this.record.ImageFileName) {
-      if ((this.record.additionalPics !== undefined) && (this.record.additionalPics !== null) && (this.record.additionalPics.length > 0)) {
+      if (this.record.additionalPics !== undefined && this.hasAdditionalPictures) {
         this.currentImage = this.record.additionalPics[this.currentIndex];
       }
     } else {
@@ -40,4 +42,24 @@ export class CoverViewOverlayComponent {
       }
     }
   }
+
+  prevImage() {
+    if (this.currentImage === this.record.ImageFileName) {
+      if (this.record.additionalPics !== undefined && this.hasAdditionalPictures) {
+        this.currentIndex = this.record.additionalPics.length - 1;
+        this.currentImage = this.record.additionalPics[this.currentIndex];
+      }
+    } else {
+      if (this.record.additionalPics !== undefined) {
+        if (this.currentIndex - 1 >= 0) {
+          this.currentIndex--;
+          this.currentImage = this.record.additionalPics[this.currentIndex];
+        } else {
+          this.currentImage = this.record.ImageFileName;
+          this.currentIndex = 0;
+        }
+      }
+    }
+  }
 }
+

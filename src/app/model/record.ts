@@ -18,5 +18,10 @@ export class Record {
         public keywords?: string[],
         public additionalPics?: string[]) { }
 
-    public _id: string | null = null;
+    _id: string | null = null;
+
+}
+
+export function hasAdditionalPictures(record: Record): boolean {
+    return (record.additionalPics !== undefined) && (record.additionalPics !== null) && (record.additionalPics.length > 0);
 }

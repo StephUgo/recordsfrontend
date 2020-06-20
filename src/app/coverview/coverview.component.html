@@ -1,5 +1,5 @@
 <div class="overlay-content">
-	<button (click)="nextImage()"><i class="fa fa-chevron-left fa-4" *ngIf="true"></i></button>
+	<button (click)="prevImage()" *ngIf="hasAdditionalPictures"><i class="fa fa-chevron-left fa-4"></i></button>
 	<img [src]="backendServerURL+'/uploads/'+ currentImage">
-	<button (click)="nextImage()"><i class="fa fa-chevron-right fa-4" *ngIf="true"></i></button>
+	<button (click)="nextImage()" *ngIf="hasAdditionalPictures"><i class="fa fa-chevron-right fa-4"></i></button>
 </div>
