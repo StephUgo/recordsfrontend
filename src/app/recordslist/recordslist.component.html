@@ -112,7 +112,7 @@
 						<td style="text-align:justify!important">{{getKeywordsCellContents(record)}}<p>
 								{{getCommentsCellContents(record)}}</p>
 						</td>
-						<div *ngIf="record.ImageFileName ; else elseBlock">
+						<div *ngIf="record.ImageFileName ; else elseBlock" routerLink= "/record/{{record._id}}" style="cursor: pointer;">
 							<td style="display:table-cell;vertical-align:middle">
 								<div>
 									<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" style="border: 2px solid black;"
