@@ -114,7 +114,9 @@ export class RecordsformComponent implements OnInit {
   onFileChange(coverfile: any) {
     console.log('file changed to ', coverfile);
     this.formData = new FormData();
-    this.formData.append('imageupload', coverfile[0], coverfile[0]['name']);
+    for (let index = 0; index < coverfile.length; index++) {
+      this.formData.append('picture', coverfile[index], coverfile[index]['name']);
+    }
   }
 
   /**
