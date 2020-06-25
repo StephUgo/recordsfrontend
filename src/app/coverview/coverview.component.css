@@ -3,7 +3,7 @@ h1 {
   padding: 1em;
 }
 
-img {
+.mainimage {
   width: 75%;
   max-width: 500px;
   height: auto;
@@ -13,6 +13,8 @@ img {
 .overlay-content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 button {
@@ -28,4 +30,16 @@ button {
 i {
   color: white;
   font-size: 25px;
+}
+
+.flexrowbreak {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.previewimage {
+	margin-top: 2px;
+	margin-right: 2px;
+	width: 100px;
+	height: 100px;
 }
