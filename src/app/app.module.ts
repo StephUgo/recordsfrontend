@@ -30,6 +30,8 @@ import { AppRoutingModule } from './app.routingmodule';
 import { RecordDetailsComponent } from './details/recorddetails.component';
 import { CoverViewOverlayComponent } from './coverview/coverview.component';
 import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
+import { AngularCesiumModule } from 'angular-cesium';
+import { PlaneLayerComponent } from './planescomponent/planes-layer.component';
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
     KeywordsTableDialogComponent,
     StringListDialogComponent,
     CommentsDialogComponent,
-    UserComponent
+    UserComponent,
+    PlaneLayerComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,8 @@ import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
     ReactiveFormsModule,
     NgxPaginationModule,
     FontAwesomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularCesiumModule.forRoot()
   ],
   entryComponents: [
     RecordDialogModalComponent,

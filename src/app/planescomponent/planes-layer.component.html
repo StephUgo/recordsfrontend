@@ -1,0 +1,18 @@
+<div style="margin-top: 22px; width: 100%;height: 600px;border: 2px solid white;">
+    <ac-map>
+        <ac-layer acFor="let plane of planes$" [show]="showTracks" [context]="this">
+            <ac-billboard-desc props="{
+                    image: plane.image,
+                    position: plane.position
+                }">
+            </ac-billboard-desc>
+
+            <ac-label-desc props="{
+                    position: plane.position,
+                    text: plane.name,
+                    color: getColor(plane)
+                }">
+            </ac-label-desc>
+        </ac-layer>
+    </ac-map>
+</div>
