@@ -33,11 +33,3 @@ h1 {
   opacity: 0.85 !important;
 }
 
-html, body, .map-container {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  position: relative;
-}
