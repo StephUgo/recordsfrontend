@@ -3,7 +3,8 @@
         <ac-layer acFor="let plane of planes$" [show]="showTracks" [context]="this">
             <ac-billboard-desc props="{
                         image: plane.image,
-                        position: plane.position
+                        position: plane.position,
+                        scale: plane.scale
                     }">
             </ac-billboard-desc>
 

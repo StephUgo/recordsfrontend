@@ -48,13 +48,15 @@ export class PlaneLayerComponent implements OnInit {
         id: '1',
         position: Cesium.Cartesian3.fromDegrees(30, 30),
         name: 'Airbus a320',
-        image: 'https://cdn3.iconfinder.com/data/icons/airport-collection/100/23-64.png'
+        scale: 0.1,
+        image: 'http://localhost:3000/uploads/DrumSuite.jpg'
       },
       {
         id: '2',
         position: Cesium.Cartesian3.fromDegrees(31, 31),
         name: 'Boeing 777',
-        image: 'https://cdn1.iconfinder.com/data/icons/fly-airbus-and-aeroplane/154/fly-air-plane-airbus-aeroplane-64.png'
+        scale: 0.2,
+        image: 'http://localhost:3000/uploads/Sabu.jpg'
       }
     ];
 
