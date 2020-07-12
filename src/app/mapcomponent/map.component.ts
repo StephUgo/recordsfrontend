@@ -48,13 +48,13 @@ export class MapLayerComponent implements OnInit {
   parseKeywords() {
     if (this.record !== null) {
       const keywords = this.record.keywords;
+      const notif = new Array<AcNotification>();
       if (keywords !== undefined) {
         for (let index = 0; index < keywords.length; index++) {
           const keyword = keywords[index];
           if (keyword.startsWith('Recorded @{')) {
             const stringLocation = keyword.substring(keyword.indexOf('{'));
             const location = JSON.parse(stringLocation);
-            const notif = new Array<AcNotification>();
             notif.push({
               id: this.record._id !== null ? this.record._id : 'null',
               actionType: ActionType.ADD_UPDATE,
@@ -70,10 +70,10 @@ export class MapLayerComponent implements OnInit {
                 }
               }
             });
-            this.recordMapObjects$ = from(notif);
           }
         }
       }
+      this.recordMapObjects$ = from(notif);
     }
   }
 }
