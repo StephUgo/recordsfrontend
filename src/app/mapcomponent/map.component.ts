@@ -1,25 +1,25 @@
-import { Component, OnInit, Injectable, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit,  ViewEncapsulation } from '@angular/core';
 import { Observable, from, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AcNotification, ActionType } from 'angular-cesium';
 import { ActivatedRoute } from '@angular/router';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { Record } from '../model/record';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-plane-layer',
-  templateUrl: 'planes-layer.component.html',
+  selector: 'app-map-layer',
+  templateUrl: 'map.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class PlaneLayerComponent implements OnInit {
-  planes$: Observable<AcNotification> | undefined;
+export class MapLayerComponent implements OnInit {
+  backendServerURL = environment.backendURL + ':' + environment.backendPort;
   showTracks = true;
   records: Array<Record> = []; // The last searched records
   record: Record | null = null; // The selected record
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
   recordMapObjects$: Observable<AcNotification> | undefined;
 
-  constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService, private planesService: PlanesService) {
+  constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
         console.log('Details notification : records = ' + records);
@@ -29,15 +29,6 @@ export class PlaneLayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.planes$ = this.planesService.getPlanes().pipe(map((plane: any) => {
-      return ({
-        id: plane.id,
-        actionType: ActionType.ADD_UPDATE,
-        entity: plane,
-      });
-    })
-    );
-
     this.route.paramMap.subscribe(params => {
       if (params !== null) {
         const recordId = params.get('recordId');
@@ -54,15 +45,6 @@ export class PlaneLayerComponent implements OnInit {
     });
   }
 
-  getColor(plane: any) {
-    if (plane.name.startsWith('Boeing')) {
-      return Cesium.Color.Green;
-    } else {
-      return Cesium.Color.White;
-    }
-  }
-
-
   parseKeywords() {
     if (this.record !== null) {
       const keywords = this.record.keywords;
@@ -78,10 +60,14 @@ export class PlaneLayerComponent implements OnInit {
               actionType: ActionType.ADD_UPDATE,
               entity: {
                 id: this.record._id !== null ? this.record._id : 'null',
-                position: Cesium.Cartesian3.fromDegrees( location.lat, location.lon),
-                name: this.record.Title,
+                position: Cesium.Cartesian3.fromDegrees(location.lon, location.lat),
+                name: location.name,
                 scale: 0.2,
-                image: 'http://localhost:3000/uploads/' + this.record.ImageFileName
+                image: this.backendServerURL + '/uploads/' + this.record.ImageFileName,
+                label : {
+                  text : location.name,
+                  pixelOffset : new Cesium.Cartesian2(0, 70)
+                }
               }
             });
             this.recordMapObjects$ = from(notif);
@@ -89,35 +75,5 @@ export class PlaneLayerComponent implements OnInit {
         }
       }
     }
-  }
-}
-
-// Example mock service
-
-@Injectable({
-  providedIn: 'root'
-})
-
-export class PlanesService {
-  private planes = [
-    {
-      id: '1',
-      position: Cesium.Cartesian3.fromDegrees(30, 30),
-      name: 'Airbus a320',
-      scale: 0.1,
-      image: 'http://localhost:3000/uploads/DrumSuite.jpg'
-    },
-    {
-      id: '2',
-      position: Cesium.Cartesian3.fromDegrees(31, 31),
-      name: 'Boeing 777',
-      scale: 0.2,
-      image: 'http://localhost:3000/uploads/Sabu.jpg'
-    }
-  ];
-
-  getPlanes() {
-    // Or get it from a real updating data source
-    return from(this.planes);
   }
 }

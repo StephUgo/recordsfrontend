@@ -31,7 +31,7 @@ import { RecordDetailsComponent } from './details/recorddetails.component';
 import { CoverViewOverlayComponent } from './coverview/coverview.component';
 import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
 import { AngularCesiumModule } from 'angular-cesium';
-import { PlaneLayerComponent } from './planescomponent/planes-layer.component';
+import { MapLayerComponent } from './mapcomponent/map.component';
 
 
 @NgModule({
@@ -47,7 +47,7 @@ import { PlaneLayerComponent } from './planescomponent/planes-layer.component';
     StringListDialogComponent,
     CommentsDialogComponent,
     UserComponent,
-    PlaneLayerComponent
+    MapLayerComponent
   ],
   imports: [
     BrowserModule,
