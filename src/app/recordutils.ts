@@ -118,19 +118,54 @@ export class RecordUtils {
     getKeywordsContents(record: Record): string {
         let keywords = '';
         if ((record.keywords !== undefined) && (record.keywords !== null)) {
-          for (let index = 0; index < record.keywords.length; index++) {
-            if (index === 0) {
-              keywords = 'Keywords: ';
+            for (let index = 0; index < record.keywords.length; index++) {
+                if (index === 0) {
+                    keywords = 'Keywords: ';
+                }
+                const element = record.keywords[index];
+                keywords += element;
+                if (index === record.keywords.length - 1) {
+                    keywords += '.';
+                } else {
+                    keywords += ', ';
+                }
             }
-            const element = record.keywords[index];
-            keywords += element;
-            if (index === record.keywords.length - 1) {
-              keywords += '.';
-            } else {
-              keywords += ', ';
-            }
-          }
         }
         return keywords;
-      }
+    }
+
+    hasLocation(record: Record): boolean {
+        if (record !== null) {
+            const keywords = record.keywords;
+            if (keywords !== undefined) {
+                for (let index = 0; index < keywords.length; index++) {
+                    const keyword = keywords[index];
+                    if (keyword.startsWith('Recorded @{')) {
+                        const stringLocation = keyword.substring(keyword.indexOf('{'));
+                        try {
+                            const location = JSON.parse(stringLocation);
+                            let hasError = false;
+                            if (location.lat === undefined) {
+                                console.error('Error when parsing location : undefined latitude.');
+                                hasError = true;
+                            }
+                            if (location.lon === undefined) {
+                                console.error('Error when parsing location : undefined longitude.');
+                                hasError = true;
+                            }
+                            if (location.name === undefined) {
+                                console.warn('Warning when parsing location : undefined name.');
+                            }
+                            if (!hasError) {
+                                return true;
+                            }
+                        } catch (error) {
+                            console.error('Error when parsing location : ' + error);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

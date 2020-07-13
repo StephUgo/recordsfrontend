@@ -27,7 +27,7 @@
 			<ng-template #commentsBlock>
 				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ record.Comments }}</p>
 			</ng-template>
-			<p><a routerLink= "/map/{{record._id}}">Locate recording studio(s)</a></p>
+			<p *ngIf="recordUtils.hasLocation(record);"><a routerLink= "/map/{{record._id}}">Locate recording studio(s)</a></p>
 		</div>
 	</div>
 	<ng-template #noRecordToDisplayBlock>
