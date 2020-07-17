@@ -48,7 +48,7 @@ export class MapLayerComponent implements OnInit {
                 response => {
                   console.log(response);
                   if (image.width !== 0) {
-                    this.scalefactor = 220 / image.width;
+                    this.scalefactor = 200 / image.width;
                   }
                   this.parseKeywords();
                 }
@@ -79,7 +79,7 @@ export class MapLayerComponent implements OnInit {
                 id: this.record._id !== null ? this.record._id : 'null',
                 position: Cesium.Cartesian3.fromDegrees(location.lon, location.lat),
                 name: location.name,
-                scale: this.scalefactor,
+                scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
                 image: this.backendServerURL + '/uploads/' + this.record.ImageFileName,
                 label: {
                   text: location.name,
