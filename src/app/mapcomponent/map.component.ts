@@ -1,5 +1,5 @@
-import { Component, OnInit,  ViewEncapsulation } from '@angular/core';
-import { Observable, from, Subscription } from 'rxjs';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AcNotification, ActionType } from 'angular-cesium';
 import { ActivatedRoute } from '@angular/router';
 import { AppSharedStateService } from '../app.sharedstateservice';
@@ -16,11 +16,12 @@ export class MapLayerComponent implements OnInit {
   showTracks = true;
   records: Array<Record> = []; // The last searched records
   record: Record | null = null; // The selected record
-  subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
-  recordMapObjects$: Observable<AcNotification> | undefined;
+  recordMapObjects$: Observable<AcNotification> = Observable.create((s: any) => this.subscriber = s);
+  private subscriber: any;
+  private scalefactor = 0.5; // Currently we just have one computed scale factor (to be updated when we will display several locations)
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
-    this.subscription = this.appStateService.setRecords$.subscribe(
+    this.appStateService.setRecords$.subscribe(
       records => {
         console.log('Details notification : records = ' + records);
         this.records = records;
@@ -36,7 +37,23 @@ export class MapLayerComponent implements OnInit {
           const foundRecord = this.records.find(record => record._id === recordId);
           if (foundRecord !== undefined) {
             this.record = foundRecord;
-            this.parseKeywords();
+            if (this.record.ImageFileName !== undefined) {
+              const imageURL = this.backendServerURL + '/uploads/' + this.record.ImageFileName;
+              const image = {
+                url: imageURL,
+                context: 'Record cover',
+                width: 0
+              };
+              this.getImageDimension(image).subscribe(
+                response => {
+                  console.log(response);
+                  if (image.width !== 0) {
+                    this.scalefactor = 220 / image.width;
+                  }
+                  this.parseKeywords();
+                }
+              );
+            }
           }
         } else {
           this.record = null;
@@ -48,32 +65,46 @@ export class MapLayerComponent implements OnInit {
   parseKeywords() {
     if (this.record !== null) {
       const keywords = this.record.keywords;
-      const notif = new Array<AcNotification>();
+      const notifs = new Array<AcNotification>();
       if (keywords !== undefined) {
         for (let index = 0; index < keywords.length; index++) {
           const keyword = keywords[index];
           if (keyword.startsWith('Recorded @{')) {
             const stringLocation = keyword.substring(keyword.indexOf('{'));
             const location = JSON.parse(stringLocation);
-            notif.push({
+            notifs.push({
               id: this.record._id !== null ? this.record._id : 'null',
               actionType: ActionType.ADD_UPDATE,
               entity: {
                 id: this.record._id !== null ? this.record._id : 'null',
                 position: Cesium.Cartesian3.fromDegrees(location.lon, location.lat),
                 name: location.name,
-                scale: 0.2,
+                scale: this.scalefactor,
                 image: this.backendServerURL + '/uploads/' + this.record.ImageFileName,
-                label : {
-                  text : location.name,
-                  pixelOffset : new Cesium.Cartesian2(0, 70)
+                label: {
+                  text: location.name,
+                  pixelOffset: new Cesium.Cartesian2(0, 130)
                 }
               }
             });
           }
         }
       }
-      this.recordMapObjects$ = from(notif);
+      this.subscriber.next(notifs[0]); // To be updated when we will support several locations.
     }
+  }
+
+  getImageDimension(image: any): Observable<any> {
+    return new Observable(observer => {
+      const img = new Image();
+      img.onload = function (event) {
+        const loadedImage: any = event.currentTarget;
+        image.width = loadedImage.width;
+        image.height = loadedImage.height;
+        observer.next(image);
+        observer.complete();
+      };
+      img.src = image.url;
+    });
   }
 }

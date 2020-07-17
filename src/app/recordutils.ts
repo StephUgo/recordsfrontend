@@ -137,7 +137,7 @@ export class RecordUtils {
     hasLocation(record: Record): boolean {
         if (record !== null) {
             const keywords = record.keywords;
-            if (keywords !== undefined) {
+            if (keywords !== undefined && keywords !== null) {
                 for (let index = 0; index < keywords.length; index++) {
                     const keyword = keywords[index];
                     if (keyword.startsWith('Recorded @{')) {

@@ -1,6 +1,6 @@
 <div style="margin-top: 22px; height: 600px;border: 2px solid white;">
     <ac-map>
-        <ac-layer acFor="let recordMapObject of recordMapObjects$" [show]="showTracks" [context]="this">
+        <ac-layer acFor="let recordMapObject of recordMapObjects$" [show]="showTracks" [context]="this" debug="true">
             <ac-billboard-desc props="{
                 image: recordMapObject.image,
                 position: recordMapObject.position,
