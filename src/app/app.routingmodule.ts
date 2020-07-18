@@ -8,7 +8,7 @@ import { MapLayerComponent } from './mapcomponent/map.component';
 const routes: Routes = [
     { path: 'list', component: RecordslistComponent },
     { path: 'record/:recordId', component: RecordDetailsComponent },
-    { path: 'map/:recordId', component: MapLayerComponent },
+    { path: 'map/:recordsId', component: MapLayerComponent },
     { path: '',   redirectTo: '/list', pathMatch: 'full' }, // redirect to `first-component`
     { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
     ];

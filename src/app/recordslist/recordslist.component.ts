@@ -15,6 +15,7 @@ import { CommentsDialogComponent } from '../comments/comments-dialog';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { Subscription } from 'rxjs';
 import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData } from '../stringlistedit/stringlist-dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recordslist',
@@ -60,7 +61,8 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     private recordUtils: RecordUtils,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
-    private appStateService: AppSharedStateService) {
+    private appStateService: AppSharedStateService,
+    private router: Router) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
         this.records = records;
@@ -239,6 +241,36 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
           }
         }
       });
+    }
+  }
+
+
+  /**
+   * Handler for locating recording locations of one or several records
+   * @param event the event
+   */
+  locateRecordingLocations(event: any): void {
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if (this.isSelectionEmpty()) {
+      return;
+    }
+
+    if (this.records !== null) {
+      let recordIds = '';
+      for (let index = 0; index < this.checkedItems.length; index++) {
+        const selectedIndex = this.checkedItems[index];
+        const selectedID = this.records[selectedIndex]._id;
+        if (selectedIndex !== undefined && selectedID !== null && this.recordUtils.hasLocation(this.records[selectedIndex])) {
+          recordIds = recordIds.concat(selectedID);
+          if (index !== this.checkedItems.length - 1) {
+            recordIds = recordIds.concat(',');
+          }
+        }
+      }
+      if (recordIds.length > 0) {
+        this.router.navigateByUrl('/map/' + recordIds);
+      }
     }
   }
 

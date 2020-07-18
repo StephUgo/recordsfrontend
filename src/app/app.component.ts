@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIcon('keywords', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/post_add.svg'));
     this.matIconRegistry.addSvgIcon('view_list', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_list.svg'));
     this.matIconRegistry.addSvgIcon('view_module', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_module.svg'));
+    this.matIconRegistry.addSvgIcon('location', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/location.svg'));
   }
 
   ngOnInit(): void {
