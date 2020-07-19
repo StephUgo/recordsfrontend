@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: recordsfrontendcontainer
-          image: recordsfrontend:0.3
+          image: recordsfrontend:0.4
           ports:
             - containerPort: 80
             - containerPort: 443
