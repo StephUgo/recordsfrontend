@@ -249,7 +249,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
    * Handler for locating recording locations of one or several records
    * @param event the event
    */
-  locateRecordingLocations(event: any): void {
+  displayRecordingLocations(event: any): void {
     this.closeContextualMenu(); // If it was opened from the contextual menu
 
     if (this.isSelectionEmpty()) {
@@ -270,6 +270,8 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
       }
       if (recordIds.length > 0) {
         this.router.navigateByUrl('/map/' + recordIds);
+      } else {
+        alert('The selected records don\'t have a recording location.');
       }
     }
   }
