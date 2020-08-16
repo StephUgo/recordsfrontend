@@ -99,6 +99,8 @@ export class RecordsformComponent implements OnInit {
   onClickSave() {
     if (this.model.myStyle.id === 0) {
       alert('You have to select a style to save a record.');
+    } else if (this.model.myStyle.name === 'Audiophile') {
+      alert('Please select another style, "Audiophile" is just a shortcut...');
     } else {
       const record = new Record(this.recordUtils.getStyleNameFromStyleId(this.model.myStyle.id), this.model.artiste,
         this.model.Titre, this.model.Format, this.model.Label,
