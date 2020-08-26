@@ -8,15 +8,14 @@
     </li>
   </ul>
 </header>
-<div class="souslebandeau">
-  <div id="leftpart">
+<main>
+  <section id="leftpart">
     <app-recordsform (searchRecordsRequested)='onSearchRecordsRequested($event)'
       (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'>
     </app-recordsform>
-  </div>
-  <div id="rightpart">
+  </section>
+  <section id="rightpart">
     <!-- The routed views render in the <router-outlet>-->
     <router-outlet (activate)="onActivate($event)"></router-outlet>
-  </div>
-</div>
-  <!--div appCesium></div-->
+  </section>
+</main>
