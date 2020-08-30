@@ -120,7 +120,7 @@
 					style="cursor: pointer;">
 					<td style="display:table-cell;vertical-align:middle">
 						<div>
-							<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt=""
+							<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" 
 								style="border: 2px solid black;" height=100 width=100>
 						</div>
 					</td>
@@ -146,7 +146,7 @@
 		<p style="margin-bottom: 0px;"></p>
 		<div *ngIf="record.ImageFileName ; else noCoverBlock" routerLink="/record/{{record._id}}"
 			style="cursor: pointer;">
-			<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="" class="coverimage">
+			<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" class="coverimage">
 			<h5 class="covertext">{{record.Artist}} - {{record.Title}}
 				({{record.Format}}/{{record.Year !== 0 ? record.Year : 'NA'}})
 			</h5>

@@ -1,12 +1,12 @@
-<div class="overlay-content">
+<section class="overlay-content">
 	<button (click)="prevImage()" *ngIf="hasAdditionalPictures"><i class="fa fa-chevron-left fa-4"></i></button>
 	<img class="mainimage" [src]="backendServerURL+'/uploads/'+ currentImage">
 	<button (click)="nextImage()" *ngIf="hasAdditionalPictures"><i class="fa fa-chevron-right fa-4"></i></button>
 	<div class="flexrowbreak" *ngIf="hasAdditionalPictures"></div> 
-	<div *ngIf="hasAdditionalPictures">
+	<section *ngIf="hasAdditionalPictures">
 		<img class="previewimage" [src]="backendServerURL+'/uploads/'+ record.ImageFileName"
 		 [ngStyle]="{'border': (record.ImageFileName == currentImage) ? '2px solid yellow' : '1px solid black'}">
 		<img *ngFor="let pic of record.additionalPics; index as i"
 		class="previewimage" [src]="backendServerURL+'/uploads/'+ pic"  [ngStyle]="{'border': (pic == currentImage) ? '2px solid yellow' : '1px solid black'}">
-	</div>
-</div>
+	</section>
+</section>
