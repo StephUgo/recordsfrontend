@@ -1,9 +1,9 @@
 <section class="recorddetails">
 	<div *ngIf="(record !== undefined) && (record !== null) ; else noRecordToDisplayBlock">
 		<section class="recordcover">
-			<div *ngIf="record.ImageFileName ; else elseBlock">
-				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" height=200 width=200 (click)="displayCover()">
-			</div>
+			<figure *ngIf="record.ImageFileName ; else elseBlock">
+				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" (click)="displayCover()">
+			</figure>
 			<ng-template #elseBlock>
 				<div style="text-align: center; font-style: italic!important;">
 					Cover unavailable...

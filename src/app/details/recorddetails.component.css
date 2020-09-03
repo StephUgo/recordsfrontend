@@ -11,10 +11,21 @@
     float: left;
     margin: 0px 4px 4px 4px;
     border: 2px solid black;
-    min-height:200px; 
-    min-width:200px;
-    max-height:200px; 
-    max-width:200px;
+    height:200px; 
+    width:200px;
+}
+
+section figure {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+section figure img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 .recordcover:hover {
