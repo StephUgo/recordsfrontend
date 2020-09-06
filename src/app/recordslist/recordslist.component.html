@@ -144,13 +144,13 @@
 		<ng-template #uncheckedBlock><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
 		</ng-template>
 		<p style="margin-bottom: 0px;"></p>
-		<div *ngIf="record.ImageFileName ; else noCoverBlock" routerLink="/record/{{record._id}}"
+		<figure *ngIf="record.ImageFileName ; else noCoverBlock" routerLink="/record/{{record._id}}"
 			style="cursor: pointer;">
 			<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" class="coverimage">
 			<h5 class="covertext">{{record.Artist}} - {{record.Title}}
 				({{record.Format}}/{{record.Year !== 0 ? record.Year : 'NA'}})
 			</h5>
-		</div>
+		</figure>
 		<ng-template #noCoverBlock>
 			<span class="coverimage">Cover unavailable...</span>
 			<h5 class="covertext">{{record.Artist}} - {{record.Title}}
