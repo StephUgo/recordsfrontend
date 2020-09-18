@@ -1,157 +1,124 @@
-<div id="recordsSearch">
-<form (ngSubmit)="onClickSearch()">
-<h1>Record Selection</h1>
-<table>
-    <tbody>
-        <tr>
-            <td>
-                <span>
-                    <label>Style:</label>
-                </span>
-            </td>
-            <td>
-                <select [ngModel]=model.myStyle  (ngModelChange)="selectStyleChange($event)" name="style">
+<h1>Records Selection and Upload</h1>
+<hr>
+<section id="recordsSearchAndUpload">
+    <form (ngSubmit)="onClickSearch()">
+
+        <div class="row">
+            <div class="col-25">
+                <label>Style:</label>
+            </div>
+            <div class="col-75">
+                <select [ngModel]=model.myStyle (ngModelChange)="selectStyleChange($event)" name="style">
                     <option *ngFor="let oneOption of styleList" [ngValue]="oneOption">{{oneOption.label}}</option>
                 </select>
-            </td>        
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Artist or Group:</label>
-                </span>
-            </td>
-            <td>
-                <div class="model-artiste">
-                    <input [(ngModel)]=model.artiste type="text" placeholder="Groupname" name="artist"/>
-                </div>   
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Title:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Titre type="text" placeholder="Title" name="title"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Format:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Label:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Label type="text" placeholder="Label" name="Label"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Country:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Country type="text" placeholder="Country" name="country"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Year:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Year id="inputYear" type="number" placeholder="Year" name="year"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Period:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Period type="text" placeholder="Period" name="period"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Keywords:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=model.Keywords type="text" placeholder="Keywords" name="keywords"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label> </label>
-                </span>
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Artist:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.artiste type="text" placeholder="Artist" name="artist" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Title:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Titre type="text" placeholder="Title" name="title" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Format:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Label:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Label type="text" placeholder="Label" name="Label" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Country:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Country type="text" placeholder="Country" name="country" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Year:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Year id="inputYear" type="number" placeholder="Year" name="year" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Period:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Period type="text" placeholder="Period" name="period" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Keywords:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Keywords type="text" placeholder="Keywords" name="keywords" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
                 <button id="btnRecordsSearch" type="submit">Search</button>
-            </td>
-            <td>
-                <select [ngModel]=model.mySort.id  (ngModelChange)="selectSortChange($event)" name="selectSort">
+            </div>
+            <div class="col-75">
+                <select [ngModel]=model.mySort.id (ngModelChange)="selectSortChange($event)" name="selectSort">
                     <option *ngFor="let oneOption of sortOptions" [ngValue]="oneOption.id">{{oneOption.name}}</option>
                 </select>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</form>
-<table>
-    <tbody>
-        <tr>
-            <td>
-                <button id="btnRecordsSave" (click)="onClickSave()">Save</button>
-            </td>
-            <td>
-                <button id="btnRecordsResetInputFields" (click)="onClickReset()">Reset</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span>
-                    <label>Records by page:</label>
-                </span>
-            </td>
-            <td>
-                <input [(ngModel)]=limit type="number" name="recordsByPage"/>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<p></p>
-<form (ngSubmit)="onClickUpload()">
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <input type="file" id="inputRecordsUpload" (change)="onFileChange($event.target.files)" multiple>
-                </td>
-                <td>
-                    <button id="btnRecordsUpload" type="submit">Upload pictures</button>
-                </td>
-            </tr>    
-        </tbody>
-    </table>
-</form>
-</div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-25">
+            <label>Records / page:</label>
+        </div>
+        <div class="col-75">
+            <input [(ngModel)]=limit type="number" name="recordsByPage" />
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-100">
+            <button id="btnRecordsSave" (click)="onClickSave()">Save</button>
+        </div>
+    </div>
+    <form (ngSubmit)="onClickUpload()">
+        <div class="row">
+            <div class="col-100">
+                <input type="file" id="inputRecordsUpload" (change)="onFileChange($event.target.files)" multiple>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-100">
+                <button id="btnRecordsUpload" type="submit">Upload pictures</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <div class="row">
+        <div class="col-100">
+            <button id="btnRecordsResetInputFields" (click)="onClickReset()">Reset</button>
+        </div>
+    </div>
+    <hr>
+</section>

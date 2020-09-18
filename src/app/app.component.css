@@ -1,26 +1,24 @@
 #leftpart {
-    width: 22%;
+    width: 20%;
     height: 100%;
     position: fixed;
     border-right: 2px solid rgb(46, 48, 45);
-    padding-top: 65px;
+    margin-top: 52px;
     top:0;
     left: 0;
-    background-color: white;
+    background-color: white; 
 }
 
 #rightpart {
-    padding-top: 40px;
-    padding-left: 23%;
-    width:76%;
+    margin-top: 52px;
+    margin-left: 21%;
+    width:80%;
 }
-/*
-#pagetitle {
-    margin-bottom: 10px !important;
-}*/
+
 
 h1 {
-    margin-block-start: 5px; 
+    margin-block-start: 5px;
+    text-align: center;
 }
 
 .bandeau {

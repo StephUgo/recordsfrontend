@@ -1,46 +1,27 @@
-select {
-	width: 151px;
-}
-
 h1{
 	text-align: center;
+	font-size: medium;
 }
 
+#recordsSearchAndUpload {
+    height: 80%;
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
 
 label {
 	color: black; /* white;*/
 	display: inline-block;
-	text-align:center;
-	width: 150px;
-	/*text-shadow:
-	-1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;  */
+	padding: 12px 12px 12px 2px;
 }
 
-input {
-	width: 147px;
-}
-
-#btnRecordsSearch {
-	width: 150px;	
-}
-
-#btnRecordsSave {
-	width: 150px;	
-}
-
-#btnRecordsUpload {
-	width: 152px;	
-}
-
-#btnRecordsResetInputFields {
-	width: 152px;	
-}
-
-#inputRecordsUpload {
-	width: 150px;	
+input[type=text], input[type=number], select, textarea, button{
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	resize: vertical;
 }
 
 .model-artiste .ng-pristine {
@@ -49,4 +30,44 @@ input {
 
 .model-artiste .ng-dirty {
 	background-color: pink
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+	float: left;
+	width: 25%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+  
+/* Floating column for inputs: 75% width */
+.col-75 {
+	float: left;
+	width: 73%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+
+/* Floating column for inputs: 100% width */
+.col-100 {
+	float: left;
+	width: 98%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+  
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 1024px) {
+	.col-25, .col-75, .col-100, input[type=submit] {
+		width: 95%;
+		margin-top: 0;
+	}
 }
