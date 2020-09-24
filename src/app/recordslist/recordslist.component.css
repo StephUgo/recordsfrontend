@@ -77,7 +77,8 @@
 	box-shadow: 0 0 12pt rgba(0, 0, 0, 0.25);
 	border-radius: 4pt;
 	padding: 0.5em 0 0.5em 0;
-	animation: fadeIn 0.1s ease-out;
+	-webkit-animation: fadeIn 0.1s ease-out;
+	        animation: fadeIn 0.1s ease-out;
 	opacity:1.0;
 	display:block;
 }
@@ -201,8 +202,9 @@
 }
 
 .coverlistitem, .selectedcoverlistitem {
-	display:inline-block;
-	vertical-align: top;
+	display:inline-flex;
+	flex-direction: column;
+	align-items: center;
 	min-width: 208px;
 	min-height: 208px;
 	max-width: 208px;
@@ -235,10 +237,14 @@
 }
 
 section figure {
-    margin-block-start: 0px;
-    margin-block-end: 0px;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
+    -webkit-margin-before: 0px;
+            margin-block-start: 0px;
+    -webkit-margin-after: 0px;
+            margin-block-end: 0px;
+    -webkit-margin-start: 0px;
+            margin-inline-start: 0px;
+    -webkit-margin-end: 0px;
+            margin-inline-end: 0px;
 }
 
 .covertext {
@@ -250,6 +256,6 @@ section figure {
 
 .covercheckbox {
 	display: block;
-	float: right;
+	align-self: flex-end;
 	margin-bottom: 0px;
 }

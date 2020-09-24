@@ -139,11 +139,10 @@
 		*ngFor="let record of records | paginate: { itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems } ; index as i"
 		[class.coverlistitem]="!isRecordSelected(i)" [class.selectedcoverlistitem]="isRecordSelected(i)"
 		(contextmenu)="openContextualMenu($event, i, record)">
-		<div *ngIf="isRecordSelected(i) ; else uncheckedBlock"><input class="covercheckbox" type="checkbox"
-				(change)="onCheckChanged($event, i )" checked></div>
+		<input *ngIf="isRecordSelected(i) ; else uncheckedBlock" class="covercheckbox" type="checkbox"
+				(change)="onCheckChanged($event, i )" checked>
 		<ng-template #uncheckedBlock><input class="covercheckbox" type="checkbox" (change)="onCheckChanged($event, i )">
 		</ng-template>
-		<p style="margin-bottom: 0px;"></p>
 		<figure *ngIf="record.ImageFileName ; else noCoverBlock" routerLink="/record/{{record._id}}"
 			style="cursor: pointer;">
 			<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" class="coverimage">
