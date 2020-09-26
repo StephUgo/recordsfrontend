@@ -212,6 +212,7 @@
 	border: 2px solid black;
 	margin-right: 6px;
 	margin-bottom: 2px;
+	overflow: hidden;
 }
 
 
