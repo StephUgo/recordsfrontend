@@ -62,7 +62,8 @@ export class RecordDialogModalComponent {
       this.form.value.year,
       this.form.value.imageFileName,
       this.fromPage.Comments,
-      this.fromPage.keywords // Keywords are editable from a specific dialoog
+      this.fromPage.keywords, // Keywords are editable from a specific dialog
+      this.fromPage.additionalPics
     );
     editedRecord._id = this.fromPage._id;
     this.dialogRef.close(editedRecord);
