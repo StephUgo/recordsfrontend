@@ -5,8 +5,10 @@
 	<div class="flexrowbreak" *ngIf="hasAdditionalPictures"></div> 
 	<section class="additionalPics" *ngIf="hasAdditionalPictures">
 		<img class="previewimage" [src]="backendServerURL+'/uploads/'+ record.ImageFileName"
-		 [ngStyle]="{'border': (record.ImageFileName == currentImage) ? '2px solid yellow' : '1px solid black'}">
+		 [ngStyle]="{'border': (record.ImageFileName == currentImage) ? '2px solid yellow' : '1px solid black'}"
+		 (click)="setImage(0)">
 		<img *ngFor="let pic of record.additionalPics; index as i"
-		class="previewimage" [src]="backendServerURL+'/uploads/'+ pic"  [ngStyle]="{'border': (pic == currentImage) ? '2px solid yellow' : '1px solid black'}">
+		class="previewimage" [src]="backendServerURL+'/uploads/'+ pic"  [ngStyle]="{'border': (pic == currentImage) ? '2px solid yellow' : '1px solid black'}"
+		(click)="setImage(i+1)">
 	</section>
 </section>

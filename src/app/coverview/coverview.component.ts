@@ -61,5 +61,16 @@ export class CoverViewOverlayComponent {
       }
     }
   }
+
+  setImage(i: number) {
+    if (i === 0) {
+      this.currentImage = this.record.ImageFileName;
+      this.currentIndex = 0;
+    } else if ((this.record.additionalPics !== undefined && this.hasAdditionalPictures)
+      && (i - 1 >= 0) && (i - 1 < this.record.additionalPics.length)) {
+      this.currentIndex = i - 1;
+      this.currentImage = this.record.additionalPics[this.currentIndex];
+    }
+  }
 }
 
