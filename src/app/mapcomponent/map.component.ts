@@ -6,6 +6,12 @@ import { AppSharedStateService } from '../app.sharedstateservice';
 import { Record } from '../model/record';
 import { environment } from 'src/environments/environment';
 
+
+interface ILocation {
+  lat: number;
+  lon: number;
+}
+
 @Component({
   selector: 'app-map-layer',
   templateUrl: 'map.component.html',
@@ -19,6 +25,7 @@ export class MapLayerComponent implements OnInit {
   recordMapObjects$: Observable<AcNotification> = Observable.create((s: any) => this.subscriber = s);
   private subscriber: any;
   private scalefactor = 0.5; // Currently we just have one computed scale factor (to be updated when we will display several locations)
+  private selectedLocations: Array<ILocation> = [];
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.appStateService.setRecords$.subscribe(
@@ -43,6 +50,7 @@ export class MapLayerComponent implements OnInit {
               this.selectedRecords.push(foundRecord);
             }
           }
+          this.selectedLocations = [];
           this.processSelectedRecords();
         }
       }
@@ -85,22 +93,28 @@ export class MapLayerComponent implements OnInit {
             let notif: AcNotification;
             const stringLocation = keyword.substring(keyword.indexOf('{'));
             const location = JSON.parse(stringLocation);
-            notif = {
-              id: record._id !== null ? record._id : 'null',
-              actionType: ActionType.ADD_UPDATE,
-              entity: {
+            const checkedLocation = this.processLocation(location);
+            if (checkedLocation !== null) {
+              this.selectedLocations.push(checkedLocation);
+              notif = {
                 id: record._id !== null ? record._id : 'null',
-                position: Cesium.Cartesian3.fromDegrees(location.lon, location.lat),
-                name: location.name,
-                scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
-                image: this.backendServerURL + '/uploads/' + record.ImageFileName,
-                label: {
-                  text: location.name,
-                  pixelOffset: new Cesium.Cartesian2(0, 130)
+                actionType: ActionType.ADD_UPDATE,
+                entity: {
+                  id: record._id !== null ? record._id : 'null',
+                  position: Cesium.Cartesian3.fromDegrees(checkedLocation.lon, checkedLocation.lat),
+                  name: location.name,
+                  scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
+                  image: this.backendServerURL + '/uploads/' + record.ImageFileName,
+                  label: {
+                    text: location.name,
+                    pixelOffset: new Cesium.Cartesian2(0, 130),
+                    translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0),
+                    font: '12px Helvetica' // Doesn't work...
+                  }
                 }
-              }
-            };
-            this.subscriber.next(notif);
+              };
+              this.subscriber.next(notif);
+            }
           }
         }
       }
@@ -119,5 +133,56 @@ export class MapLayerComponent implements OnInit {
       };
       img.src = image.url;
     });
+  }
+
+  private processLocation(obj: any): ILocation|null {
+    if (!this.isLocation(obj)) {
+      return null;
+    }
+    const checkedLocation = obj as ILocation;
+
+    // (Very) basic loop to avoid position conflicts
+    let orientationIndex = 0;
+    for (let index = 0; index < this.selectedLocations.length; index++) {
+      const alreadySelectedLocation = this.selectedLocations[index];
+      const latDelta = checkedLocation.lat - alreadySelectedLocation.lat;
+      const lonDelta = checkedLocation.lon - alreadySelectedLocation.lon;
+      if ((latDelta < 0.005) && (lonDelta < 0.005)) {
+          if (orientationIndex % 8 ===  0) {
+            checkedLocation.lat += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  1) {
+            checkedLocation.lat += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+            checkedLocation.lon += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  2) {
+            checkedLocation.lon += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  3) {
+            checkedLocation.lat -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+            checkedLocation.lon += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  4) {
+            checkedLocation.lat -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  5) {
+            checkedLocation.lat -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+            checkedLocation.lon -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  6) {
+            checkedLocation.lon -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          if (orientationIndex % 8 ===  7) {
+            checkedLocation.lat += (Math.floor(orientationIndex / 8) + 1) * 0.003;
+            checkedLocation.lon -= (Math.floor(orientationIndex / 8) + 1) * 0.003;
+          }
+          orientationIndex++;
+      }
+    }
+    return checkedLocation;
+  }
+
+  private isLocation(obj: any): obj is ILocation {
+    return typeof obj.lat === 'number' && typeof obj.lon === 'number';
   }
 }
