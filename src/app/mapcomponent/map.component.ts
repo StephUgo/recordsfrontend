@@ -19,11 +19,13 @@ interface ILocation {
 })
 export class MapLayerComponent implements OnInit {
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
-  showTracks = true;
+  show = true;
   records: Array<Record> = []; // The last searched records
-  selectedRecords = new Array<Record>(); // The selected record
+  selectedRecords = new Array<Record>(); // The selected records
   recordMapObjects$: Observable<AcNotification> = Observable.create((s: any) => this.subscriber = s);
+  polylines$: Observable<AcNotification> = Observable.create((s: any) => this.polylineSubscriber = s);
   private subscriber: any;
+  private polylineSubscriber: any;
   private scalefactor = 0.5; // Currently we just have one computed scale factor (to be updated when we will display several locations)
   private selectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
@@ -97,6 +99,7 @@ export class MapLayerComponent implements OnInit {
             let notif: AcNotification;
             const stringLocation = keyword.substring(keyword.indexOf('{'));
             const location = JSON.parse(stringLocation);
+            const originalLocation = (this.isLocation(location)) ? {lat: location.lat, lon: location.lon} : null;
             const checkedLocation = this.processLocation(location);
             if (checkedLocation !== null) {
               this.selectedLocations.push(checkedLocation);
@@ -114,7 +117,7 @@ export class MapLayerComponent implements OnInit {
                       text: '',
                       pixelOffset: new Cesium.Cartesian2(0, 130),
                       translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0),
-                      font: '12px Helvetica' // Doesn't work...
+                      font: '20px Helvetica'
                     }
                   }
                 };
@@ -132,13 +135,27 @@ export class MapLayerComponent implements OnInit {
                     label: {
                       text: location.name,
                       pixelOffset: new Cesium.Cartesian2(0, 130),
-                      translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0),
-                      font: '12px Helvetica' // Doesn't work...
+                      translucencyByDistance: new Cesium.NearFarScalar(5e2, 1.0, 8.0e6, 0.0),
+                      font: '20px Helvetica'
                     }
                   }
                 };
               }
               this.subscriber.next(notif);
+              if (checkedLocation.lat !== originalLocation?.lat || checkedLocation.lon !== originalLocation?.lon) {
+                let lineNotif: AcNotification;
+                lineNotif = {
+                  id: record._id !== null ? record._id : 'null',
+                  actionType: ActionType.ADD_UPDATE,
+                  entity: {
+                    id: record._id !== null ? record._id : 'null',
+                    material: Cesium.Color.RED.withAlpha(0.5),
+                    positions: Cesium.Cartesian3.fromDegreesArray([originalLocation?.lon, originalLocation?.lat,
+                      checkedLocation.lon, checkedLocation.lat])
+                  }
+                };
+                this.polylineSubscriber.next(lineNotif);
+              }
             }
           }
         }

@@ -1,6 +1,6 @@
 <div style="margin-top: 22px; height: 600px;border: 2px solid white;">
     <ac-map>
-        <ac-layer acFor="let recordMapObject of recordMapObjects$" [show]="showTracks" [context]="this" debug="true">
+        <ac-layer acFor="let recordMapObject of recordMapObjects$" [show]="show" [context]="this" debug="true">
             <ac-billboard-desc props="{
                 image: recordMapObject.image,
                 position: recordMapObject.position,
@@ -9,10 +9,20 @@
             </ac-billboard-desc>
             <ac-label-desc props="{
                 position: recordMapObject.position,
-                text: recordMapObject.name,
-                pixelOffset: recordMapObject.label.pixelOffset
+                text: recordMapObject.label.text,
+                pixelOffset: recordMapObject.label.pixelOffset,
+                translucencyByDistance: recordMapObject.label.translucencyByDistance,
+                font: recordMapObject.label.font
             }">
             </ac-label-desc>
+        </ac-layer>
+        <ac-layer acFor="let polyline of polylines$" [context]="this" [show]="show">
+            <ac-polyline-desc props="{
+                width : 4,
+                positions: polyline.positions,
+                material: polyline.material,
+              }">
+            </ac-polyline-desc>
         </ac-layer>
     </ac-map>
 </div>
