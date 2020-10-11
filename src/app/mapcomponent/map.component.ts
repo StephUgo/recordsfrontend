@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { AcNotification, ActionType } from 'angular-cesium';
 import { ActivatedRoute } from '@angular/router';
 import { AppSharedStateService } from '../app.sharedstateservice';
@@ -22,11 +22,11 @@ export class MapLayerComponent implements OnInit {
   show = true;
   records: Array<Record> = []; // The last searched records
   selectedRecords = new Array<Record>(); // The selected records
-  recordMapObjects$: Observable<AcNotification> = Observable.create((s: any) => this.subscriber = s);
-  polylines$: Observable<AcNotification> = Observable.create((s: any) => this.polylineSubscriber = s);
-  private subscriber: any;
-  private polylineSubscriber: any;
-  private scalefactor = 0.5; // Currently we just have one computed scale factor (to be updated when we will display several locations)
+  recordMapObjects$: Observable<AcNotification> = new Observable((s: any) => this.subscriber = s);
+  polylines$: Observable<AcNotification> = new Observable((s: any) => this.polylineSubscriber = s);
+  private subscriber: Subscriber<AcNotification> | null = null;
+  private polylineSubscriber: Subscriber<AcNotification> | null = null;
+  private scalefactor = 0.5; // Currently we just have one computed scale factor
   private selectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
   private orientationIndex = 0;
@@ -34,7 +34,6 @@ export class MapLayerComponent implements OnInit {
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.appStateService.setRecords$.subscribe(
       records => {
-        console.log('Details notification : records = ' + records);
         this.records = records;
       });
     this.records = this.appStateService.records.value;
@@ -96,65 +95,14 @@ export class MapLayerComponent implements OnInit {
         for (let index = 0; index < keywords.length; index++) {
           const keyword = keywords[index];
           if (keyword.startsWith('Recorded @{')) {
-            let notif: AcNotification;
             const stringLocation = keyword.substring(keyword.indexOf('{'));
             const location = JSON.parse(stringLocation);
-            const originalLocation = (this.isLocation(location)) ? {lat: location.lat, lon: location.lon} : null;
-            const checkedLocation = this.processLocation(location);
-            if (checkedLocation !== null) {
-              this.selectedLocations.push(checkedLocation);
-              if (this.locationLabels.includes(location.name)) {
-                notif = {
-                  id: record._id !== null ? record._id : 'null',
-                  actionType: ActionType.ADD_UPDATE,
-                  entity: {
-                    id: record._id !== null ? record._id : 'null',
-                    position: Cesium.Cartesian3.fromDegrees(checkedLocation.lon, checkedLocation.lat),
-                    name: '',
-                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
-                    image: this.backendServerURL + '/uploads/' + record.ImageFileName,
-                    label: {
-                      text: '',
-                      pixelOffset: new Cesium.Cartesian2(0, 130),
-                      translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0),
-                      font: '20px Helvetica'
-                    }
-                  }
-                };
-              } else {
-                this.locationLabels.push(location.name);
-                notif = {
-                  id: record._id !== null ? record._id : 'null',
-                  actionType: ActionType.ADD_UPDATE,
-                  entity: {
-                    id: record._id !== null ? record._id : 'null',
-                    position: Cesium.Cartesian3.fromDegrees(checkedLocation.lon, checkedLocation.lat),
-                    name: location.name,
-                    scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
-                    image: this.backendServerURL + '/uploads/' + record.ImageFileName,
-                    label: {
-                      text: location.name,
-                      pixelOffset: new Cesium.Cartesian2(0, 130),
-                      translucencyByDistance: new Cesium.NearFarScalar(5e2, 1.0, 8.0e6, 0.0),
-                      font: '20px Helvetica'
-                    }
-                  }
-                };
-              }
-              this.subscriber.next(notif);
-              if (checkedLocation.lat !== originalLocation?.lat || checkedLocation.lon !== originalLocation?.lon) {
-                let lineNotif: AcNotification;
-                lineNotif = {
-                  id: record._id !== null ? record._id : 'null',
-                  actionType: ActionType.ADD_UPDATE,
-                  entity: {
-                    id: record._id !== null ? record._id : 'null',
-                    material: Cesium.Color.RED.withAlpha(0.5),
-                    positions: Cesium.Cartesian3.fromDegreesArray([originalLocation?.lon, originalLocation?.lat,
-                      checkedLocation.lon, checkedLocation.lat])
-                  }
-                };
-                this.polylineSubscriber.next(lineNotif);
+            const originalLocation = (this.isLocation(location)) ? { lat: location.lat, lon: location.lon } : null;
+            if (originalLocation !== null) {
+              const finalLocation = this.processOriginalLocation(location);
+              if (finalLocation !== null) {
+                this.selectedLocations.push(finalLocation);
+                this.sendNotifications(record, originalLocation, finalLocation, location.name);
               }
             }
           }
@@ -177,7 +125,7 @@ export class MapLayerComponent implements OnInit {
     });
   }
 
-  private processLocation(obj: any): ILocation|null {
+  private processOriginalLocation(obj: any): ILocation | null {
     if (!this.isLocation(obj)) {
       return null;
     }
@@ -189,35 +137,35 @@ export class MapLayerComponent implements OnInit {
       const latDelta = checkedLocation.lat - alreadySelectedLocation.lat;
       const lonDelta = checkedLocation.lon - alreadySelectedLocation.lon;
       if ((Math.abs(latDelta) < 0.0005) && (Math.abs(lonDelta) < 0.0005)) {
-          if (this.orientationIndex % 8 ===  0) {
-            checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  1) {
-            checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-            checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  2) {
-            checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  3) {
-            checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-            checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  4) {
-            checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  5) {
-            checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-            checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  6) {
-            checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          if (this.orientationIndex % 8 ===  7) {
-            checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-            checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          }
-          this.orientationIndex++;
+        if (this.orientationIndex % 8 === 0) {
+          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 1) {
+          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 2) {
+          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 3) {
+          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 4) {
+          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 5) {
+          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 6) {
+          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        if (this.orientationIndex % 8 === 7) {
+          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+        }
+        this.orientationIndex++;
       }
     }
     return checkedLocation;
@@ -225,5 +173,66 @@ export class MapLayerComponent implements OnInit {
 
   private isLocation(obj: any): obj is ILocation {
     return typeof obj.lat === 'number' && typeof obj.lon === 'number';
+  }
+
+  private sendNotifications(record: Record, originalLocation: ILocation, finalLocation: ILocation, name: string) {
+    let notif: AcNotification;
+    if (this.locationLabels.includes(name)) {
+      notif = {
+        id: record._id !== null ? record._id : 'null',
+        actionType: ActionType.ADD_UPDATE,
+        entity: {
+          id: record._id !== null ? record._id : 'null',
+          position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
+          name: '',
+          scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
+          image: this.backendServerURL + '/uploads/' + record.ImageFileName,
+          label: {
+            text: '',
+            pixelOffset: new Cesium.Cartesian2(0, 130),
+            translucencyByDistance: new Cesium.NearFarScalar(1.5e2, 1.0, 8.0e6, 0.0),
+            font: '20px Helvetica'
+          }
+        }
+      };
+    } else {
+      this.locationLabels.push(name);
+      notif = {
+        id: record._id !== null ? record._id : 'null',
+        actionType: ActionType.ADD_UPDATE,
+        entity: {
+          id: record._id !== null ? record._id : 'null',
+          position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
+          name: name,
+          scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
+          image: this.backendServerURL + '/uploads/' + record.ImageFileName,
+          label: {
+            text: name,
+            pixelOffset: new Cesium.Cartesian2(0, 130),
+            translucencyByDistance: new Cesium.NearFarScalar(5e2, 1.0, 8.0e6, 0.0),
+            font: '20px Helvetica'
+          }
+        }
+      };
+    }
+    if (this.subscriber !== null) {
+      this.subscriber.next(notif);
+      if (finalLocation.lat !== originalLocation.lat || finalLocation.lon !== originalLocation.lon) {
+        let lineNotif: AcNotification;
+        lineNotif = {
+          id: record._id !== null ? record._id : 'null',
+          actionType: ActionType.ADD_UPDATE,
+          entity: {
+            id: record._id !== null ? record._id : 'null',
+            material: Cesium.Color.RED.withAlpha(0.5),
+            positions: Cesium.Cartesian3.fromDegreesArray([originalLocation.lon, originalLocation.lat,
+            finalLocation.lon, finalLocation.lat])
+          }
+        };
+        if (this.polylineSubscriber !== null) {
+          this.polylineSubscriber.next(lineNotif);
+        }
+      }
+    }
   }
 }
