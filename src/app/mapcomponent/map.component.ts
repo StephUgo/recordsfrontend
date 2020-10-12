@@ -30,6 +30,7 @@ export class MapLayerComponent implements OnInit {
   private selectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
   private orientationIndex = 0;
+  private coverDispatchingLevel = 1;
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.appStateService.setRecords$.subscribe(
@@ -56,6 +57,7 @@ export class MapLayerComponent implements OnInit {
           this.selectedLocations = [];
           this.locationLabels = [];
           this.orientationIndex = 0;
+          this.coverDispatchingLevel = 1;
           this.processSelectedRecords();
         }
       }
@@ -131,44 +133,80 @@ export class MapLayerComponent implements OnInit {
     }
     const checkedLocation = obj as ILocation;
 
-    // (Very) basic loop to avoid position conflicts
+    const sumOfElementsInCurrentLevel = 8 * this.coverDispatchingLevel * (this.coverDispatchingLevel + 1) / 2;
+
+    if (this.orientationIndex >= sumOfElementsInCurrentLevel) {
+      this.coverDispatchingLevel++;
+    }
+
+    const sumOfElementsInInferiorLevel = 8 * this.coverDispatchingLevel * (this.coverDispatchingLevel - 1) / 2;
+    const indexInLevel = this.orientationIndex - sumOfElementsInInferiorLevel;
+
+    // (Funny) loop to avoid position conflicts
     for (let index = 0; index < this.selectedLocations.length; index++) {
       const alreadySelectedLocation = this.selectedLocations[index];
       const latDelta = checkedLocation.lat - alreadySelectedLocation.lat;
       const lonDelta = checkedLocation.lon - alreadySelectedLocation.lon;
       if ((Math.abs(latDelta) < 0.0005) && (Math.abs(lonDelta) < 0.0005)) {
-        if (this.orientationIndex % 8 === 0) {
-          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 1) {
-          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 2) {
-          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 3) {
-          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          checkedLocation.lon += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 4) {
-          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 5) {
-          checkedLocation.lat -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 6) {
-          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-        }
-        if (this.orientationIndex % 8 === 7) {
-          checkedLocation.lat += (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
-          checkedLocation.lon -= (Math.floor(this.orientationIndex / 8) + 1) * 0.002;
+
+        // Il faut savoir sur quels cotés du carré (à 8n éléments ou n == coverDispatchingLevel) on se situe :
+        //    haut : indexInLevel (>7n ou < n)
+        //    droite : indexInLevel (>n ou < 3n)
+        //    bas : indexInLevel (>3n ou < 5n)
+        //    gauche : indexInLevel (>5n ou < 7n)
+        if ((indexInLevel <= this.coverDispatchingLevel) || (indexInLevel > 7 * this.coverDispatchingLevel)) {
+          this.updatePositionInUpperSide(indexInLevel, checkedLocation);
+        } else if ((indexInLevel > this.coverDispatchingLevel) && (indexInLevel <= 3 * this.coverDispatchingLevel)) {
+            this.updatePositionInRightSide(indexInLevel, checkedLocation);
+        } else if ((indexInLevel > 3 * this.coverDispatchingLevel) && (indexInLevel <= 5 * this.coverDispatchingLevel)) {
+          this.updatePositionInLowerSide(indexInLevel, checkedLocation);
+        } else if ((indexInLevel > 5 * this.coverDispatchingLevel) && (indexInLevel <= 7 * this.coverDispatchingLevel)) {
+          this.updatePositionInLeftSide(indexInLevel, checkedLocation);
         }
         this.orientationIndex++;
       }
     }
     return checkedLocation;
+  }
+
+  private updatePositionInUpperSide(indexInLevel: number, checkedLocation: ILocation) {
+    checkedLocation.lat += this.coverDispatchingLevel * 0.002;
+
+    if (indexInLevel <= this.coverDispatchingLevel) {
+      checkedLocation.lon += indexInLevel * 0.002;
+    } else {
+      checkedLocation.lon -= (8 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    }
+  }
+
+  private updatePositionInRightSide(indexInLevel: number, checkedLocation: ILocation) {
+    checkedLocation.lon += this.coverDispatchingLevel * 0.002;
+
+    if (indexInLevel < 2 * this.coverDispatchingLevel) {
+      checkedLocation.lat += (2 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    } else {
+      checkedLocation.lat -= (indexInLevel - 2 * this.coverDispatchingLevel) * 0.002;
+    }
+  }
+
+  private updatePositionInLowerSide(indexInLevel: number, checkedLocation: ILocation) {
+    checkedLocation.lat -= this.coverDispatchingLevel * 0.002;
+
+    if (indexInLevel <= 4 * this.coverDispatchingLevel) {
+      checkedLocation.lon += (4 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    } else {
+      checkedLocation.lon -= (indexInLevel - 4 * this.coverDispatchingLevel) * 0.002;
+    }
+  }
+
+  private updatePositionInLeftSide(indexInLevel: number, checkedLocation: ILocation) {
+    checkedLocation.lon -= this.coverDispatchingLevel * 0.002;
+
+    if (indexInLevel < 6 * this.coverDispatchingLevel) {
+      checkedLocation.lat -= (6 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    } else {
+      checkedLocation.lat += (indexInLevel - 6 * this.coverDispatchingLevel) * 0.002;
+    }
   }
 
   private isLocation(obj: any): obj is ILocation {
