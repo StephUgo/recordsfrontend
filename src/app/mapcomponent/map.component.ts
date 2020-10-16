@@ -20,6 +20,7 @@ interface ILocation {
 export class MapLayerComponent implements OnInit {
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
   show = true;
+  bigSize = false;
   records: Array<Record> = []; // The last searched records
   selectedRecords = new Array<Record>(); // The selected records
   recordMapObjects$: Observable<AcNotification> = new Observable((s: any) => this.subscriber = s);
@@ -38,6 +39,11 @@ export class MapLayerComponent implements OnInit {
         this.records = records;
       });
     this.records = this.appStateService.records.value;
+    this.appStateService.setActiveForm$.subscribe(
+      isFormActive => {
+        this.bigSize = !isFormActive;
+      });
+    this.bigSize = !this.appStateService.activeForm.value;
   }
 
   ngOnInit() {

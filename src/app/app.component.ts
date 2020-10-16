@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
   currentStyle: number | null = null; // The current selected style (TODO : remove ?)
   config: any; // NGxPagination configuration
   lastSearchRequest: SearchRequest | null = null; // The last search request
+  activeForm = false;
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
 
@@ -309,6 +310,11 @@ export class AppComponent implements OnInit {
         console.log('error = ', error);
         alert('File upload error : ' + error);
       });
+  }
+
+  onClickToggle() {
+    this.activeForm = !this.activeForm;
+    this.appStateService.setActiveForm(this.activeForm);
   }
 
   /**

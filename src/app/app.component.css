@@ -5,14 +5,12 @@
     border-right: 2px solid rgb(46, 48, 45);
     margin-top: 52px;
     top:0;
-    left: 0;
     background-color: white; 
 }
 
 #rightpart {
     margin-top: 52px;
     float: right;
-    width:80%;
 }
 
 

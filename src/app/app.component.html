@@ -3,18 +3,19 @@
     <li style="max-width: 10%;">
       <app-user></app-user>
     </li>
-    <li style="width: 90%;">
+    <li style="width: 70%;">
       <h1>Welcome to our {{ title }}...</h1>
     </li>
+    <li><button style="display: inline-block;min-width: 30px;height: 50px;" (click)="onClickToggle()">Toggle Form</button></li>
   </ul>
 </header>
 <main>
-  <section id="leftpart">
+  <section id="leftpart" [ngStyle]="{'left': activeForm ? '0' : '-9999px'}">
     <app-recordsform (searchRecordsRequested)='onSearchRecordsRequested($event)'
       (saveRecordRequested)='onSaveRecordRequested($event)' (uploadCoverRequested)='onUploadCoverRequested($event)'>
     </app-recordsform>
   </section>
-  <section id="rightpart">
+  <section id="rightpart" [ngStyle]="{'width': activeForm ? '80%' : '100%'}">
     <!-- The routed views render in the <router-outlet>-->
     <router-outlet (activate)="onActivate($event)"></router-outlet>
   </section>
