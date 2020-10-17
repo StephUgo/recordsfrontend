@@ -1,13 +1,11 @@
-<header class="bandeau">
-  <ul>
-    <li style="max-width: 10%;">
-      <app-user></app-user>
-    </li>
-    <li style="width: 70%;">
-      <h1>Welcome to our {{ title }}...</h1>
-    </li>
-    <li><button style="display: inline-block;min-width: 30px;height: 50px;" (click)="onClickToggle()">Toggle Form</button></li>
-  </ul>
+<header class="headerbar">
+  <div class="button" (click)="onClickToggle()">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </div>
+  <div class="headerbartitle"><h1>Welcome to our {{ title }}!</h1></div>
+  <div class="headerbarlastitem"><app-user></app-user></div>
 </header>
 <main>
   <section id="leftpart" [ngStyle]="{'left': activeForm ? '0' : '-9999px'}">
