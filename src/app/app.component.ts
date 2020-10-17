@@ -10,6 +10,7 @@ import { Constants } from './constants';
 import { RecordslistComponent } from './recordslist/recordslist.component';
 import { AppSharedStateService } from './app.sharedstateservice';
 import { Router } from '@angular/router';
+import { UserComponent } from './users/user.component';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   activeForm = false;
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
+  @ViewChild(UserComponent) userComponent: UserComponent | null = null;
 
   constructor(private api: ApiService,
     private matIconRegistry: MatIconRegistry,
@@ -51,6 +53,9 @@ export class AppComponent implements OnInit {
         this.setRecords(res);
       }, err => {
         console.log(err);
+        if (this.userComponent !== null) {
+          this.userComponent.onLoginClick();
+        }
       });
     } else {
       console.log('The backend service is undefined !');
