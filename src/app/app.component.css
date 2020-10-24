@@ -6,7 +6,7 @@
     margin-top: 52px;
     top:0;
     background-color: white; 
-    transition: left 0.3s ease-in-out;
+    transition: left 0.5s ease-in-out;
 }
 
 #rightpart {
@@ -22,7 +22,7 @@ h1 {
 
 .headerbar {
     text-align: center;
-    font-family: 'Segoe UI' !important;
+    font-family: 'Calibri' !important;
     font-style: italic;
     position: fixed;
     width:100%;
@@ -57,10 +57,12 @@ h1 {
     z-index: 1;
     -webkit-appearance: none;
     border: 0;
-    background: transparent;
+    background-color: #12415c;
     border-radius: 0;
-    height: 70px;
+    height: 50px;
     width: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
     cursor: pointer;
     pointer-events: auto;
     margin-left: 25px;

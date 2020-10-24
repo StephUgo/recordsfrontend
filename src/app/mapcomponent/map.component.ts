@@ -32,6 +32,7 @@ export class MapLayerComponent implements OnInit {
   private locationLabels: Array<string> = [];
   private orientationIndex = 0;
   private coverDispatchingLevel = 1;
+  private coverNotificationCounter = 0;
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.appStateService.setRecords$.subscribe(
@@ -221,9 +222,10 @@ export class MapLayerComponent implements OnInit {
 
   private sendNotifications(record: Record, originalLocation: ILocation, finalLocation: ILocation, name: string) {
     let notif: AcNotification;
+    const notificationID = (this.coverNotificationCounter++).toString();
     if (this.locationLabels.includes(name)) {
       notif = {
-        id: record._id !== null ? record._id : 'null',
+        id: notificationID,
         actionType: ActionType.ADD_UPDATE,
         entity: {
           id: record._id !== null ? record._id : 'null',
@@ -242,7 +244,7 @@ export class MapLayerComponent implements OnInit {
     } else {
       this.locationLabels.push(name);
       notif = {
-        id: record._id !== null ? record._id : 'null',
+        id: notificationID,
         actionType: ActionType.ADD_UPDATE,
         entity: {
           id: record._id !== null ? record._id : 'null',
