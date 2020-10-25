@@ -49,7 +49,7 @@ h1 {
     margin-left: auto;
 }
 
-.button {
+.headerbarbutton {
     position: relative;
     display: flex;
     flex-direction: column;
