@@ -11,18 +11,26 @@
 			</ng-template>
 		</section>
 		<section class="recorddescription">
-			<p style="margin-top: 2px; margin-bottom: 2px;">Artist: <span style="font-weight: bold;">{{ record.Artist }}</span></p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">Record: <span style="font-weight: bold;">{{ record.Title }}</span></p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">Format: {{ record.Format }} - Label: {{ record.Label }}</p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">Country: {{ record.Country }} - Reference: {{ record.Reference }}</p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">Year: {{ record.Year }} - Period: {{ record.Period }}</p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">{{ recordUtils.getKeywordsContents(record) }}</p>
-			<p style="margin-top: 2px; margin-bottom: 2px;">Description: </p>
-			<section *ngIf="tracklist !== null &&  companies !== null; else commentsBlock">
-				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ tracklist }}</p>
-				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ companies }}</p>
-				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ credits !== null ? credits : ''}}</p>
-				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ notes !== null ? notes : ''}}</p>
+			<p class="recorddescriptioninfo">Artist: <span style="font-weight: bold;">{{ record.Artist }}</span></p>
+			<p class="recorddescriptioninfo">Record: <span style="font-weight: bold;">{{ record.Title }}</span></p>
+			<p class="recorddescriptioninfo">Format: {{ record.Format }} - Label: {{ record.Label }}</p>
+			<p class="recorddescriptioninfo">Country: {{ record.Country }} - Reference: {{ record.Reference }}</p>
+			<p class="recorddescriptioninfo">Year: {{ record.Year }} - Period: {{ record.Period }}</p>
+			<p class="recorddescriptioninfo">{{ recordUtils.getKeywordsContents(record) }}</p>
+			<p class="recorddescriptioninfo">Description: </p>
+			<section *ngIf="tracklist !== '' &&  companies !== ''; else commentsBlock">
+				<p class="recorddescriptiontext">Tracklist: 
+					<span style="font-weight: normal;">{{ tracklist !== null && tracklist.length > 0 ? tracklist : 'N/A'}}</span>
+				</p>
+				<p class="recorddescriptiontext">Companies, etc.: 
+					<span style="font-weight: normal;">{{ companies !== null && companies.length > 0 ? companies : 'N/A'}}</span>
+				</p>
+				<p class="recorddescriptiontext">Credits: 
+					<span style="font-weight: normal;">{{ credits !== null && credits.length > 0 ? credits : 'N/A'}}</span>
+				</p>
+				<p class="recorddescriptiontext">Notes: 
+					<span style="font-weight: normal;">{{ notes !== null  && notes.length > 0 ? notes : 'N/A'}}</span>
+				</p>
 			</section>
 			<ng-template #commentsBlock>
 				<p style="margin-top: 2px; margin-bottom: 2px;" style="font-style: italic;">{{ record.Comments }}</p>

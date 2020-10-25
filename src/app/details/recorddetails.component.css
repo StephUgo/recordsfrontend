@@ -36,3 +36,13 @@ section figure img {
 .recorddescription {
     margin: 8px 4px 4px 4px;
 }
+
+
+.recorddescriptioninfo, .recorddescriptiontext {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.recorddescriptiontext {
+    font-weight: bold;
+    font-style: italic;
+}

@@ -49,22 +49,22 @@ export class RecordDetailsComponent implements OnInit {
   }
 
   parseComments() {
-    this.tracklist = null;
-    this.companies = null;
-    this.credits = null;
-    this.notes = null;
+    this.tracklist = '';
+    this.companies = '';
+    this.credits = '';
+    this.notes = '';
     if ((this.record !== null) && (this.record.Comments !== undefined) && (this.record.Comments !== null)) {
       const indexOfCompanies = this.record.Comments.indexOf('Companies, etc.');
       if (indexOfCompanies !== -1) {
-        this.tracklist = this.record.Comments.substring(0, indexOfCompanies);
+        this.tracklist = this.record.Comments.substring(9, indexOfCompanies);
         const indexOfCredits = this.record.Comments.indexOf('Credits');
         if (indexOfCredits > indexOfCompanies) {
-          this.companies = this.record.Comments.substring(indexOfCompanies, indexOfCredits);
+          this.companies = this.record.Comments.substring(indexOfCompanies + 15, indexOfCredits);
         }
         const indexOfNotes = this.record.Comments.lastIndexOf('Notes');
         if (indexOfNotes > indexOfCredits) {
-          this.credits = this.record.Comments.substring(indexOfCredits, indexOfNotes);
-          this.notes = this.record.Comments.substring(indexOfNotes);
+          this.credits = this.record.Comments.substring(indexOfCredits + 7, indexOfNotes);
+          this.notes = this.record.Comments.substring(indexOfNotes + 5);
         }
       }
     }
