@@ -58,7 +58,7 @@ h1 {
     -webkit-appearance: none;
     border: 0;
     color: white;
-    background-color: #12415c;
+    background-color: transparent; /*#12415c;*/
     border-radius: 0;
     height: 50px;
     width: 34px;
@@ -71,6 +71,9 @@ h1 {
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
   }
+
+  .headerbarbutton:hover {background-color: #12415c;}
+
   .icon-bar {
     display: block;
     width: 100%;
