@@ -29,7 +29,7 @@ export class UserComponent {
             height: '400px',
             backdropClass: 'custom-dialog-backdrop-class',
             panelClass: 'custom-dialog-panel-class',
-            disableClose: true,
+            disableClose: false,
             autoFocus: true,
             data: { isLogin: true, user: this.fromUser }
         });
@@ -73,7 +73,7 @@ export class UserComponent {
             height: '400px',
             backdropClass: 'custom-dialog-backdrop-class',
             panelClass: 'custom-dialog-panel-class',
-            disableClose: true,
+            disableClose: false,
             autoFocus: true,
             data: { isLogin: false, user: this.fromUser }
         });
