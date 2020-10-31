@@ -15,12 +15,14 @@ export class AppSharedStateService {
         totalItems: 0
     }); // NGxPagination configuration
     activeForm = new BehaviorSubject<boolean>(false);
+    activeSearchForm = new BehaviorSubject<boolean>(false);
 
     // Observable streams
     setRecords$ = this.records.asObservable();
     setCurrentStyle$ = this.currentStyle.asObservable();
     setConfig$ = this.config.asObservable();
     setActiveForm$ = this.activeForm.asObservable();
+    setActiveSearchForm$ = this.activeSearchForm.asObservable();
 
     // Service message commands
     setRecords(newRecords: Array<Record>) {
@@ -37,5 +39,9 @@ export class AppSharedStateService {
 
     setActiveForm(activeOrNot: boolean) {
         this.activeForm.next(activeOrNot);
+    }
+
+    setActiveSearchForm(activeOrNot: boolean) {
+        this.activeSearchForm.next(activeOrNot);
     }
 }

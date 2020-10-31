@@ -1,0 +1,106 @@
+<h1>Records Search</h1>
+<hr>
+<section id="search">
+    <form (ngSubmit)="onClickSearch()">
+
+        <div class="row">
+            <div class="col-25">
+                <label>Style:</label>
+            </div>
+            <div class="col-75">
+                <select [ngModel]=model.myStyle (ngModelChange)="selectStyleChange($event)" name="style">
+                    <option *ngFor="let oneOption of styleList" [ngValue]="oneOption">{{oneOption.label}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Artist:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.artiste type="text" placeholder="Artist" name="artist" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Title:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Titre type="text" placeholder="Title" name="title" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Format:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Label:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Label type="text" placeholder="Label" name="Label" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Country:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Country type="text" placeholder="Country" name="country" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Year:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Year id="inputYear" type="number" placeholder="Year" name="year" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Period:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Period type="text" placeholder="Period" name="period" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Keywords:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.Keywords type="text" placeholder="Keywords" name="keywords" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <button type="submit">Search</button>
+            </div>
+            <div class="col-75">
+                <select [ngModel]=model.mySort.id (ngModelChange)="selectSortChange($event)" name="selectSort">
+                    <option *ngFor="let oneOption of sortOptions" [ngValue]="oneOption.id">{{oneOption.name}}</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-25">
+            <label>Records / page:</label>
+        </div>
+        <div class="col-75">
+            <input [(ngModel)]=limit type="number" name="recordsByPage" />
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-100">
+            <button style="margin-bottom: 5px;" (click)="onClickReset()">Reset</button>
+        </div>
+    </div>
+    <hr>
+</section>

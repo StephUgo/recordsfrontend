@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
   config: any; // NGxPagination configuration
   lastSearchRequest: SearchRequest | null = null; // The last search request
   activeForm = false;
+  activeSearchForm = false;
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
   @ViewChild(UserComponent) userComponent: UserComponent | null = null;
@@ -319,7 +320,18 @@ export class AppComponent implements OnInit {
 
   onClickToggle() {
     this.activeForm = !this.activeForm;
+    if (this.activeForm) {
+      this.activeSearchForm = false;
+    }
     this.appStateService.setActiveForm(this.activeForm);
+  }
+
+  onClickSearchToggle() {
+    this.activeSearchForm = !this.activeSearchForm;
+    if (this.activeSearchForm) {
+      this.activeForm = false;
+    }
+    this.appStateService.setActiveSearchForm(this.activeSearchForm);
   }
 
   /**
