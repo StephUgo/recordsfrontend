@@ -28,13 +28,19 @@
 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index;"></tr>
 </table>
-	<p>Add new {{getElementLabel()}}</p>
-	<mat-form-field>
+	<p>Add new {{getElementLabel()}}:</p>
+	<mat-form-field style="width: 100%;">
     	<input matInput placeholder="New value" formControlName="newValue">
 	</mat-form-field>
+	<p style="height: 1px;margin-top: 0px;margin-bottom: 0px;"></p>
 	<button mat-raised-button (click)='add()'>Update {{getElementLabel() + 's'}}</button>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button class="mat-raised-button mat-primary"  (click)='save()'>Save</button>
-  <button mat-raised-button (click)='close()'>Close</button>
+  <div class="buttons">
+    <p></p>
+    <p><button class="mat-raised-button mat-primary" (click)="save()">Save</button></p>
+    <p></p>
+    <p><button mat-raised-button (click)="close()">Close</button></p>
+    <p></p>
+  </div>
 </mat-dialog-actions>

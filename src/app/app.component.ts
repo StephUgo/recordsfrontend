@@ -309,7 +309,7 @@ export class AppComponent implements OnInit {
   onUploadCoverRequested(formData: FormData) {
     this.api.uploadCover(formData).subscribe((response) => {
       console.log('response  = ', response);
-      alert('File uploaded successfully !');
+      alert('File(s) uploaded successfully !');
     },
       (error) => {
         console.log('error = ', error);
