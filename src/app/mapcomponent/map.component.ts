@@ -50,6 +50,11 @@ export class MapLayerComponent implements OnInit {
         this.bigSize = !isFormActive;
       });
     this.bigSize = !this.appStateService.activeSearchForm.value;
+    this.appStateService.setActiveUploadForm$.subscribe(
+      isFormActive => {
+        this.bigSize = !isFormActive;
+      });
+    this.bigSize = !this.appStateService.activeUploadForm.value;
   }
 
   ngOnInit() {

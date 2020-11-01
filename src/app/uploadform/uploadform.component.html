@@ -1,0 +1,16 @@
+<h1>Images Upload</h1>
+<hr>
+<section id="imagesUpload">
+    <form (ngSubmit)="onClickUpload()">
+        <div class="row">
+            <div class="col-100">
+                <input type="file" (change)="onFileChange($event.target.files)" multiple>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-100">
+                <button style="margin-bottom: 5px;" type="submit">Upload images</button>
+            </div>
+        </div>
+    </form>
+</section>

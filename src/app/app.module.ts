@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { RecordsformComponent } from './recordsform/recordsform.component';
 import { SearchFormComponent } from './searchform/searchform.component';
+import { UploadFormComponent } from './uploadform/uploadform.component';
 import { RecordslistComponent } from './recordslist/recordslist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecordDialogModalComponent } from './record-dialog-modal/record-dialog-modal.component';
@@ -41,6 +42,7 @@ import { MapLayerComponent } from './mapcomponent/map.component';
     CoverViewOverlayComponent,
     RecordsformComponent,
     SearchFormComponent,
+    UploadFormComponent,
     RecordslistComponent,
     RecordDetailsComponent,
     RecordDialogModalComponent,

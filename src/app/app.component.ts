@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   lastSearchRequest: SearchRequest | null = null; // The last search request
   activeForm = false;
   activeSearchForm = false;
+  activeUploadForm = false;
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
   @ViewChild(UserComponent) userComponent: UserComponent | null = null;
@@ -322,6 +323,7 @@ export class AppComponent implements OnInit {
     this.activeForm = !this.activeForm;
     if (this.activeForm) {
       this.activeSearchForm = false;
+      this.activeUploadForm = false;
     }
     this.appStateService.setActiveForm(this.activeForm);
   }
@@ -330,8 +332,18 @@ export class AppComponent implements OnInit {
     this.activeSearchForm = !this.activeSearchForm;
     if (this.activeSearchForm) {
       this.activeForm = false;
+      this.activeUploadForm = false;
     }
     this.appStateService.setActiveSearchForm(this.activeSearchForm);
+  }
+
+  onClickUploadToggle() {
+    this.activeUploadForm = !this.activeUploadForm;
+    if (this.activeUploadForm) {
+      this.activeForm = false;
+      this.activeSearchForm = false;
+    }
+    this.appStateService.setActiveUploadForm(this.activeUploadForm);
   }
 
   /**
