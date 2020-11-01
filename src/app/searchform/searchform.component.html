@@ -79,7 +79,7 @@
         </div>
         <div class="row">
             <div class="col-25">
-                <button type="submit">Search</button>
+                <label>Sort Options:</label>
             </div>
             <div class="col-75">
                 <select [ngModel]=model.mySort.id (ngModelChange)="selectSortChange($event)" name="selectSort">
@@ -87,16 +87,20 @@
                 </select>
             </div>
         </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Records / page:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=limit type="number" name="recordsByPage" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-100">
+                <button type="submit">Search</button>
+            </div>
+        </div>
     </form>
-    <div class="row">
-        <div class="col-25">
-            <label>Records / page:</label>
-        </div>
-        <div class="col-75">
-            <input [(ngModel)]=limit type="number" name="recordsByPage" />
-        </div>
-    </div>
-    <hr>
     <div class="row">
         <div class="col-100">
             <button style="margin-bottom: 5px;" (click)="onClickReset()">Reset</button>

@@ -1,4 +1,4 @@
-#leftpart, #leftsearchform , #leftuploadform  {
+#leftsaveform, #leftsearchform , #leftuploadform  {
     width: 20%;
     height: 100%;
     position: fixed;

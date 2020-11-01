@@ -1,8 +1,7 @@
-<h1>Records Selection and Upload</h1>
+<h1>Save New Records</h1>
 <hr>
-<section id="recordsSearchAndUpload">
-    <form (ngSubmit)="onClickSearch()">
-
+<section id="recordsSave">
+    <form (ngSubmit)="onClickSave()">
         <div class="row">
             <div class="col-25">
                 <label>Style:</label>
@@ -78,43 +77,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-25">
-                <button id="btnRecordsSearch" type="submit">Search</button>
-            </div>
-            <div class="col-75">
-                <select [ngModel]=model.mySort.id (ngModelChange)="selectSortChange($event)" name="selectSort">
-                    <option *ngFor="let oneOption of sortOptions" [ngValue]="oneOption.id">{{oneOption.name}}</option>
-                </select>
+            <div class="col-100">
+                <button id="btnRecordsSave" type="submit">Save</button>
             </div>
         </div>
     </form>
-    <div class="row">
-        <div class="col-25">
-            <label>Records / page:</label>
-        </div>
-        <div class="col-75">
-            <input [(ngModel)]=limit type="number" name="recordsByPage" />
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-100">
-            <button id="btnRecordsSave" (click)="onClickSave()">Save</button>
-        </div>
-    </div>
-    <form (ngSubmit)="onClickUpload()">
-        <div class="row">
-            <div class="col-100">
-                <input type="file" id="inputRecordsUpload" (change)="onFileChange($event.target.files)" multiple>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-100">
-                <button id="btnRecordsUpload" style="margin-bottom: 5px;" type="submit">Upload pictures</button>
-            </div>
-        </div>
-    </form>
-    <hr>
     <div class="row">
         <div class="col-100">
             <button id="btnRecordsResetInputFields" style="margin-bottom: 5px;" (click)="onClickReset()">Reset</button>
