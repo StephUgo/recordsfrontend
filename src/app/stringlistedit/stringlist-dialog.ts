@@ -68,7 +68,13 @@ export class StringListDialogComponent {
       if (value.length > 0) {
         let newValues: string[];
         newValues = Object.assign([], this.values);
-        newValues.push(value);
+        if (value.indexOf('\\')) {
+          let valuesToBeAdded: string[];
+          valuesToBeAdded = value.split('\\');
+          Array.prototype.push.apply(newValues, valuesToBeAdded);
+        } else {
+          newValues.push(value);
+        }
         this.values = newValues;
       }
     }

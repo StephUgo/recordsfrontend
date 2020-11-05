@@ -50,7 +50,13 @@ export class KeywordsTableDialogComponent {
       if (keyword.length > 0) {
         let newKeywords: string[];
         newKeywords = Object.assign([], this.keywords);
-        newKeywords.push(keyword);
+        if (keyword.indexOf('\\')) {
+          let keywordsToBeAdded: string[];
+          keywordsToBeAdded = keyword.split('\\');
+          Array.prototype.push.apply(newKeywords, keywordsToBeAdded);
+        } else {
+          newKeywords.push(keyword);
+        }
         this.keywords = newKeywords;
       }
     }
