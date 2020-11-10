@@ -12,6 +12,12 @@ interface ILocation {
   lon: number;
 }
 
+interface IConflictedLocation {
+  conflictedLocation: ILocation;
+  coverDispatchingLevel: number;
+  orientationIndex: number;
+}
+
 @Component({
   selector: 'app-map-layer',
   templateUrl: 'map.component.html',
@@ -29,10 +35,10 @@ export class MapLayerComponent implements OnInit {
   private polylineSubscriber: Subscriber<AcNotification> | null = null;
   private scalefactor = 0.5; // Currently we just have one computed scale factor
   private selectedLocations: Array<ILocation> = [];
+  private originalLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
-  private orientationIndex = 0;
-  private coverDispatchingLevel = 1;
   private coverNotificationCounter = 0;
+  private conflicts: { [id: string]: IConflictedLocation; } = {};
 
   constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.appStateService.setRecords$.subscribe(
@@ -72,9 +78,8 @@ export class MapLayerComponent implements OnInit {
             }
           }
           this.selectedLocations = [];
+          this.originalLocations = [];
           this.locationLabels = [];
-          this.orientationIndex = 0;
-          this.coverDispatchingLevel = 1;
           this.processSelectedRecords();
         }
       }
@@ -118,11 +123,18 @@ export class MapLayerComponent implements OnInit {
             const location = JSON.parse(stringLocation);
             const originalLocation = (this.isLocation(location)) ? { lat: location.lat, lon: location.lon } : null;
             if (originalLocation !== null) {
-              const finalLocation = this.processOriginalLocation(location);
-              if (finalLocation !== null) {
-                this.selectedLocations.push(finalLocation);
-                this.sendNotifications(record, originalLocation, finalLocation, location.name);
+              const conflictedLocation = this.getConflictedLocation(originalLocation);
+              if (conflictedLocation !== null) {
+                const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
+                if (finalLocation !== null) {
+                  this.selectedLocations.push(finalLocation);
+                  this.sendNotifications(record, conflictedLocation, finalLocation, location.name);
+                }
+              } else {
+                this.selectedLocations.push(originalLocation);
+                this.sendNotifications(record, originalLocation, originalLocation, location.name);
               }
+              this.originalLocations.push(originalLocation);
             }
           }
         }
@@ -144,85 +156,103 @@ export class MapLayerComponent implements OnInit {
     });
   }
 
-  private processOriginalLocation(obj: any): ILocation | null {
+  private deconflictLocation(checkedLocation: ILocation, conflictedLocation: ILocation): ILocation | null {
+
+    let conflict = this.conflicts[JSON.stringify(conflictedLocation)];
+
+    if (conflict === null || conflict === undefined) {
+      conflict = {
+        conflictedLocation: conflictedLocation,
+        coverDispatchingLevel: 1,
+        orientationIndex: 0
+      };
+      this.conflicts[JSON.stringify(conflictedLocation)] = conflict;
+    }
+
+    const sumOfElementsInCurrentLevel = 8 * conflict.coverDispatchingLevel * (conflict.coverDispatchingLevel + 1) / 2;
+
+    if (conflict.orientationIndex >= sumOfElementsInCurrentLevel) {
+      conflict.coverDispatchingLevel++;
+    }
+
+    const sumOfElementsInInferiorLevel = 8 * conflict.coverDispatchingLevel * (conflict.coverDispatchingLevel - 1) / 2;
+    const indexInLevel = conflict.orientationIndex - sumOfElementsInInferiorLevel;
+
+    // Il faut savoir sur quels cotés du carré (à 8n éléments ou n == coverDispatchingLevel) on se situe :
+    //    haut : indexInLevel (>7n ou < n)
+    //    droite : indexInLevel (>n ou < 3n)
+    //    bas : indexInLevel (>3n ou < 5n)
+    //    gauche : indexInLevel (>5n ou < 7n)
+    if ((indexInLevel <= conflict.coverDispatchingLevel) || (indexInLevel > 7 * conflict.coverDispatchingLevel)) {
+      this.updatePositionInUpperSide(indexInLevel, checkedLocation, conflict);
+    } else if ((indexInLevel > conflict.coverDispatchingLevel) && (indexInLevel <= 3 * conflict.coverDispatchingLevel)) {
+      this.updatePositionInRightSide(indexInLevel, checkedLocation, conflict);
+    } else if ((indexInLevel > 3 * conflict.coverDispatchingLevel) && (indexInLevel <= 5 * conflict.coverDispatchingLevel)) {
+      this.updatePositionInLowerSide(indexInLevel, checkedLocation, conflict);
+    } else if ((indexInLevel > 5 * conflict.coverDispatchingLevel) && (indexInLevel <= 7 * conflict.coverDispatchingLevel)) {
+      this.updatePositionInLeftSide(indexInLevel, checkedLocation, conflict);
+    }
+    conflict.orientationIndex++;
+
+    return checkedLocation;
+  }
+
+
+  private getConflictedLocation(obj: any): ILocation | null {
     if (!this.isLocation(obj)) {
       return null;
     }
     const checkedLocation = obj as ILocation;
 
-    const sumOfElementsInCurrentLevel = 8 * this.coverDispatchingLevel * (this.coverDispatchingLevel + 1) / 2;
-
-    if (this.orientationIndex >= sumOfElementsInCurrentLevel) {
-      this.coverDispatchingLevel++;
-    }
-
-    const sumOfElementsInInferiorLevel = 8 * this.coverDispatchingLevel * (this.coverDispatchingLevel - 1) / 2;
-    const indexInLevel = this.orientationIndex - sumOfElementsInInferiorLevel;
-
     // (Funny) loop to avoid position conflicts
-    for (let index = 0; index < this.selectedLocations.length; index++) {
-      const alreadySelectedLocation = this.selectedLocations[index];
-      const latDelta = checkedLocation.lat - alreadySelectedLocation.lat;
-      const lonDelta = checkedLocation.lon - alreadySelectedLocation.lon;
+    for (let index = 0; index < this.originalLocations.length; index++) {
+      const originalLocation = this.originalLocations[index];
+      const latDelta = checkedLocation.lat - originalLocation.lat;
+      const lonDelta = checkedLocation.lon - originalLocation.lon;
       if ((Math.abs(latDelta) < 0.0005) && (Math.abs(lonDelta) < 0.0005)) {
-
-        // Il faut savoir sur quels cotés du carré (à 8n éléments ou n == coverDispatchingLevel) on se situe :
-        //    haut : indexInLevel (>7n ou < n)
-        //    droite : indexInLevel (>n ou < 3n)
-        //    bas : indexInLevel (>3n ou < 5n)
-        //    gauche : indexInLevel (>5n ou < 7n)
-        if ((indexInLevel <= this.coverDispatchingLevel) || (indexInLevel > 7 * this.coverDispatchingLevel)) {
-          this.updatePositionInUpperSide(indexInLevel, checkedLocation);
-        } else if ((indexInLevel > this.coverDispatchingLevel) && (indexInLevel <= 3 * this.coverDispatchingLevel)) {
-            this.updatePositionInRightSide(indexInLevel, checkedLocation);
-        } else if ((indexInLevel > 3 * this.coverDispatchingLevel) && (indexInLevel <= 5 * this.coverDispatchingLevel)) {
-          this.updatePositionInLowerSide(indexInLevel, checkedLocation);
-        } else if ((indexInLevel > 5 * this.coverDispatchingLevel) && (indexInLevel <= 7 * this.coverDispatchingLevel)) {
-          this.updatePositionInLeftSide(indexInLevel, checkedLocation);
-        }
-        this.orientationIndex++;
+        return originalLocation;
       }
     }
-    return checkedLocation;
+    return null;
   }
 
-  private updatePositionInUpperSide(indexInLevel: number, checkedLocation: ILocation) {
-    checkedLocation.lat += this.coverDispatchingLevel * 0.002;
+  private updatePositionInUpperSide(indexInLevel: number, checkedLocation: ILocation, conflict: IConflictedLocation) {
+    checkedLocation.lat += conflict.coverDispatchingLevel * 0.002;
 
-    if (indexInLevel <= this.coverDispatchingLevel) {
+    if (indexInLevel <= conflict.coverDispatchingLevel) {
       checkedLocation.lon += indexInLevel * 0.002;
     } else {
-      checkedLocation.lon -= (8 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+      checkedLocation.lon -= (8 * conflict.coverDispatchingLevel - indexInLevel) * 0.002;
     }
   }
 
-  private updatePositionInRightSide(indexInLevel: number, checkedLocation: ILocation) {
-    checkedLocation.lon += this.coverDispatchingLevel * 0.002;
+  private updatePositionInRightSide(indexInLevel: number, checkedLocation: ILocation, conflict: IConflictedLocation) {
+    checkedLocation.lon += conflict.coverDispatchingLevel * 0.002;
 
-    if (indexInLevel < 2 * this.coverDispatchingLevel) {
-      checkedLocation.lat += (2 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    if (indexInLevel < 2 * conflict.coverDispatchingLevel) {
+      checkedLocation.lat += (2 * conflict.coverDispatchingLevel - indexInLevel) * 0.002;
     } else {
-      checkedLocation.lat -= (indexInLevel - 2 * this.coverDispatchingLevel) * 0.002;
+      checkedLocation.lat -= (indexInLevel - 2 * conflict.coverDispatchingLevel) * 0.002;
     }
   }
 
-  private updatePositionInLowerSide(indexInLevel: number, checkedLocation: ILocation) {
-    checkedLocation.lat -= this.coverDispatchingLevel * 0.002;
+  private updatePositionInLowerSide(indexInLevel: number, checkedLocation: ILocation, conflict: IConflictedLocation) {
+    checkedLocation.lat -= conflict.coverDispatchingLevel * 0.002;
 
-    if (indexInLevel <= 4 * this.coverDispatchingLevel) {
-      checkedLocation.lon += (4 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    if (indexInLevel <= 4 * conflict.coverDispatchingLevel) {
+      checkedLocation.lon += (4 * conflict.coverDispatchingLevel - indexInLevel) * 0.002;
     } else {
-      checkedLocation.lon -= (indexInLevel - 4 * this.coverDispatchingLevel) * 0.002;
+      checkedLocation.lon -= (indexInLevel - 4 * conflict.coverDispatchingLevel) * 0.002;
     }
   }
 
-  private updatePositionInLeftSide(indexInLevel: number, checkedLocation: ILocation) {
-    checkedLocation.lon -= this.coverDispatchingLevel * 0.002;
+  private updatePositionInLeftSide(indexInLevel: number, checkedLocation: ILocation, conflict: IConflictedLocation) {
+    checkedLocation.lon -= conflict.coverDispatchingLevel * 0.002;
 
-    if (indexInLevel < 6 * this.coverDispatchingLevel) {
-      checkedLocation.lat -= (6 * this.coverDispatchingLevel - indexInLevel) * 0.002;
+    if (indexInLevel < 6 * conflict.coverDispatchingLevel) {
+      checkedLocation.lat -= (6 * conflict.coverDispatchingLevel - indexInLevel) * 0.002;
     } else {
-      checkedLocation.lat += (indexInLevel - 6 * this.coverDispatchingLevel) * 0.002;
+      checkedLocation.lat += (indexInLevel - 6 * conflict.coverDispatchingLevel) * 0.002;
     }
   }
 
