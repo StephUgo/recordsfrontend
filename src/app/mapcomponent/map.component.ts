@@ -34,8 +34,8 @@ export class MapLayerComponent implements OnInit {
   private subscriber: Subscriber<AcNotification> | null = null;
   private polylineSubscriber: Subscriber<AcNotification> | null = null;
   private scalefactor = 0.5; // Currently we just have one computed scale factor
-  private selectedLocations: Array<ILocation> = [];
-  private originalLocations: Array<ILocation> = [];
+  private finalSelectedLocations: Array<ILocation> = [];
+  private originalSelectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
   private coverNotificationCounter = 0;
   private conflicts: { [id: string]: IConflictedLocation; } = {};
@@ -77,8 +77,8 @@ export class MapLayerComponent implements OnInit {
               this.selectedRecords.push(foundRecord);
             }
           }
-          this.selectedLocations = [];
-          this.originalLocations = [];
+          this.finalSelectedLocations = [];
+          this.originalSelectedLocations = [];
           this.locationLabels = [];
           this.processSelectedRecords();
         }
@@ -127,14 +127,14 @@ export class MapLayerComponent implements OnInit {
               if (conflictedLocation !== null) {
                 const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
                 if (finalLocation !== null) {
-                  this.selectedLocations.push(finalLocation);
+                  this.finalSelectedLocations.push(finalLocation);
                   this.sendNotifications(record, conflictedLocation, finalLocation, location.name);
                 }
               } else {
-                this.selectedLocations.push(originalLocation);
+                this.finalSelectedLocations.push(originalLocation);
                 this.sendNotifications(record, originalLocation, originalLocation, location.name);
               }
-              this.originalLocations.push(originalLocation);
+              this.originalSelectedLocations.push(originalLocation);
             }
           }
         }
@@ -204,9 +204,8 @@ export class MapLayerComponent implements OnInit {
     }
     const checkedLocation = obj as ILocation;
 
-    // (Funny) loop to avoid position conflicts
-    for (let index = 0; index < this.originalLocations.length; index++) {
-      const originalLocation = this.originalLocations[index];
+    for (let index = 0; index < this.originalSelectedLocations.length; index++) {
+      const originalLocation = this.originalSelectedLocations[index];
       const latDelta = checkedLocation.lat - originalLocation.lat;
       const lonDelta = checkedLocation.lon - originalLocation.lon;
       if ((Math.abs(latDelta) < 0.0005) && (Math.abs(lonDelta) < 0.0005)) {
