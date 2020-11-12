@@ -33,7 +33,7 @@ export class MapLayerComponent implements OnInit {
   polylines$: Observable<AcNotification> = new Observable((s: any) => this.polylineSubscriber = s);
   private subscriber: Subscriber<AcNotification> | null = null;
   private polylineSubscriber: Subscriber<AcNotification> | null = null;
-  private scalefactor = 0.5; // Currently we just have one computed scale factor
+  private scalefactors: { [id: string]: number; } = {};
   private finalSelectedLocations: Array<ILocation> = [];
   private originalSelectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
@@ -100,8 +100,8 @@ export class MapLayerComponent implements OnInit {
           this.getImageDimension(image).subscribe(
             response => {
               console.log(response);
-              if (image.width !== 0) {
-                this.scalefactor = 200 / image.width;
+              if (image.width !== 0 && foundRecord.ImageFileName  !== undefined) {
+                this.scalefactors[foundRecord.ImageFileName] = 200 / image.width;
               }
               this.parseKeywords(foundRecord);
             }
@@ -262,6 +262,8 @@ export class MapLayerComponent implements OnInit {
   private sendNotifications(record: Record, originalLocation: ILocation, finalLocation: ILocation, name: string) {
     let notif: AcNotification;
     const notificationID = (this.coverNotificationCounter++).toString();
+    const scalefactor = (record.ImageFileName !== undefined && this.scalefactors[record.ImageFileName] !== undefined) ?
+      this.scalefactors[record.ImageFileName] : 0.5;
     if (this.locationLabels.includes(name)) {
       notif = {
         id: notificationID,
@@ -270,7 +272,7 @@ export class MapLayerComponent implements OnInit {
           id: record._id !== null ? record._id : 'null',
           position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
           name: '',
-          scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
+          scaleByDistance: new Cesium.NearFarScalar(4e2, scalefactor * 1.3 , 1.0e4, scalefactor / 1.2),
           image: this.backendServerURL + '/uploads/' + record.ImageFileName,
           label: {
             text: '',
@@ -289,7 +291,7 @@ export class MapLayerComponent implements OnInit {
           id: record._id !== null ? record._id : 'null',
           position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
           name: name,
-          scaleByDistance: new Cesium.NearFarScalar(1.5e2, this.scalefactor / 1.5, 1.0e4, this.scalefactor),
+          scaleByDistance: new Cesium.NearFarScalar(4e2, scalefactor * 1.3, 1.0e4, scalefactor / 1.2),
           image: this.backendServerURL + '/uploads/' + record.ImageFileName,
           label: {
             text: name,
