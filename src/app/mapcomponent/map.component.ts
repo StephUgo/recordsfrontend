@@ -1,10 +1,16 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
-import { AcNotification, ActionType } from 'angular-cesium';
-import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { AcMapComponent, AcNotification, ActionType } from 'angular-cesium';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { Record } from '../model/record';
 import { environment } from 'src/environments/environment';
+import {
+  CesiumEvent,
+  MapEventsManagerService,
+  PickOptions
+} from 'angular-cesium';
 
 
 interface ILocation {
@@ -40,7 +46,11 @@ export class MapLayerComponent implements OnInit {
   private coverNotificationCounter = 0;
   private conflicts: { [id: string]: IConflictedLocation; } = {};
 
-  constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService) {
+  @ViewChild(AcMapComponent) acMap: AcMapComponent | null = null;
+  private eventsManager: MapEventsManagerService | null = null;
+
+  constructor(private route: ActivatedRoute, private appStateService: AppSharedStateService, private router: Router,
+    private ngZone: NgZone) {
     this.appStateService.setRecords$.subscribe(
       records => {
         this.records = records;
@@ -86,6 +96,14 @@ export class MapLayerComponent implements OnInit {
     });
   }
 
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngAfterViewInit() {
+    if (this.acMap !== null) {
+      this.eventsManager = this.acMap.getMapEventsManager();
+      this.registerDoubleClickEvent();
+    }
+  }
+
   private processSelectedRecords() {
     for (let index = 0; index < this.selectedRecords.length; index++) {
       const foundRecord = this.selectedRecords[index];
@@ -100,7 +118,7 @@ export class MapLayerComponent implements OnInit {
           this.getImageDimension(image).subscribe(
             response => {
               console.log(response);
-              if (image.width !== 0 && foundRecord.ImageFileName  !== undefined) {
+              if (image.width !== 0 && foundRecord.ImageFileName !== undefined) {
                 this.scalefactors[foundRecord.ImageFileName] = 200 / image.width;
               }
               this.parseKeywords(foundRecord);
@@ -272,7 +290,7 @@ export class MapLayerComponent implements OnInit {
           id: record._id !== null ? record._id : 'null',
           position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
           name: '',
-          scaleByDistance: new Cesium.NearFarScalar(4e2, scalefactor * 1.3 , 1.0e4, scalefactor / 1.2),
+          scaleByDistance: new Cesium.NearFarScalar(4e2, scalefactor * 1.3, 1.0e4, scalefactor / 1.2),
           image: this.backendServerURL + '/uploads/' + record.ImageFileName,
           label: {
             text: '',
@@ -320,6 +338,20 @@ export class MapLayerComponent implements OnInit {
           this.polylineSubscriber.next(lineNotif);
         }
       }
+    }
+  }
+
+  private registerDoubleClickEvent() {
+    if (this.eventsManager !== null) {
+      const inputConf = { event: CesiumEvent.LEFT_DOUBLE_CLICK, pick: PickOptions.PICK_FIRST };
+      this.eventsManager
+        .register(inputConf)
+        .pipe(map(result => result.entities[0]))
+        .subscribe(entity => {
+          if (entity.id !== undefined && entity.id !== null) {
+            this.ngZone.run(() => this.router.navigateByUrl('/record/' + entity.id));
+          }
+        });
     }
   }
 }
