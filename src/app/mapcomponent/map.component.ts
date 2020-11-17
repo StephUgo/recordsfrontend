@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AcMapComponent, AcNotification, ActionType } from 'angular-cesium';
@@ -29,23 +29,31 @@ interface IConflictedLocation {
   templateUrl: 'map.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class MapLayerComponent implements OnInit {
+export class MapLayerComponent implements OnInit, AfterViewInit {
+
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
   show = true;
   bigSize = false;
+
+  // Data (i.e. records)
   records: Array<Record> = []; // The last searched records
   selectedRecords = new Array<Record>(); // The selected records
+
+  // Map objects & subscribers
   recordMapObjects$: Observable<AcNotification> = new Observable((s: any) => this.subscriber = s);
   polylines$: Observable<AcNotification> = new Observable((s: any) => this.polylineSubscriber = s);
   private subscriber: Subscriber<AcNotification> | null = null;
   private polylineSubscriber: Subscriber<AcNotification> | null = null;
   private scalefactors: { [id: string]: number; } = {};
-  private finalSelectedLocations: Array<ILocation> = [];
-  private originalSelectedLocations: Array<ILocation> = [];
   private locationLabels: Array<string> = [];
   private coverNotificationCounter = 0;
+
+  // Deconflictions data
+  private finalSelectedLocations: Array<ILocation> = [];
+  private originalSelectedLocations: Array<ILocation> = [];
   private conflicts: { [id: string]: IConflictedLocation; } = {};
 
+  // View AcMap componend & events manager
   @ViewChild(AcMapComponent) acMap: AcMapComponent | null = null;
   private eventsManager: MapEventsManagerService | null = null;
 
@@ -96,7 +104,6 @@ export class MapLayerComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line:use-lifecycle-interface
   ngAfterViewInit() {
     if (this.acMap !== null) {
       this.eventsManager = this.acMap.getMapEventsManager();
