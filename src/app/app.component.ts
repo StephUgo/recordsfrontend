@@ -107,6 +107,7 @@ export class AppComponent implements OnInit {
     request.Limit = this.config.itemsPerPage;
     if (this.api) {
       console.log('SearchRecords : ' + request);
+      this.appStateService.setLastSearch(request);
       this.api.searchRecords(request).subscribe(res => {
         this.lastSearchRequest = request;
         if (this.lastSearchRequest.Skip != null) {

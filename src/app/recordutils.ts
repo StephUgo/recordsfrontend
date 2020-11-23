@@ -67,6 +67,15 @@ export class RecordUtils {
         throw new Error('Unknown style.');
     }
 
+    /**
+     * Get the style from the style numeric id.
+     */
+    getStyleFromStyleId(styleId: number): { id: number, name: string, label: string }  {
+        if (styleId > 0 && styleId < this.styles.length) {
+            return this.styles[styleId];
+        }
+        throw new Error('Unknown style.');
+    }
 
     getRecordDeletionID(record: Record): RecordDeletionID {
         if ((record !== null) && (record._id !== null)) {

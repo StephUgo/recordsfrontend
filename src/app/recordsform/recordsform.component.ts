@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { AppSharedStateService } from '../app.sharedstateservice';
 import { Record } from '../model/record';
+import { SearchRequest } from '../model/searchrequest';
 import { RecordUtils } from '../recordutils';
 
 
@@ -17,8 +19,14 @@ export class RecordsformComponent implements OnInit {
   @Output() public saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
   formData: FormData | null = null;
 
-  constructor(private recordUtils: RecordUtils) {
+  lastSearchRequest: SearchRequest | null = null;
+
+  constructor(private recordUtils: RecordUtils, private appStateService: AppSharedStateService) {
     this.styleList =  Object.assign([], recordUtils.getStyles());
+    this.appStateService.lastSearch$.subscribe(
+      request => {
+        this.lastSearchRequest = request;
+      });
   }
 
   ngOnInit() {
@@ -68,6 +76,30 @@ export class RecordsformComponent implements OnInit {
         this.model.Country, '', this.model.Period, this.model.Year);
       console.log(record);
       this.saveRecordRequested.emit(record);
+    }
+  }
+
+  /**
+   * Handler for form fields set from last Search request
+   */
+  onClickSetFromLastSearch() {
+    if (this.lastSearchRequest !== null) {
+      if (this.lastSearchRequest.Style !== null) {
+        let index = 0;
+        for (const iterator of this.styleList) {
+          if (iterator.id === this.lastSearchRequest.Style) {
+            this.model.myStyle = this.styleList[index];
+          }
+          index++;
+        }
+      }
+      this.model.artiste = this.lastSearchRequest.Artiste;
+      this.model.Titre = this.lastSearchRequest.Titre;
+      this.model.Format = this.lastSearchRequest.Format;
+      this.model.Label = this.lastSearchRequest.Label;
+      this.model.Country = this.lastSearchRequest.Country;
+      this.model.Year = this.lastSearchRequest.Year;
+      this.model.Period = this.lastSearchRequest.Period;
     }
   }
 }
