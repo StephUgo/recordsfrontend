@@ -32,7 +32,8 @@ export class RecordUtils {
         { id: 18, name: 'Brazilian', label: 'Brazilian' },
         { id: 19, name: 'Japanese', label: 'Japanese' },
         { id: 20, name: 'Electro', label: 'Electro' },
-        { id: 21, name: 'Brit Funk', label: 'Brit Funk' }
+        { id: 21, name: 'Brit Funk', label: 'Brit Funk' },
+        { id: 22, name: 'Funky French', label: 'Funky French' }
     ];
 
     /**
