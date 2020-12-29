@@ -560,4 +560,14 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
       this.checkedItems = [];
     }
   }
+
+  /**
+   * Returns the number of pages of the current search (if any).
+   */
+  public getNumberOfPages(): number {
+    if (this.config !== undefined && this.config.totalItems > 0  && this.config.itemsPerPage > 0) {
+      return this.config.totalItems / this.config.itemsPerPage;
+    }
+    return 0;
+  }
 }

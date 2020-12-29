@@ -1,4 +1,4 @@
-<section *ngIf="records !== null && records.length > 0"  style="margin-top: 20px!important;">
+<section *ngIf="records !== null && records.length > 0"  class="listtoolbar">
 	<span class="toolbarbuttongroup">
 		<button title="Set list view" class="toolbarbutton" mat-raised-button (click)="setDisplayCoverList(false)">
 			<mat-icon svgIcon="view_list"></mat-icon>
@@ -28,6 +28,9 @@
 	</span>
 	<span *ngIf="records!== null && records.length > 0;" class="paginationcontrolclass">
 		<pagination-controls class="my-pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+	</span>
+	<span *ngIf="config.totalItems > 0;" class="toolbarText">
+		Number of hits: {{config.totalItems}}
 	</span>
 </section>
 <section *ngIf="!isDisplayCoverList; else coverListBlock" id="recordsList">
