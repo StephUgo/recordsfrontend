@@ -117,7 +117,8 @@ export class RecordUtils {
             'Comments': record.Comments,
             'ImageFileName': record.ImageFileName,
             'keywords': record.keywords,
-            'additionalPics': record.additionalPics
+            'additionalPics': record.additionalPics,
+            'audioSamples': record.audioSamples
         };
     }
 

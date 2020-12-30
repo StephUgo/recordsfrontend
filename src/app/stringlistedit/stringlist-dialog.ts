@@ -5,7 +5,8 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 
 export enum StringListDialogFlavor {
   Keywords  = 0,
-  AdditionalPics = 1
+  AdditionalPics = 1,
+  Samples = 2
 }
 
 export interface StringListDialogData {
@@ -35,11 +36,19 @@ export class StringListDialogComponent {
     if (data.dialogFlavor !== undefined && data.dialogFlavor !== null) {
       this.dialogFlavor = data.dialogFlavor;
     }
-    if (this.dialogFlavor === StringListDialogFlavor.Keywords) {
-      this.values = Object.assign([], this.fromRecord.keywords);
-    } else {
-      this.values = Object.assign([], this.fromRecord.additionalPics);
+
+    switch  (this.dialogFlavor) {
+      case StringListDialogFlavor.Keywords :
+        this.values = Object.assign([], this.fromRecord.keywords);
+        break;
+      case StringListDialogFlavor.AdditionalPics :
+        this.values = Object.assign([], this.fromRecord.additionalPics);
+        break;
+      case StringListDialogFlavor.Samples :
+        this.values = Object.assign([], this.fromRecord.audioSamples);
+        break;
     }
+
     this.form = this.fb.group({
       newValue: ['', []]
     });
@@ -85,19 +94,29 @@ export class StringListDialogComponent {
   }
 
   save() {
-    if (this.dialogFlavor === StringListDialogFlavor.Keywords) {
-      this.fromRecord.keywords = this.values;
-    } else {
-      this.fromRecord.additionalPics = this.values;
+    switch  (this.dialogFlavor) {
+      case StringListDialogFlavor.Keywords :
+        this.fromRecord.keywords = this.values;
+        break;
+      case StringListDialogFlavor.AdditionalPics :
+        this.fromRecord.additionalPics = this.values;
+        break;
+      case StringListDialogFlavor.Samples :
+        this.fromRecord.audioSamples = this.values;
+        break;
     }
+
     this.dialogRef.close(this.fromRecord);
   }
 
   getElementLabel() {
-    if (this.dialogFlavor === StringListDialogFlavor.Keywords) {
-      return 'keyword';
-    } else {
-      return 'additional picture';
+    switch  (this.dialogFlavor) {
+      case StringListDialogFlavor.Keywords :
+        return 'keyword';
+      case StringListDialogFlavor.AdditionalPics :
+        return 'additional picture';
+      case StringListDialogFlavor.Samples :
+        return 'audio sample';
     }
   }
 
