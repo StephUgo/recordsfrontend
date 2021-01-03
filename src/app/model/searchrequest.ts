@@ -12,6 +12,7 @@ export class SearchRequest {
         public Country: string | null,
         public Year: number | null,
         public Period: string | null,
+        public Reference: string | null,
         public Keywords: string | null,
         public Sort: number | null,
         public Limit: number | null,
