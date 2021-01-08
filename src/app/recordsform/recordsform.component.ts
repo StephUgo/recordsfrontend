@@ -100,6 +100,7 @@ export class RecordsformComponent implements OnInit {
       this.model.Country = this.lastSearchRequest.Country;
       this.model.Year = this.lastSearchRequest.Year;
       this.model.Period = this.lastSearchRequest.Period;
+      this.model.Reference = this.lastSearchRequest.Reference;
     }
   }
 }
