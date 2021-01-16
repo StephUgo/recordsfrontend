@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Record } from '../model/record';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,10 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { RecordUtils } from '../recordutils';
 import { CoverViewOverlayService } from '../coverview/coverview.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
+import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData } from '../stringlistedit/stringlist-dialog';
+import { CommentsDialogComponent } from '../comments/comments-dialog';
 
 @Component({
   selector: 'app-recorddetails',
@@ -14,7 +18,7 @@ import { CoverViewOverlayService } from '../coverview/coverview.service';
 })
 export class RecordDetailsComponent implements OnInit {
 
-  records: Array<Record> = []; // The records to display
+  records: Array<Record> = []; // The records retrieved from last search
   record: Record | null = null; // The record to display
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
@@ -22,8 +26,10 @@ export class RecordDetailsComponent implements OnInit {
   companies: string | null = null;
   credits: string | null = null;
   notes: string | null = null;
+  // Event emitter for updating a record after its edition in the modal dialog
+  @Output() updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
 
-  constructor(public recordUtils: RecordUtils, public coverViewService: CoverViewOverlayService,
+  constructor(public dialog: MatDialog, public recordUtils: RecordUtils, public coverViewService: CoverViewOverlayService,
     private route: ActivatedRoute, private appStateService: AppSharedStateService) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
@@ -75,5 +81,94 @@ export class RecordDetailsComponent implements OnInit {
     this.coverViewService.open({
       record: this.record
     });
+  }
+
+  /**
+   * RECORD EDITION dialog handler
+   * @param event the event
+   */
+  openRecordEditionDialog(event: any): void {
+
+    console.log('Open edit dialog event received : ', event);
+
+    if (this.record !== null) {
+      const dialogRef = this.dialog.open(RecordDialogModalComponent, {
+        width: '400px',
+        height: '600px',
+        backdropClass: 'custom-dialog-backdrop-class',
+        panelClass: 'custom-dialog-panel-class',
+        disableClose: true,
+        autoFocus: true,
+        data: { selectedRecord: this.record }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The edit dialog was closed', result);
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if (typeof result !== typeof undefined) {
+          this.record = result;
+          console.log(this.record);
+          this.updateRecordRequested.emit(result);
+        }
+      });
+    }
+  }
+
+
+  /**
+   * STRING LIST EDITION dialog open handler
+   * @param event the event
+   * @param flavor the "kind" of  string elements in the list
+   */
+  openStringListDialog(event: any, flavor: StringListDialogFlavor): void {
+
+    if (this.record !== null) {
+
+      const dialogInputData: StringListDialogData = { selectedRecord: this.record, isAddOnly: false,
+         dialogFlavor: flavor };
+
+      const dialogRef = this.dialog.open(StringListDialogComponent, {
+        width: '400px',
+        height: '500px',
+        data: dialogInputData
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The string list edition dialog was closed');
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
+          this.record = result;
+          console.log(this.records);
+          this.updateRecordRequested.emit(result);
+        }
+      });
+    }
+  }
+
+  /**
+   * COMMENTS EDITION DIALOG open handler
+   * @param event the event
+   */
+  openCommentsDialog(event: any): void {
+
+    console.log('Open edit comments dialog event received : ', event);
+
+    if (this.records !== null) {
+      const dialogRef = this.dialog.open(CommentsDialogComponent, {
+        width: '400px',
+        height: '600px',
+        data: { selectedRecord: this.record }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The edit comments dialog was closed', result);
+        // If the dialog send a result (i.e. a record) we post it to the backend
+        if ((typeof result !== typeof undefined) && (this.records !== null)) {
+          this.record = result;
+          console.log(this.record);
+          this.updateRecordRequested.emit(result);
+        }
+      });
+    }
   }
 }

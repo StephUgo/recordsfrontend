@@ -46,3 +46,30 @@ section figure img {
     font-weight: bold;
     font-style: italic;
 }
+
+.listtoolbar {
+	margin-top: 5px!important;
+	display: flex;
+	flex-direction:row;
+	flex-wrap: wrap;
+	justify-content: left;
+}
+
+.toolbarbutton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 36px;
+	width: 36px;
+	min-width: 36px;
+	margin: 5px 5px 5px 5px;
+	border: 1px solid black;
+}
+
+.toolbarbuttongroup {
+	display: flex;
+	align-items: center;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	background-color: white;
+}

@@ -11,6 +11,7 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
 import { AppSharedStateService } from './app.sharedstateservice';
 import { Router } from '@angular/router';
 import { UserComponent } from './users/user.component';
+import { RecordDetailsComponent } from './details/recorddetails.component';
 
 
 @Component({
@@ -71,7 +72,16 @@ export class AppComponent implements OnInit {
     this.appStateService.setConfig(this.config);
   }
 
+  /**
+   * Handler called on router activation event
+   * @param componentReference reference of the component which was activated by the router
+   */
   onActivate(componentReference: any) {
+    /**
+     * Here we subscribe to the observer of the activated components which can be either :
+     *  - a RecordslistComponent
+     *  - a RecordDetailsComponent
+     */
     if (componentReference instanceof RecordslistComponent) {
       console.log(componentReference);
       componentReference.saveRecordRequested.subscribe((record: Record) => {
@@ -81,7 +91,7 @@ export class AppComponent implements OnInit {
         this.onDeleteRecordRequested(recordDeletionID);
       });
       componentReference.updateRecordRequested.subscribe((record: Record) => {
-        this.onUpdateRecordRequested(record);
+        this.onUpdateRecordRequested(record, true);
       });
       componentReference.addKeywordsRequested.subscribe((records: Record[]) => {
         this.onAddKeywordsRequested(records);
@@ -92,8 +102,13 @@ export class AppComponent implements OnInit {
       componentReference.sortRequested.subscribe((sortRequest: [string, boolean]) => {
         this.onSortRequested(sortRequest);
       });
+    } else if (componentReference instanceof RecordDetailsComponent) {
+      console.log(componentReference);
+      componentReference.updateRecordRequested.subscribe((record: Record) => {
+        this.onUpdateRecordRequested(record, false);
+      });
     }
- }
+  }
 
   /**
    * SEARCH for records
@@ -141,7 +156,7 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Page changed event handler
+   * PAGE CHANGED event handler
    * @param newPage Page number
    */
   onPageChanged(newPage: number): void {
@@ -156,7 +171,7 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Sort requested
+   * SORT requested
    * @param sortRequest sort options
    */
   onSortRequested(sortRequest: [string, boolean]): void {
@@ -224,7 +239,7 @@ export class AppComponent implements OnInit {
       this.api.deleteRecord(deleteQueryString).subscribe(res => {
         // If Ok, we relaunch a search on the selected style
         console.log(res);
-        const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', '',  '', 0, null, null);
+        const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', '', '', 0, null, null);
         this.api.searchRecords(request).subscribe(searchRes => {
           this.handleLastSearchResults(searchRes, request);
         }, err => {
@@ -239,10 +254,11 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * UPDATE a Record
+   * UPDATE a Record requested handler
    * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
+   * @param relaunchSearch if true then a search is relaunched automatically after the successful update
    */
-  onUpdateRecordRequested(recordToSave: Record): void {
+  onUpdateRecordRequested(recordToSave: Record, relaunchSearch: boolean): void {
     this.setCurrentStyle(this.recordUtils.getStyleIdFromStyleName(recordToSave));
     if (this.api) {
 
@@ -250,15 +266,17 @@ export class AppComponent implements OnInit {
       console.log('updateRecord : ' + newRecord);
 
       this.api.updateRecord(newRecord).subscribe(saveRes => {
-        // If Ok, we relaunch a search on the selected style
+        // If Ok and asked by the caller, we relaunch a search on the selected style
         console.log(saveRes);
-        const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
-          new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
-        this.api.searchRecords(request).subscribe(searchRes => {
-          this.handleLastSearchResults(searchRes, request);
-        }, err => {
-          console.log(err);
-        });
+        if (relaunchSearch) {
+          const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
+            new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
+          this.api.searchRecords(request).subscribe(searchRes => {
+            this.handleLastSearchResults(searchRes, request);
+          }, err => {
+            console.log(err);
+          });
+        }
       }, err => {
         console.log(err);
       });
@@ -269,7 +287,7 @@ export class AppComponent implements OnInit {
 
 
   /**
- * UPDATE a Record
+ * ADD KEYWORDS to Records
  * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
  */
   onAddKeywordsRequested(recordsToSave: Record[]): void {
@@ -307,7 +325,7 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Handler for cover upload event (form submit)
+   * COVER UPLOAD event handler (form submit)
    */
   onUploadCoverRequested(formData: FormData) {
     this.api.uploadCover(formData).subscribe((response) => {

@@ -51,6 +51,20 @@
 				</table>
 			</div>
 		</section>
+		<section class="listtoolbar">
+			<span class="toolbarbuttongroup">
+				<button title="Update record" class="toolbarbutton" mat-raised-button
+					(click)="openRecordEditionDialog($event)">
+					<mat-icon svgIcon="edit"></mat-icon>
+				</button>
+				<button title="Edit comments" class="toolbarbutton" mat-raised-button (click)="openCommentsDialog($event)">
+					<mat-icon svgIcon="comments"></mat-icon>
+				</button>
+				<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="openStringListDialog($event, 0)">
+					<mat-icon svgIcon="keywords"></mat-icon>
+				</button>
+			</span>
+		</section>
 	</div>
 	<ng-template #noRecordToDisplayBlock>
 		<h1>No record to display</h1>
