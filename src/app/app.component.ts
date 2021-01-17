@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIcon('view_list', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_list.svg'));
     this.matIconRegistry.addSvgIcon('view_module', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/view_module.svg'));
     this.matIconRegistry.addSvgIcon('location', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/location.svg'));
+    this.matIconRegistry.addSvgIcon('pictures', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/pictures.svg'));
+    this.matIconRegistry.addSvgIcon('audiosamples', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/audiosamples.svg'));
   }
 
   ngOnInit(): void {

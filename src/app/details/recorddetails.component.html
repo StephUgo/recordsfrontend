@@ -60,8 +60,14 @@
 				<button title="Edit comments" class="toolbarbutton" mat-raised-button (click)="openCommentsDialog($event)">
 					<mat-icon svgIcon="comments"></mat-icon>
 				</button>
-				<button title="Udpate keywords" class="toolbarbutton" mat-raised-button (click)="openStringListDialog($event, 0)">
+				<button title="Edit keywords" class="toolbarbutton" mat-raised-button (click)="openStringListDialog($event, 0)">
 					<mat-icon svgIcon="keywords"></mat-icon>
+				</button>
+				<button title="Edit additional pictures" class="toolbarbutton" mat-raised-button (click)="openStringListDialog($event, 1)">
+					<mat-icon svgIcon="pictures"></mat-icon>
+				</button>
+				<button title="Edit audio samples" class="toolbarbutton" mat-raised-button (click)="openStringListDialog($event, 2)">
+					<mat-icon svgIcon="audiosamples"></mat-icon>
 				</button>
 			</span>
 		</section>
