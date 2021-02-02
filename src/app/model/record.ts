@@ -21,6 +21,23 @@ export class Record {
 
     _id: string | null = null;
 
+    copyFrom(record: Record) {
+        this.Style = record.Style;
+        this.Artist = record.Artist;
+        this.Title = record.Title;
+        this.Format = record.Format;
+        this.Label = record.Label;
+        this.Country = record.Country;
+        this.Reference = record.Reference;
+        this.Period = record.Period;
+        this.Year = record.Year;
+        this.ImageFileName = record.ImageFileName;
+        this.Comments = record.Comments;
+        this.keywords = record.keywords;
+        this.additionalPics = record.additionalPics;
+        this.audioSamples = record.audioSamples;
+    }
+
 }
 
 export function hasAdditionalPictures(record: Record): boolean {

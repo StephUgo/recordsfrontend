@@ -11,6 +11,7 @@ export class AppSharedStateService {
     records = new BehaviorSubject<Array<Record>>([]); // The current displayed list of records
     currentStyle = new BehaviorSubject<number>(0); // The current selected style (TODO : remove ?)
     lastSearch = new BehaviorSubject<SearchRequest|null>(null);
+    lastDisplayedRecord = new BehaviorSubject<Record|null>(null);
     config = new BehaviorSubject<any>({
         currentPage: 1,
         itemsPerPage: 5,
@@ -28,6 +29,7 @@ export class AppSharedStateService {
     setActiveSearchForm$ = this.activeSearchForm.asObservable();
     setActiveUploadForm$ = this.activeUploadForm.asObservable();
     lastSearch$ = this.lastSearch.asObservable();
+    lastDisplayedRecord$ = this.lastDisplayedRecord.asObservable();
 
     // Service message commands
     setRecords(newRecords: Array<Record>) {
@@ -56,5 +58,9 @@ export class AppSharedStateService {
 
     setLastSearch(request: SearchRequest) {
         this.lastSearch.next(request);
+    }
+
+    setLastDisplayedRecord(record: Record) {
+        this.lastDisplayedRecord.next(record);
     }
 }

@@ -48,6 +48,7 @@ export class RecordDetailsComponent implements OnInit {
           if (foundRecord !== undefined) {
             this.record = foundRecord;
             this.parseComments();
+            this.appStateService.setLastDisplayedRecord(foundRecord);
           }
         }
       }

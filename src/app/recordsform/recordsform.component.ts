@@ -12,7 +12,7 @@ import { RecordUtils } from '../recordutils';
 })
 export class RecordsformComponent implements OnInit {
 
-  public styleList: Array<{id: number, name: string, label: string}>;
+  public styleList: Array<{ id: number, name: string, label: string }>;
   public model: any;
 
   // Event emitter for saving a new record after its edition in the form
@@ -20,22 +20,29 @@ export class RecordsformComponent implements OnInit {
   formData: FormData | null = null;
 
   lastSearchRequest: SearchRequest | null = null;
+  lastDisplayedRecord: Record | null = null;
 
   constructor(private recordUtils: RecordUtils, private appStateService: AppSharedStateService) {
-    this.styleList =  Object.assign([], recordUtils.getStyles());
+    this.styleList = Object.assign([], recordUtils.getStyles());
     this.appStateService.lastSearch$.subscribe(
       request => {
         this.lastSearchRequest = request;
       });
+    this.appStateService.lastDisplayedRecord$.subscribe(
+      record => {
+        console.log('Details notification in record form : retrieved last displayed record = ' + record);
+        this.lastDisplayedRecord = record;
+      });
+    this.lastDisplayedRecord = this.appStateService.lastDisplayedRecord.value;
   }
 
   ngOnInit() {
     this.styleList.sort((n1, n2) => {
       if (n1.name > n2.name) {
-          return 1;
+        return 1;
       }
       if (n1.name < n2.name) {
-          return -1;
+        return -1;
       }
       return 0;
     });
@@ -101,6 +108,35 @@ export class RecordsformComponent implements OnInit {
       this.model.Year = this.lastSearchRequest.Year;
       this.model.Period = this.lastSearchRequest.Period;
       this.model.Reference = this.lastSearchRequest.Reference;
+    } else {
+      alert('You have to launch a search request first to use this operation.');
+    }
+  }
+
+  /**
+   * Handler for form fields set from last displayed record
+   */
+  onClickSetFromLastDisplayedRecord() {
+    if (this.lastDisplayedRecord !== null) {
+      if (this.lastDisplayedRecord.Style !== null) {
+        let index = 0;
+        for (const iterator of this.styleList) {
+          if (iterator.name === this.lastDisplayedRecord.Style) {
+            this.model.myStyle = this.styleList[index];
+          }
+          index++;
+        }
+      }
+      this.model.artiste = this.lastDisplayedRecord.Artist;
+      this.model.Titre = this.lastDisplayedRecord.Title;
+      this.model.Format = this.lastDisplayedRecord.Format;
+      this.model.Label = this.lastDisplayedRecord.Label;
+      this.model.Country = this.lastDisplayedRecord.Country;
+      this.model.Year = this.lastDisplayedRecord.Year;
+      this.model.Period = this.lastDisplayedRecord.Period;
+      this.model.Reference = this.lastDisplayedRecord.Reference;
+    } else {
+      alert('You have to display a record first to use this operation.');
     }
   }
 }
