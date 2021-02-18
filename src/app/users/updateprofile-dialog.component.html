@@ -1,0 +1,20 @@
+<h2>Update User Profile</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Name" formControlName="name" readonly>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="E-Mail" formControlName="email" readonly>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Current Password" formControlName="password" type="password">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="New Password" formControlName="newpassword" type="password">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Confirm Password" formControlName="confirmpassword" type="password">
+  </mat-form-field>
+<mat-dialog-actions style="padding: 0px 0px 0px 0px; margin-top: 25px;">
+  <button  class="mat-raised-button mat-primary userdialogbutton" (click)="save()">Update</button>
+</mat-dialog-actions>

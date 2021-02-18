@@ -4,5 +4,6 @@
       <a (click)="onRegisterClick()">Register</a>
       <a *ngIf="isLoggedOut()" (click)="onLoginClick()">Login</a>
       <a *ngIf="isLoggedIn()" (click)="onLogoutClick()">Logout</a>
+      <a *ngIf="isLoggedIn()" (click)="onUpdateClick()">Update</a>
     </div>
 </div>

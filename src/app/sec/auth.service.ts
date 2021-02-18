@@ -35,6 +35,16 @@ export class AuthService {
     }
 
     /**
+     * Update password service (calls the NodeJS Backen associated service)
+     * @param user user to update
+     * @param newpassword new password
+     */
+    updatepwd(user: User, newPassword: String) {
+        return this.http.post(usersBackendURLPrefix + 'updatepwd',
+            {user: user, newpassword: newPassword});
+    }
+
+    /**
      * Logout service (local for the moment)
      */
     logout() {

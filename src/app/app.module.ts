@@ -12,6 +12,7 @@ import { RecordslistComponent } from './recordslist/recordslist.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RecordDialogModalComponent } from './record-dialog-modal/record-dialog-modal.component';
 import { UserDialogComponent } from './users/user-dialog-modal.component';
+import { ProfileDialogComponent } from './users/updateprofile-dialog.component';
 import { UserComponent } from './users/user.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -51,6 +52,7 @@ import { MapLayerComponent } from './mapcomponent/map.component';
     StringListDialogComponent,
     CommentsDialogComponent,
     UserComponent,
+    ProfileDialogComponent,
     MapLayerComponent
   ],
   imports: [

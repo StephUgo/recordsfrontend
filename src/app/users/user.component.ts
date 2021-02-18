@@ -4,6 +4,7 @@ import { AuthService } from '../sec/auth.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { User } from './user.model';
 import { UserDialogComponent } from './user-dialog-modal.component';
+import { ProfileDialogComponent } from './updateprofile-dialog.component';
 
 @Component({
     selector: 'app-user',
@@ -14,6 +15,7 @@ export class UserComponent {
 
     private fromUser: User;
     private dialogRef: MatDialogRef<UserDialogComponent> | null = null;
+    private profileDialogRef: MatDialogRef<ProfileDialogComponent> | null = null;
 
     constructor(public dialog: MatDialog, private authService: AuthService, private router: Router) {
         this.fromUser = new User('', '', '');
@@ -96,6 +98,39 @@ export class UserComponent {
                 );
             }
             this.dialogRef = null;
+        });
+    }
+
+    /**
+     * Handler for click on the Update button.
+     */
+    onUpdateClick() {
+        if (this.profileDialogRef !== null) { return; }
+        this.profileDialogRef = this.dialog.open(ProfileDialogComponent, {
+            width: '400px',
+            height: '400px',
+            backdropClass: 'custom-dialog-backdrop-class',
+            panelClass: 'custom-dialog-panel-class',
+            disableClose: false,
+            autoFocus: true,
+            data: { user: this.fromUser }
+        });
+
+        this.profileDialogRef.afterClosed().subscribe(result => {
+            // If the dialog send a result (i.e. a password) we post it to the backend (with the user)
+            if (result !== undefined) {
+                this.authService.updatepwd(this.fromUser, result).subscribe(
+                    () => {
+                        console.log('New password updated for user :' + this.fromUser.name);
+                        alert('New password updated for user :' + this.fromUser.name);
+                    },
+                    (errorResponse) => {
+                        console.log('New password update error = ', errorResponse);
+                        alert('New password update error : ' + errorResponse.error);
+                    }
+                );
+            }
+            this.profileDialogRef = null;
         });
     }
 
