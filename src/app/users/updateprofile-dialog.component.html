@@ -8,12 +8,26 @@
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Current Password" formControlName="password" type="password">
+    <div *ngIf="submitted && f.password.errors" style="background-color: pink">
+      <div *ngIf="f.password.errors.required">Password is required</div>
+      <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="f.password.errors.mustMatch">Invalid current password</div>
+    </div>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="New Password" formControlName="newpassword" type="password">
+    <div *ngIf="submitted && f.newpassword.errors" style="background-color: pink">
+      <div *ngIf="f.newpassword.errors.required">Password is required</div>
+      <div *ngIf="f.newpassword.errors.minlength">Password must be at least 6 characters</div>
+      <div *ngIf="f.newpassword.errors.mustNotMatch">New password must be different from the current one</div>
+    </div>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Confirm Password" formControlName="confirmpassword" type="password">
+    <div *ngIf="submitted && f.confirmpassword.errors" style="background-color: pink">
+      <div *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
+      <div *ngIf="f.confirmpassword.errors.mustMatch">Passwords must match</div>
+    </div>
   </mat-form-field>
 <mat-dialog-actions style="padding: 0px 0px 0px 0px; margin-top: 25px;">
   <button  class="mat-raised-button mat-primary userdialogbutton" (click)="save()">Update</button>

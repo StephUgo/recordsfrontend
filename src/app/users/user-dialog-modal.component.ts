@@ -32,9 +32,9 @@ export class UserDialogComponent {
         name: [this.fromUser.name, Validators.required],
         email: [this.fromUser.email, [Validators.required, Validators.email]],
         password: [this.fromUser.password,  [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required]
+        confirmpassword: ['', Validators.required]
       }, {
-        validator: MustMatch('password', 'confirmPassword')
+        validator: MustMatch('password', 'confirmpassword')
     });
     }
 

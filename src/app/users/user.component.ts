@@ -123,6 +123,7 @@ export class UserComponent {
                     () => {
                         console.log('New password updated for user :' + this.fromUser.name);
                         alert('New password updated for user :' + this.fromUser.name);
+                        this.fromUser.password = result;
                     },
                     (errorResponse) => {
                         console.log('New password update error = ', errorResponse);

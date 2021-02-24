@@ -22,10 +22,10 @@
     </div>
   </mat-form-field>
   <mat-form-field *ngIf="!isLogin">
-    <input matInput placeholder="Confirmed Password" formControlName="confirmPassword" type="password">
-    <div *ngIf="submitted && f.confirmPassword.errors" style="background-color: pink">
-        <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-        <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+    <input matInput placeholder="Confirmed Password" formControlName="confirmpassword" type="password">
+    <div *ngIf="submitted && f.confirmpassword.errors" style="background-color: pink">
+        <div *ngIf="f.confirmpassword.errors.required">Confirm Password is required</div>
+        <div *ngIf="f.confirmpassword.errors.mustMatch">Passwords must match</div>
     </div>
   </mat-form-field>
 <mat-dialog-actions style="padding: 0px 0px 0px 0px; margin-top: 25px;">
