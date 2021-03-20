@@ -1,0 +1,41 @@
+#studioList {
+	margin:5px 0 5px 0;
+}
+#studioList table {
+	border-collapse:separate;
+	border-spacing:1px;
+	background:#CCC;
+	table-layout: fixed;
+}
+#studioList table th {
+	background:#EEE;
+	font-weight:600;
+	padding:4px 3px;
+	text-align: center;
+	cursor: pointer;
+}
+.sorttableheader {
+	background:rgb(136, 135, 135)!important;
+	height:12px;
+	font-size: 8px;
+	padding:0px!important;
+}
+
+#studioList table tbody {
+	padding:0; margin:0;
+	border-collapse:collapse;
+	border-spacing:0px;
+}
+#studioList table td {
+	padding:5px 3px;
+	text-align:center;
+}
+#studioList table tbody i {
+	padding:5px 10px;
+	text-align:center;
+	cursor: pointer;
+}
+
+.ul {
+	padding-inline-start: 0px!important;
+}

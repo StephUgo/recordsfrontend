@@ -1,0 +1,39 @@
+<section id="studioList">
+	<table>
+		<colgroup>
+			<col span="1" style="width:30%">
+			<col span="1" style="width:20%">
+			<col span="1" style="width:10%">
+			<col span="1" style="width:10%">
+			<col span="1" style="width:30%">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>Studio</th>
+				<th>Address</th>
+				<th>Latitude</th>
+				<th>Longitude</th>
+				<th>Code</th>
+			</tr>
+			<tr>
+				<th class="sorttableheader" (click)="onClickSort('name')">
+					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='name' && reverse"></i>
+					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='name' && !reverse"></i>
+				</th>
+				<th class="sorttableheader"></th>
+				<th class="sorttableheader"></th>
+				<th class="sorttableheader"></th>
+				<th class="sorttableheader"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let studio of studios; index as i" style="background-color: white;">
+				<td>{{studio.name}}</td>
+				<td>{{studio.address}}</td>
+				<td>{{studio.lat !== undefined ? studio.lat : ''}}</td>
+				<td>{{studio.lon !== undefined ? studio.lon : ''}}</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</section>

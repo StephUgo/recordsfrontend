@@ -6,6 +6,7 @@ import { SearchRequest } from './app/model/searchrequest';
 import { environment } from './environments/environment';
 import { Record } from './app/model/record';
 import { RecordUtils } from './app/recordutils';
+import { Studio } from './app/model/studio';
 
 const httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 const backendServerURL = environment.backendURL + ':' + environment.backendPort;
@@ -16,6 +17,7 @@ const apiUpdateRecordUrl = backendServerURL + '/records/updaterecord/';
 const apiUpdateKeywordsUrl = backendServerURL + '/records/updatekeywords/';
 const apiDeleteRecordUrl = backendServerURL + '/records/deleterecord/';
 const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
+const apiSearchStudiosUrl = backendServerURL + '/studios/searchstudios/';
 
 @Injectable({
     providedIn: 'root'
@@ -146,5 +148,20 @@ export class ApiService {
      */
     uploadCover(formData: FormData): Observable<any> {
         return this.http.post(apiUploadCoverUrl, formData).pipe(catchError(this.handleError));
+    }
+
+    private extractStudio(res: Studio[]): Studio[] {
+        return res || new Array<Studio>();
+    }
+
+    /**
+     * Default studios retrieval
+     */
+    getStudios(): Observable<any> {
+        const httpParams = new HttpParams();
+        const httpOptions = { headers: httpHeaders, params: httpParams };
+        return this.http.get<Studio[]>(apiSearchStudiosUrl, httpOptions).pipe(
+            map(this.extractStudio),
+            catchError(this.handleError));
     }
 }

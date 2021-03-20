@@ -62,6 +62,13 @@ export class AppComponent implements OnInit {
           this.userComponent.onLoginClick();
         }
       });
+      // By default, also search the list of studios
+      this.api.getStudios().subscribe(res => {
+        console.log(res);
+        this.setStudios(res);
+      }, err => {
+        console.log(err);
+      });
     } else {
       console.log('The backend service is undefined !');
     }
@@ -374,6 +381,14 @@ export class AppComponent implements OnInit {
   private setRecords(newRecords: any) {
     this.records = newRecords;
     this.appStateService.setRecords(this.records !== null ? this.records : []);
+  }
+
+  /**
+   * Set records and update application state service (which triggers the associated observable)
+   * @param newRecords
+   */
+     private setStudios(newStudios: any) {
+      this.appStateService.setStudios(newStudios !== null ? newStudios : []);
   }
 
   /**

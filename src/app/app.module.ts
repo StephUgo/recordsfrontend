@@ -35,7 +35,7 @@ import { CoverViewOverlayComponent } from './coverview/coverview.component';
 import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
 import { AngularCesiumModule } from 'angular-cesium';
 import { MapLayerComponent } from './mapcomponent/map.component';
-
+import { StudiolistComponent } from './studiolist/studiolist.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import { MapLayerComponent } from './mapcomponent/map.component';
     CommentsDialogComponent,
     UserComponent,
     ProfileDialogComponent,
-    MapLayerComponent
+    MapLayerComponent,
+    StudiolistComponent
   ],
   imports: [
     BrowserModule,

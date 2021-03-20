@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Record } from './model/record';
+import { Studio } from './model/studio';
 import { BehaviorSubject } from 'rxjs';
 import { SearchRequest } from './model/searchrequest';
 
@@ -20,6 +21,7 @@ export class AppSharedStateService {
     activeForm = new BehaviorSubject<boolean>(false);
     activeSearchForm = new BehaviorSubject<boolean>(false);
     activeUploadForm = new BehaviorSubject<boolean>(false);
+    studios = new BehaviorSubject<Array<Studio>>([]); // The current displayed list of studios
 
     // Observable streams
     setRecords$ = this.records.asObservable();
@@ -30,6 +32,7 @@ export class AppSharedStateService {
     setActiveUploadForm$ = this.activeUploadForm.asObservable();
     lastSearch$ = this.lastSearch.asObservable();
     lastDisplayedRecord$ = this.lastDisplayedRecord.asObservable();
+    setStudios$ = this.studios.asObservable();
 
     // Service message commands
     setRecords(newRecords: Array<Record>) {
@@ -62,5 +65,9 @@ export class AppSharedStateService {
 
     setLastDisplayedRecord(record: Record) {
         this.lastDisplayedRecord.next(record);
+    }
+
+    setStudios(newStudios: Array<Studio>) {
+        this.studios.next(newStudios);
     }
 }
