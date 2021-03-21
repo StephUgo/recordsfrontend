@@ -18,6 +18,8 @@ const apiUpdateKeywordsUrl = backendServerURL + '/records/updatekeywords/';
 const apiDeleteRecordUrl = backendServerURL + '/records/deleterecord/';
 const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 const apiSearchStudiosUrl = backendServerURL + '/studios/searchstudios/';
+const apiSaveStudioUrl = backendServerURL + '/studios/savestudio/';
+const apiDeleteStudioUrl = backendServerURL + '/studios/deletestudio/';
 
 @Injectable({
     providedIn: 'root'
@@ -163,5 +165,38 @@ export class ApiService {
         return this.http.get<Studio[]>(apiSearchStudiosUrl, httpOptions).pipe(
             map(this.extractStudio),
             catchError(this.handleError));
+    }
+
+    /**
+    * Default studios retrieval
+    */
+    searchStudios(request: string): Observable<any> {
+        const httpParams = new HttpParams().set('name', request !== undefined && request !== null ? request : '');
+        const httpOptions = { headers: httpHeaders, params: httpParams };
+        return this.http.get<Studio[]>(apiSearchStudiosUrl, httpOptions).pipe(
+            map(this.extractStudio),
+            catchError(this.handleError));
+    }
+
+    /**
+     * Save studio according to the object provided in parameter.
+     * @param studio  studio to be posted
+     */
+     saveStudio(studio: Studio): Observable<any> {
+
+        console.log(studio);
+
+        return this.http.post(apiSaveStudioUrl, studio).pipe(catchError(this.handleError));
+    }
+
+    /**
+     * Delete studi according to the request object provided in parameter.
+     * @param deleteRequest request object
+     */
+     deleteStudio(deleteRequest: string): Observable<any> {
+
+        console.log(deleteRequest);
+
+        return this.http.delete(apiDeleteStudioUrl + deleteRequest).pipe(catchError(this.handleError));
     }
 }

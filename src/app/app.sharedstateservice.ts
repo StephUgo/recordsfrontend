@@ -21,6 +21,7 @@ export class AppSharedStateService {
     activeForm = new BehaviorSubject<boolean>(false);
     activeSearchForm = new BehaviorSubject<boolean>(false);
     activeUploadForm = new BehaviorSubject<boolean>(false);
+    activeStudioForm = new BehaviorSubject<boolean>(false);
     studios = new BehaviorSubject<Array<Studio>>([]); // The current displayed list of studios
 
     // Observable streams
@@ -30,6 +31,7 @@ export class AppSharedStateService {
     setActiveForm$ = this.activeForm.asObservable();
     setActiveSearchForm$ = this.activeSearchForm.asObservable();
     setActiveUploadForm$ = this.activeUploadForm.asObservable();
+    setActiveStudioForm$ = this.activeStudioForm.asObservable();
     lastSearch$ = this.lastSearch.asObservable();
     lastDisplayedRecord$ = this.lastDisplayedRecord.asObservable();
     setStudios$ = this.studios.asObservable();
@@ -57,6 +59,10 @@ export class AppSharedStateService {
 
     setActiveUploadForm(activeOrNot: boolean) {
         this.activeUploadForm.next(activeOrNot);
+    }
+
+    setActiveStudioForm(activeOrNot: boolean) {
+        this.activeStudioForm.next(activeOrNot);
     }
 
     setLastSearch(request: SearchRequest) {

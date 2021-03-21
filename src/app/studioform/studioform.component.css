@@ -1,0 +1,95 @@
+h1{
+	text-align: center;
+	font-size: medium;
+	/*background-color: #12415c;*/
+	margin: 0 0 0 0;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+hr{
+	margin-top: 0;
+	background-color:black;
+	height: 2px;
+}
+
+#studiosSearchSave {
+    height: 80%;
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
+label {
+	color: black; /* white;*/
+	display: inline-block;
+	padding: 12px 12px 12px 2px;
+	font-weight: bold;
+}
+
+input[type=text], input[type=number], select, textarea, button{
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	resize: vertical;
+}
+
+button {
+	background-color:#3f51b5;
+	color: #fff;
+	font-weight: bold;
+	border: 2px solid #555;
+}
+
+input[type=text]:focus, input[type=number]:focus, select:focus {
+	border: 2px solid #555;
+}
+
+.model-studio .ng-pristine {
+	background-color: lightgreen
+}
+
+.model-studio .ng-dirty {
+	background-color: pink
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+	float: left;
+	width: 25%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+  
+/* Floating column for inputs: 75% width */
+.col-75 {
+	float: left;
+	width: 73%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+
+/* Floating column for inputs: 100% width */
+.col-100 {
+	float: left;
+	width: 98%;
+	margin-top: 6px;
+	margin-left: 2px;
+}
+  
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 1024px) {
+	.col-25, .col-75, .col-100, input[type=submit] {
+		width: 95%;
+		margin-top: 0;
+	}
+}

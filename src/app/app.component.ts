@@ -12,6 +12,7 @@ import { AppSharedStateService } from './app.sharedstateservice';
 import { Router } from '@angular/router';
 import { UserComponent } from './users/user.component';
 import { RecordDetailsComponent } from './details/recorddetails.component';
+import { Studio } from './model/studio';
 
 
 @Component({
@@ -23,12 +24,14 @@ export class AppComponent implements OnInit {
   title = Constants.appTitle;
 
   records: Array<Record> | null = null; // The current displayed list of records
+  studios: Array<Studio> | null = null; // The current displayed list of studios
   currentStyle: number | null = null; // The current selected style (TODO : remove ?)
   config: any; // NGxPagination configuration
   lastSearchRequest: SearchRequest | null = null; // The last search request
   activeForm = false;
   activeSearchForm = false;
   activeUploadForm = false;
+  activeStudioForm = false;
 
   @ViewChild(RecordslistComponent) recordListComponent: RecordslistComponent | null = null;
   @ViewChild(UserComponent) userComponent: UserComponent | null = null;
@@ -65,6 +68,7 @@ export class AppComponent implements OnInit {
       // By default, also search the list of studios
       this.api.getStudios().subscribe(res => {
         console.log(res);
+        this.studios = res;
         this.setStudios(res);
       }, err => {
         console.log(err);
@@ -296,9 +300,9 @@ export class AppComponent implements OnInit {
 
 
   /**
- * ADD KEYWORDS to Records
- * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
- */
+  * ADD KEYWORDS to Records
+  * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
+  */
   onAddKeywordsRequested(recordsToSave: Record[]): void {
     if (this.api) {
 
@@ -347,11 +351,98 @@ export class AppComponent implements OnInit {
       });
   }
 
+  /**
+   * SEARCH for records
+   * @param request Record search request
+   */
+  onSearchStudiosRequested(request: string): void {
+    if (this.api) {
+      console.log('SearchStudios : ' + request);
+      this.api.searchStudios(request).subscribe(res => {
+        console.log(res);
+
+        if (res.studios != null) {
+          this.setStudios(res.studios);
+        } else {
+          this.setStudios(res);
+        }
+
+        this.router.navigate(['/studios']);
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      console.log('Search studios backend service is undefined !');
+    }
+  }
+  /**
+   * SAVE a Studio
+   * @param studioToSave the Studio to save
+   */
+  onSaveStudioRequested(studioToSave: Studio): void {
+    if (this.api) {
+
+      const ID = this.getInternalIDFromStudio(studioToSave);
+      // 1st delete the previous version of the studio
+      if (ID !== null) {
+        const deleteQueryString: string = '?ID=' + ID;
+        console.log('SaveStudio before save : ' + deleteQueryString);
+        this.api.deleteStudio(deleteQueryString).subscribe(res => {
+          console.log(res);
+        }, err => {
+          console.log(err);
+        });
+      }
+
+      // 2nd save the new version of the studio
+      console.log('saveStudio : ' + studioToSave);
+      this.api.saveStudio(studioToSave).subscribe(saveRes => {
+        // If Ok, we relaunch a search on the selected style
+        console.log(saveRes);
+        this.api.getStudios().subscribe(res => {
+          console.log(res);
+          this.studios = res;
+          this.setStudios(res);
+          this.router.navigate(['/studios']);
+        }, err => {
+          console.log(err);
+        });
+      }, err => {
+        console.log(err);
+      });
+    } else {
+      console.log('Backend service is undefined !');
+    }
+  }
+
+  private getInternalIDFromStudio(studio: Studio): string | null {
+    if (studio !== undefined && studio !== null) {
+      if (studio._id !== undefined && studio._id !== null) {
+        return studio._id;
+      } else {
+        if (this.studios === null) {
+          return null;
+        } else {
+          for (let index = 0; index < this.studios.length; index++) {
+            const existingStudio =  this.studios[index];
+            if (studio.name === existingStudio.name && existingStudio._id !== undefined) {
+              return existingStudio._id;
+            }
+          }
+          return null;
+        }
+      }
+    } else {
+      return null;
+    }
+  }
+
   onClickToggle() {
     this.activeForm = !this.activeForm;
     if (this.activeForm) {
       this.activeSearchForm = false;
       this.activeUploadForm = false;
+      this.activeStudioForm = false;
     }
     this.appStateService.setActiveForm(this.activeForm);
   }
@@ -361,6 +452,7 @@ export class AppComponent implements OnInit {
     if (this.activeSearchForm) {
       this.activeForm = false;
       this.activeUploadForm = false;
+      this.activeStudioForm = false;
     }
     this.appStateService.setActiveSearchForm(this.activeSearchForm);
   }
@@ -370,8 +462,19 @@ export class AppComponent implements OnInit {
     if (this.activeUploadForm) {
       this.activeForm = false;
       this.activeSearchForm = false;
+      this.activeStudioForm = false;
     }
     this.appStateService.setActiveUploadForm(this.activeUploadForm);
+  }
+
+  onClickStudioToggle() {
+    this.activeStudioForm = !this.activeStudioForm;
+    if (this.activeStudioForm) {
+      this.activeForm = false;
+      this.activeSearchForm = false;
+      this.activeUploadForm = false;
+    }
+    this.appStateService.setActiveStudioForm(this.activeStudioForm);
   }
 
   /**
@@ -387,8 +490,8 @@ export class AppComponent implements OnInit {
    * Set records and update application state service (which triggers the associated observable)
    * @param newRecords
    */
-     private setStudios(newStudios: any) {
-      this.appStateService.setStudios(newStudios !== null ? newStudios : []);
+  private setStudios(newStudios: any) {
+    this.appStateService.setStudios(newStudios !== null ? newStudios : []);
   }
 
   /**

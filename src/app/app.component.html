@@ -2,6 +2,7 @@
   <div class="headerbarbutton" (click)="onClickSearchToggle()"><i class="fa fa-search" aria-hidden="true"></i></div>
   <div class="headerbarbutton" (click)="onClickToggle()"><i class="fa fa-save" aria-hidden="true"></i></div>
   <div class="headerbarbutton" (click)="onClickUploadToggle()"><i class="fa fa-upload" aria-hidden="true"></i></div>
+  <div class="headerbarbutton" (click)="onClickStudioToggle()"><i class="fa fa-microphone" aria-hidden="true"></i></div>
   <div class="headerbartitle"><h1>{{ title }}</h1></div>
   <div class="headerbarspace"></div>
   <div class="headerbarspace"></div>
@@ -17,8 +18,11 @@
   <section id="leftuploadform" [ngStyle]="{'left': activeUploadForm ? '0' : '-9999px'}">
     <app-uploadform (uploadCoverRequested)='onUploadCoverRequested($event)'></app-uploadform>
   </section>
-  <section id="rightpart" [ngStyle]="{'width': activeForm || activeSearchForm  || activeUploadForm ? '80%' : '100%'}">
+  <section id="leftstudioform" [ngStyle]="{'left': activeStudioForm ? '0' : '-9999px'}">
+    <app-studioform (searchStudiosRequested)='onSearchStudiosRequested($event)' (saveStudioRequested)='onSaveStudioRequested($event)'></app-studioform>
+  </section>
+  <section id="rightpart" [ngStyle]="{'width': activeForm || activeSearchForm  || activeUploadForm || activeStudioForm ? '80%' : '100%'}">
     <!-- The routed views render in the <router-outlet>-->
     <router-outlet (activate)="onActivate($event)"></router-outlet>
-  </section>
+    </section>
 </main>

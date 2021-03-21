@@ -36,6 +36,7 @@ import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
 import { AngularCesiumModule } from 'angular-cesium';
 import { MapLayerComponent } from './mapcomponent/map.component';
 import { StudiolistComponent } from './studiolist/studiolist.component';
+import { StudioformComponent } from './studioform/studioform.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { StudiolistComponent } from './studiolist/studiolist.component';
     UserComponent,
     ProfileDialogComponent,
     MapLayerComponent,
-    StudiolistComponent
+    StudiolistComponent,
+    StudioformComponent
   ],
   imports: [
     BrowserModule,

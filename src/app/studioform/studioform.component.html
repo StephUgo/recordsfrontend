@@ -1,0 +1,54 @@
+<h1>Save & Search Studios</h1>
+<hr>
+<section id="studiosSearchSave">
+    <form (ngSubmit)="onClickSearch()">
+        <div class="row">
+            <div class="col-25">
+                <label>Name:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.name type="text" placeholder="Studio Name" name="name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Address:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.address type="text" placeholder="Address" name="address" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Latitude:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.lat id="inputLat" type="number" placeholder="Latitude" name="lat" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label>Longitude:</label>
+            </div>
+            <div class="col-75">
+                <input [(ngModel)]=model.lon id="inputLon" type="number" placeholder="Longitude" name="lon" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-100">
+                <button id="btnStudiosSearch" type="submit">Search</button>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-100">
+            <button style="margin-bottom: 5px;" (click)="onClickSave()">Save</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-100">
+            <button style="margin-bottom: 5px;" (click)="onClickReset()">Reset</button>
+        </div>
+    </div>
+    <hr>
+</section>

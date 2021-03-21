@@ -69,4 +69,8 @@ export class StudiolistComponent implements OnDestroy {
     }
   }
 
+  getJSONString(studio: Studio): string {
+    return JSON.stringify(studio);
+  }
+
 }
