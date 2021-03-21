@@ -1,6 +1,4 @@
-import {
-  Component, Output, EventEmitter, OnDestroy
-} from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import { Studio } from '../model/studio';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../environments/environment';
@@ -16,9 +14,6 @@ export class StudiolistComponent implements OnDestroy {
 
   studios: Array<Studio> | null = null; // The studios to display
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
-
-  // Event emitter for launching a sort event
-  @Output() sortRequested: EventEmitter<[string, boolean]> = new EventEmitter<[string, boolean]>();
 
   backendServerURL = environment.backendURL + ':' + environment.backendPort;
 
@@ -47,7 +42,13 @@ export class StudiolistComponent implements OnDestroy {
   onClickSort(key: string) {
     this.key = key;
     this.reverse = !this.reverse;
-    this.sortRequested.emit([key, this.reverse]);
+    if (this.studios !== null) {
+      if (this.reverse) {
+        this.studios.sort((a, b) => (a.name > b.name ? -1 : 1));
+      } else {
+        this.studios.sort((a, b) => (a.name > b.name ? 1 : -1));
+      }
+    }
   }
 
   /**
