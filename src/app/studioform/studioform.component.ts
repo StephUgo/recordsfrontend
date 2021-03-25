@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Studio } from '../model/studio';
+import { Record } from '../model/record';
+import { AppSharedStateService } from '../app.sharedstateservice';
 
 @Component({
   selector: 'app-studioform',
@@ -16,8 +18,15 @@ export class StudioformComponent implements OnInit {
   @Output() public searchStudiosRequested: EventEmitter<string> = new EventEmitter<string>();
 
   formData: FormData | null = null;
+  lastDisplayedRecord: Record | null = null;
+  index = 0;
 
-  constructor() {
+  constructor(private appStateService: AppSharedStateService) {
+    this.appStateService.lastDisplayedRecord$.subscribe(
+      record => {
+        this.lastDisplayedRecord = record;
+      });
+    this.lastDisplayedRecord = this.appStateService.lastDisplayedRecord.value;
   }
 
   ngOnInit() {
@@ -48,10 +57,28 @@ export class StudioformComponent implements OnInit {
    * Handler for studio search
    */
   onClickSearch() {
-      if (this.model.name !== undefined) {
-        this.searchStudiosRequested.emit(this.model.name);
-      } else {
-        this.searchStudiosRequested.emit('');
+    if (this.model.name !== undefined) {
+      this.searchStudiosRequested.emit(this.model.name);
+    } else {
+      this.searchStudiosRequested.emit('');
+    }
+  }
+
+  /**
+   * Handler for form fields set from last displayed record
+   */
+  onClickSetFromLastDisplayedRecord() {
+    if (this.lastDisplayedRecord !== null && this.lastDisplayedRecord.keywords !== undefined) {
+      const currentStudios = this.lastDisplayedRecord.keywords.filter(s => s.startsWith('Recorded @'))
+                                .map(s => JSON.parse(s.substring(10)));
+      if (currentStudios.length > 0) {
+        const currentStudio: Studio = currentStudios[this.index];
+        this.model.name = currentStudio.name;
+        this.model.lat = currentStudio.lat;
+        this.model.lon = currentStudio.lon;
       }
+    } else {
+      alert('You have to display a record first to use this operation.');
+    }
   }
 }
