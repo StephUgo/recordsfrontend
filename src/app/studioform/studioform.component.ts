@@ -47,7 +47,7 @@ export class StudioformComponent implements OnInit {
   /**
    * Handler for studio search
    */
-    onClickSearch() {
+  onClickSearch() {
       if (this.model.name !== undefined) {
         this.searchStudiosRequested.emit(this.model.name);
       } else {

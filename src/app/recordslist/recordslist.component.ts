@@ -16,6 +16,8 @@ import { AppSharedStateService } from '../app.sharedstateservice';
 import { Subscription } from 'rxjs';
 import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData } from '../stringlistedit/stringlist-dialog';
 import { Router } from '@angular/router';
+import { StudioLinksDialogComponent, StudioLinksDialogData } from '../studiolinksedit/studiolinks-dialog';
+import { Studio } from '../model/studio';
 
 @Component({
   selector: 'app-recordslist',
@@ -28,6 +30,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
   style: number | null = null; // The current selected style
   config: any; // NGxPagination configuration
   subscription: Subscription; // Subscription used to get all the previous fields from the AppSharedStateService observables.
+  studios: Studio[] | null = null;
 
   // Event emitter for saving a record after its edition in the modal dialog
   @Output() saveRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
@@ -75,6 +78,10 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
       style => {
         this.style = style;
       }));
+    this.subscription = this.appStateService.setStudios$.subscribe(
+      studios => {
+        this.studios = studios;
+      });
   }
 
   ngOnDestroy() {
@@ -190,6 +197,44 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     }
   }
 
+
+
+  /**
+   * Handler for studios links edition dialog
+   * @param event the event
+   * @param i the index of the record
+   */
+  openStudiosLinksDialog(event: any, i: number): void {
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
+
+      if (this.studios !== null && this.studios.length > 0) {
+        const dialogInputData: StudioLinksDialogData = {
+          selectedRecord: this.records[i],
+          allStudios: this.studios,
+          selectedStudios: [] };
+
+        const dialogRef = this.dialog.open(StudioLinksDialogComponent, {
+          width: '400px',
+          height: '300px',
+          data: dialogInputData
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The studios links edition dialog was closed');
+          // If the dialog send a result (i.e. a record) we post it to the backend
+          if ((typeof result !== typeof undefined) && (this.records !== null)) {
+            this.records[i] = result;
+            console.log(this.records[i]);
+            this.updateRecordRequested.emit(this.records[i]);
+          }
+        });
+      } else {
+        alert('There\'s no studio available in the database yet.');
+      }
+    }
+  }
 
   /**
    * Handler for adding keywords to one or several records

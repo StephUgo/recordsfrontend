@@ -1,0 +1,19 @@
+<h2>Edit the recording studios of "{{fromRecord.Title}}" by {{fromRecord.Artist}}</h2>
+<mat-dialog-content [formGroup]="form">
+	<mat-form-field style="width: 100%;">
+		<mat-select multiple formControlName="selectedStudios">
+			<mat-option *ngFor="let studio of studios" [value]="studio.name">
+				{{studio.name}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="buttons">
+    <p></p>
+    <p><button class="mat-raised-button mat-primary" (click)="save()">Save</button></p>
+    <p></p>
+    <p><button mat-raised-button (click)="close()">Close</button></p>
+    <p></p>
+  </div>
+</mat-dialog-actions>

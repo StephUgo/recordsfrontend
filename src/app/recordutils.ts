@@ -145,6 +145,12 @@ export class RecordUtils {
         return keywords;
     }
 
+    clearStudios(record: Record) {
+        if ((record.keywords !== undefined) && (record.keywords !== null)) {
+            record.keywords = record.keywords.filter((keyword) => !keyword.startsWith('Recorded @'));
+        }
+    }
+
     hasLocation(record: Record): boolean {
         if (record !== null) {
             const keywords = record.keywords;
