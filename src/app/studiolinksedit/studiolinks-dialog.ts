@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -16,7 +16,7 @@ export interface StudioLinksDialogData {
   styleUrls: ['studiolinks-dialog.css'],
   templateUrl: 'studiolinks-dialog.html',
 })
-export class StudioLinksDialogComponent {
+export class StudioLinksDialogComponent implements OnInit {
 
   studios: Studio[] = [];
   fromRecord: Record;
@@ -33,6 +33,10 @@ export class StudioLinksDialogComponent {
     this.form = this.fb.group({
       selectedStudios:  [null]
     });
+  }
+
+  ngOnInit() {
+    this.form.controls.selectedStudios.setValue(this.selectedStudios);
   }
 
   onNoClick(): void {
