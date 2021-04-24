@@ -13,6 +13,7 @@ import { RecordUtils } from '../recordutils';
 export class RecordsformComponent implements OnInit {
 
   public styleList: Array<{ id: number, name: string, label: string }>;
+  public formatList: Array<string>;
   public model: any;
 
   // Event emitter for saving a new record after its edition in the form
@@ -24,6 +25,7 @@ export class RecordsformComponent implements OnInit {
 
   constructor(private recordUtils: RecordUtils, private appStateService: AppSharedStateService) {
     this.styleList = Object.assign([], recordUtils.getStyles());
+    this.formatList = Object.assign([], recordUtils.getFormats());
     this.appStateService.lastSearch$.subscribe(
       request => {
         this.lastSearchRequest = request;

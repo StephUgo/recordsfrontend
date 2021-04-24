@@ -11,6 +11,7 @@ import { RecordUtils } from '../recordutils';
 export class SearchFormComponent implements OnInit {
 
   public styleList: Array<{id: number, name: string, label: string}>;
+  public formatList: Array<string>;
   public model: any;
   public sortOptions = [
     { id: 1, name: 'Sort by Artist (asc)' },
@@ -31,6 +32,7 @@ export class SearchFormComponent implements OnInit {
 
   constructor(private recordUtils: RecordUtils) {
     this.styleList =  Object.assign([], this.recordUtils.getStyles());
+    this.formatList = Object.assign([], recordUtils.getFormats());
   }
 
   ngOnInit() {

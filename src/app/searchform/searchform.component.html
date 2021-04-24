@@ -34,7 +34,10 @@
                 <label>Format:</label>
             </div>
             <div class="col-75">
-                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format" />
+                <input [(ngModel)]=model.Format type="text" placeholder="Format" name="Format" list="formats"/>
+                <datalist id="formats">
+                    <option *ngFor="let oneFormatOption of formatList" [ngValue]="oneFormatOption">{{oneFormatOption}}</option>
+                </datalist>
             </div>
         </div>
         <div class="row">

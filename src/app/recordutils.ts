@@ -36,6 +36,8 @@ export class RecordUtils {
         { id: 22, name: 'Funky French', label: 'Funky French' }
     ];
 
+    private formats: Array<string> = ['7"', '10"', '12"', 'LP', '2xLP', '3xLP', '2x7"', '3x7"'];
+
     /**
      * Returns the style numeric id from the style string value.
      */
@@ -124,6 +126,10 @@ export class RecordUtils {
 
     getStyles(): ReadonlyArray<{ id: number, name: string, label: string }> {
         return this.styles;
+    }
+
+    getFormats(): ReadonlyArray<string> {
+        return this.formats;
     }
 
     getKeywordsContents(record: Record): string {
