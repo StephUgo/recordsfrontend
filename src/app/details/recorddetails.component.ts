@@ -10,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
 import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData } from '../stringlistedit/stringlist-dialog';
 import { CommentsDialogComponent } from '../comments/comments-dialog';
+import {DomSanitizer} from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-recorddetails',
@@ -30,7 +32,7 @@ export class RecordDetailsComponent implements OnInit {
   @Output() updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
 
   constructor(public dialog: MatDialog, public recordUtils: RecordUtils, public coverViewService: CoverViewOverlayService,
-    private route: ActivatedRoute, private appStateService: AppSharedStateService) {
+    private route: ActivatedRoute, private appStateService: AppSharedStateService, private sanitizer: DomSanitizer) {
     this.subscription = this.appStateService.setRecords$.subscribe(
       records => {
         console.log('Details notification : records = ' +  records);
@@ -171,5 +173,9 @@ export class RecordDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  sanitizeYoutubeURL(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

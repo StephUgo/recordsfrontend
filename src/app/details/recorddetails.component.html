@@ -40,14 +40,23 @@
 				<table>
 					<tbody>
 						<tr *ngFor="let sample of record.audioSamples;">
-							<td>{{sample}}</td>
-							<td>
-								<audio controls>
-								<source src="{{backendServerURL}}/uploads/{{sample}}" type="audio/mpeg">
-								Your browser does not support the audio tag.
-								</audio>
-							</td>
+							<div *ngIf="sample.endsWith('.mp3')">
+								<td>{{sample}}</td>
+								<td>
+									<audio controls>
+									<source src="{{backendServerURL}}/uploads/{{sample}}" type="audio/mpeg">
+									Your browser does not support the audio tag.
+									</audio>
+								</td>
+							</div>
 						</tr>
+						<tr *ngFor="let sample of record.audioSamples;">
+							<div *ngIf="sample.startsWith('https://www.youtube.com')">
+								<iframe width="300" height="225" [src]="sanitizeYoutubeURL(sample)">
+								</iframe>
+							</div>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</section>
