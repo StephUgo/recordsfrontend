@@ -73,3 +73,17 @@ section figure img {
 	margin-bottom: 5px;
 	background-color: white;
 }
+
+.youtubeitem {
+	display:inline-flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 300px;
+	min-height: 225px;
+	max-width: 300px;
+	max-height: 208px;
+	border: 1px solid black;
+	margin-right: 6px;
+	margin-bottom: 2px;
+	overflow: hidden;
+}

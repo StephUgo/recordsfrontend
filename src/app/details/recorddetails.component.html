@@ -50,14 +50,16 @@
 								</td>
 							</div>
 						</tr>
-						<tr *ngFor="let sample of record.audioSamples;">
-							<div *ngIf="sample.startsWith('https://www.youtube.com')">
-								<iframe width="300" height="225" [src]="sanitizeYoutubeURL(sample)">
-								</iframe>
-							</div>
-						</tr>
 					</tbody>
 				</table>
+				<span *ngFor="let sample of record.audioSamples;">
+					<span *ngIf="sample.startsWith('https://www.youtube.com')">
+						<span class="youtubeitem">
+							<iframe width="300" height="225" [src]="sanitizeYoutubeURL(sample)">
+							</iframe>
+						</span>
+					</span>
+				</span>
 			</div>
 		</section>
 		<section class="listtoolbar">
