@@ -26,7 +26,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "angular-cesium": "0.0.66",
+    "angular-cesium": "0.0.72",
     "cesium": "^1.73.0",
     "core-js": "^3.6.5",
     "font-awesome": "^4.7.0",
