@@ -64,19 +64,19 @@
 	vertical-align: top;
 }
 
-.my-pagination /deep/ .ngx-pagination .current {
+.my-pagination ::ng-deep .ngx-pagination .current {
 	background: rgb(119, 212, 13);
 	border: 1px solid black!important;
 	border-radius: 3px;
 }
 
-.my-pagination /deep/ .ngx-pagination a:hover, .ngx-pagination button:hover {
+.my-pagination ::ng-deep .ngx-pagination a:hover, .ngx-pagination button:hover {
     background: #d4d4d4;
     text-decoration: none;
 	border-radius: 3px;
 }
 
-.my-pagination /deep/ .ngx-pagination a:focus, .ngx-pagination button:focus {
+.my-pagination ::ng-deep .ngx-pagination a:focus, .ngx-pagination button:focus {
     outline: none;
 	background: #d4d4d4;
 	border-radius: 3px;
