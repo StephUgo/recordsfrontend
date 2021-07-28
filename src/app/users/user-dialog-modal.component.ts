@@ -1,4 +1,4 @@
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, HostListener, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from './user.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -37,7 +37,11 @@ export class UserDialogComponent {
         validator: MustMatch('password', 'confirmpassword')
     });
     }
+  }
 
+  @HostListener('window:keyup.Enter', ['$event'])
+  onDialogClick(event: KeyboardEvent): void {
+    this.save();
   }
 
   get f() { return this.form.controls; }
