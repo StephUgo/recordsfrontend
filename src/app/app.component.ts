@@ -51,6 +51,8 @@ export class AppComponent implements OnInit {
     this.matIconRegistry.addSvgIcon('location', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/location.svg'));
     this.matIconRegistry.addSvgIcon('pictures', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/pictures.svg'));
     this.matIconRegistry.addSvgIcon('audiosamples', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/audiosamples.svg'));
+    this.matIconRegistry.addSvgIcon('checkallblack', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/check-all-black.svg'));
+    this.matIconRegistry.addSvgIcon('checkallwhite', this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/check-all-white.svg'));
   }
 
   ngOnInit(): void {

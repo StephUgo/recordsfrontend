@@ -595,15 +595,27 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
 
   public onChangeSelectAllCheckbox() {
     this.isSelectAll = !this.isSelectAll;
-    if (this.isSelectAll && this.records !== null) {
+    if (this.isSelectAll) {
+      this.onSelectAllButton();
+    } else {
+      this.onUnselectAllButton();
+    }
+  }
+
+  public onSelectAllButton() {
+    if (this.records !== null) {
       const allSelectionArray = [];
       for (let index = 0; index < this.records.length; index++) {
         allSelectionArray.push(index);
       }
       this.checkedItems = allSelectionArray;
-    } else {
-      this.checkedItems = [];
-    }
+      this.isSelectAll = true;
+    } 
+  }
+
+  public onUnselectAllButton() {
+    this.checkedItems = [];
+    this.isSelectAll = false;
   }
 
   /**

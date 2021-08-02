@@ -8,6 +8,14 @@
 		</button>
 	</span>
 	<span class="toolbarbuttongroup">
+		<button title="Select all" class="toolbarbutton" mat-raised-button (click)="onSelectAllButton()">
+			<mat-icon svgIcon="checkallblack"></mat-icon>
+		</button>
+		<button title="Unselect all" class="toolbarbutton" mat-raised-button (click)="onUnselectAllButton()">
+			<mat-icon svgIcon="checkallwhite"></mat-icon>
+		</button>
+	</span>
+	<span class="toolbarbuttongroup">
 		<button title="Update record" class="toolbarbutton" mat-raised-button
 			(click)="openRecordEditionDialog($event, -1)">
 			<mat-icon svgIcon="edit"></mat-icon>
