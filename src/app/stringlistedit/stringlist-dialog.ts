@@ -77,15 +77,45 @@ export class StringListDialogComponent {
       if (value.length > 0) {
         let newValues: string[];
         newValues = Object.assign([], this.values);
-        if (value.indexOf('\\')) {
+        if (value.indexOf('\\')) { // Management of separator for multiple new values
           let valuesToBeAdded: string[];
           valuesToBeAdded = value.split('\\');
+          for (let index = 0; index < valuesToBeAdded.length; index++) {
+            const element = valuesToBeAdded[index];
+            valuesToBeAdded[index] = this.stringValueProcessing(element);
+          }
           Array.prototype.push.apply(newValues, valuesToBeAdded);
         } else {
-          newValues.push(value);
+          // Add new values
+          newValues.push(this.stringValueProcessing(value));
         }
         this.values = newValues;
       }
+    }
+  }
+
+  /**
+   * String Value Processing :
+   * - Management of <iframe> HTML code for 'samples' dialog flavor
+   * example: <iframe width="376" height="282" src="https://www.youtube.com/embed/H2ENrW65T8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   * @param sourceCode           
+   */
+  private stringValueProcessing(sourceCode: string) : string {
+    if (this.dialogFlavor === StringListDialogFlavor.Samples) {
+      let trimmedSourceCode = sourceCode.trim();
+      if (trimmedSourceCode.startsWith('<iframe')) {
+        let sourceURLIndex = trimmedSourceCode.indexOf('src="');
+        if (sourceURLIndex > 0) {
+          return trimmedSourceCode.substring(sourceURLIndex+5, trimmedSourceCode.indexOf('"', sourceURLIndex+5));
+        } else {
+          console.error('No source URL found in iframe!');
+          return 'Error: No source URL found in iframe!';
+        }
+      } else {
+        return trimmedSourceCode;
+      }
+    } else {
+      return sourceCode;
     }
   }
 
