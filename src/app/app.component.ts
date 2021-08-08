@@ -164,6 +164,7 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/list']);
       }, err => {
         console.log(err);
+        alert(err);
       });
     } else {
       console.log('Search records backend service is undefined !');

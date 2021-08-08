@@ -35,11 +35,15 @@ export class ApiService {
         } else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong,
-            console.error(
-                `Backend returned code ${error.status}, ` +
-                `body was: ${error.error}`);
+            let defaultErrorMsg = `Backend returned code ${error.status}, ` +
+            `body was: ${error.error}`;
+            console.error(defaultErrorMsg);
+                    // return an observable with a user-facing error message
+        
             if (error.status === 401) {
-                alert('You\'re not authorized to access the backend server. Please login.');
+                return throwError('You\'re not authorized to access the backend server. Please login.');
+            } else {
+                return throwError(defaultErrorMsg);
             }
         }
         // return an observable with a user-facing error message
