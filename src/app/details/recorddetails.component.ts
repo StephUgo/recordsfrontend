@@ -63,17 +63,18 @@ export class RecordDetailsComponent implements OnInit {
     this.credits = '';
     this.notes = '';
     if ((this.record !== null) && (this.record.Comments !== undefined) && (this.record.Comments !== null)) {
-      const indexOfCompanies = this.record.Comments.indexOf('Companies, etc.');
+      let comments = this.record.Comments.trim();
+      const indexOfCompanies = comments.indexOf('Companies, etc.');
       if (indexOfCompanies !== -1) {
-        this.tracklist = this.record.Comments.substring(9, indexOfCompanies);
-        const indexOfCredits = this.record.Comments.indexOf('Credits');
+        this.tracklist = comments.substring(9, indexOfCompanies);
+        const indexOfCredits = comments.indexOf('Credits');
         if (indexOfCredits > indexOfCompanies) {
-          this.companies = this.record.Comments.substring(indexOfCompanies + 15, indexOfCredits);
+          this.companies = comments.substring(indexOfCompanies + 15, indexOfCredits);
         }
-        const indexOfNotes = this.record.Comments.lastIndexOf('Notes');
+        const indexOfNotes = comments.lastIndexOf('Notes');
         if (indexOfNotes > indexOfCredits) {
-          this.credits = this.record.Comments.substring(indexOfCredits + 7, indexOfNotes);
-          this.notes = this.record.Comments.substring(indexOfNotes + 5);
+          this.credits = comments.substring(indexOfCredits + 7, indexOfNotes);
+          this.notes = comments.substring(indexOfNotes + 5);
         }
       }
     }
