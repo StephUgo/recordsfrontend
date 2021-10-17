@@ -210,6 +210,7 @@
 		<div (click)="openCommentsDialog($event, wrapper.index)">Edit comments</div>
 		<div (click)="openStringListDialog($event, 1, wrapper.index)">Manage additional pictures</div>
 		<div (click)="openStringListDialog($event, 2, wrapper.index)">Manage audio samples</div>
+		<div (click)="toggleAudiophile($event, wrapper.index)">{{audiophileLabel(wrapper.index)}}</div>
 		<hr>
 		<div (click)="onClickDelete($event, wrapper.index)">Delete {{wrapper.item.Artist}} - {{wrapper.item.Title}}
 		</div>

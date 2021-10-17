@@ -1,3 +1,5 @@
+import { Constants } from '../constants';
+
 /**
  * Record model object (used within frontend <=> backend communications).
  */
@@ -46,4 +48,27 @@ export function hasAdditionalPictures(record: Record): boolean {
 
 export function hasAudioSamples(record: Record): boolean {
     return (record.audioSamples !== undefined) && (record.audioSamples !== null) && (record.audioSamples.length > 0);
+}
+
+export function isAudiophile(record: Record): boolean {
+    return (record !== undefined && record !== null 
+        && record.keywords !== undefined && record.keywords !== null && record.keywords.includes(Constants.audiophileKeyword)) ? true : false;
+}
+
+export function toggleAudiophile(record: Record): void {
+    if (record === undefined || record === null) {
+        return;
+    }
+    if (record.keywords === undefined || record.keywords === null) {
+        record.keywords = [Constants.audiophileKeyword];
+    } else {
+        if (isAudiophile(record)) {
+            var index = record.keywords.indexOf(Constants.audiophileKeyword);
+            if (index > -1) {
+                record.keywords.splice(index, 1);
+            }
+        } else  {
+            record.keywords.push(Constants.audiophileKeyword);
+        }
+    }
 }

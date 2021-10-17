@@ -2,7 +2,7 @@ import {
   Component, Output, EventEmitter, ViewChild, TemplateRef, ViewContainerRef,
   OnChanges, SimpleChanges, OnDestroy
 } from '@angular/core';
-import { Record } from '../model/record';
+import { Record, toggleAudiophile, isAudiophile } from '../model/record';
 import { RecordUtils } from '../recordutils';
 import { MatDialog } from '@angular/material/dialog';
 import { RecordDialogModalComponent } from '../record-dialog-modal/record-dialog-modal.component';
@@ -627,4 +627,33 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     }
     return 0;
   }
+
+  public toggleAudiophile(event: any, i: number) : void {
+    this.closeContextualMenu(); // If it was opened from the contextual menu
+
+    if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
+      return;
+    }
+    if (i === -1) {
+      i = this.getFirstCheckedIndex();
+    }
+
+    if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
+      var selectedRecord = this.records[i];
+      toggleAudiophile(selectedRecord);
+      console.log('Toggle audiophile result : ' + selectedRecord);
+      this.addKeywordsRequested.emit([selectedRecord]);
+    }
+  }
+
+
+  public audiophileLabel(i: number) : string {
+    if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
+      return 'Error';
+    }
+    if (this.records !== null)
+      return isAudiophile(this.records[i]) ? 'Unset from audiophile records' : 'Set as audiophile record';
+    else return 'Error';
+  }
 }
+
