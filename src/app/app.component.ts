@@ -295,6 +295,7 @@ export class AppComponent implements OnInit {
         }
       }, err => {
         console.log(err);
+        alert('Error when updating record: ' + err);
       });
     } else {
       console.log('Save record backend service is undefined !');
