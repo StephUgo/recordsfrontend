@@ -1,0 +1,16 @@
+.mat-form-field {
+    display: block;
+}
+
+div.buttons {
+    width: 100%;
+  }
+  
+  div.buttons p {
+    display: inline-block;
+    width: 20%;
+  }
+  
+  div.buttons button {
+    width: 100%;
+  }

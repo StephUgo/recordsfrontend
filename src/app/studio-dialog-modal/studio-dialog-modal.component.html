@@ -1,0 +1,25 @@
+<h2>Edit Studio</h2>
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field>
+    <input matInput placeholder="Name" formControlName="name">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Address" formControlName="address">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Latitude" formControlName="lat">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Longitude" formControlName="lon">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <p>You can either "Save" you changes or "Close" to cancel...</p>
+  <div class="buttons">
+    <p></p>
+    <p><button class="mat-raised-button mat-primary" (click)="save()">Save</button></p>
+    <p></p>
+    <p><button mat-raised-button (click)="close()">Close</button></p>
+    <p></p>
+  </div>
+</mat-dialog-actions>

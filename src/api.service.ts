@@ -20,6 +20,7 @@ const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 const apiSearchStudiosUrl = backendServerURL + '/studios/searchstudios/';
 const apiSaveStudioUrl = backendServerURL + '/studios/savestudio/';
 const apiDeleteStudioUrl = backendServerURL + '/studios/deletestudio/';
+const apiUpdateStudioUrl = backendServerURL + '/studios/updatestudio/';
 
 @Injectable({
     providedIn: 'root'
@@ -191,6 +192,23 @@ export class ApiService {
         console.log(studio);
 
         return this.http.post(apiSaveStudioUrl, studio).pipe(catchError(this.handleError));
+    }
+
+    /**
+     * Update studio according to the object provided in parameter.
+     * @param studio  studio to be posted (shall have an ID already set)
+     */
+     updateStudio(studio: Studio): Observable<any>  {
+
+        console.log(studio);
+
+        var updatedStudio = {
+            'ID': studio._id,
+            'name': studio.name,
+            'lat': studio.lat,
+            'lon': studio.lon
+        };
+        return this.http.post(apiUpdateStudioUrl, updatedStudio).pipe(catchError(this.handleError));
     }
 
     /**

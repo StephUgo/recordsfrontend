@@ -38,6 +38,7 @@ import { MapLayerComponent } from './mapcomponent/map.component';
 import { StudiolistComponent } from './studiolist/studiolist.component';
 import { StudioformComponent } from './studioform/studioform.component';
 import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog';
+import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-modal.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog
     MapLayerComponent,
     StudiolistComponent,
     StudioformComponent,
-    StudioLinksDialogComponent
+    StudioLinksDialogComponent,
+    StudioDialogModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,6 +83,7 @@ import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog
   ],
   entryComponents: [
     RecordDialogModalComponent,
+    StudioDialogModalComponent,
     UserDialogComponent,
     CoverViewOverlayComponent
   ],

@@ -14,12 +14,14 @@
 				<th>Latitude</th>
 				<th>Longitude</th>
 				<th>Code</th>
+				<th>Actions</th>
 			</tr>
 			<tr>
 				<th class="sorttableheader" (click)="onClickSort('name')">
 					<i class="fa fa-chevron-down fa-xs" *ngIf="key =='name' && reverse"></i>
 					<i class="fa fa-chevron-up fa-xs" *ngIf="key =='name' && !reverse"></i>
 				</th>
+				<th class="sorttableheader"></th>
 				<th class="sorttableheader"></th>
 				<th class="sorttableheader"></th>
 				<th class="sorttableheader"></th>
@@ -33,6 +35,14 @@
 				<td>{{studio.lat !== undefined ? studio.lat : ''}}</td>
 				<td>{{studio.lon !== undefined ? studio.lon : ''}}</td>
 				<td>{{getJSONString(studio)}}</td>
+				<td>
+					<button title="Update studio" class="actionbutton" mat-raised-button (click)="onClickUpdateStudio($event, i)">
+						<mat-icon svgIcon="edit"></mat-icon>
+					</button>
+					<button title="Delete studio" class="actionbutton" mat-raised-button (click)="onClickUpdateStudio($event, i)">
+						<mat-icon svgIcon="delete"></mat-icon>
+					</button>
+				</td>
 			</tr>
 		</tbody>
 	</table>

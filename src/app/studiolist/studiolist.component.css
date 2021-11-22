@@ -39,3 +39,15 @@
 .ul {
 	padding-inline-start: 0px!important;
 }
+
+.actionbutton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 32px;
+	width: 32px;
+	min-width: 32px;
+	min-height: 32px;
+	margin: 4px 4px 4px 4px;
+	border: 1px solid black;
+}
