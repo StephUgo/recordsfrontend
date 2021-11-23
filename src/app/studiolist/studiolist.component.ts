@@ -33,13 +33,14 @@ export class StudiolistComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    // prevent memory leak when component destroyed
+    // prevent memory leak when the component is destroyed
     this.subscription.unsubscribe();
   }
 
 
   /**
    * Handler for column sorting.
+   * NB: Sort based on the name field.
    * @param key column name
    */
   onClickSort(key: string) {
@@ -54,25 +55,6 @@ export class StudiolistComponent implements OnDestroy {
     }
   }
 
-  /**
-   * Update the sort options pair (key + reverse boolean) given the sort options Id
-   * @param sortId SorttID
-   */
-  updateSortOptionsFromSortId(sortId: number) {
-    switch (sortId) {
-      case 1: {
-        this.key = 'name';
-        this.reverse = false;
-        break;
-      }
-      case 2: {
-        this.key = 'name';
-        this.reverse = true;
-        break;
-      }
-    }
-  }
-
   getJSONString(studio: Studio): string {
     return JSON.stringify(studio);
   }
@@ -83,8 +65,8 @@ export class StudiolistComponent implements OnDestroy {
    * @param i studio index in the list
    */
   onClickUpdateStudio(event: any, i: number) {
-    if (this.studios !== null) {
-      // alert('Update studio named : ' + this.studios[i].name);
+    if ((this.api !== null) && (this.studios !== null)) {
+
       if ((this.studios !== null) && (i >= 0) && (i < this.studios.length)) {
         const dialogRef = this.dialog.open(StudioDialogModalComponent, {
           width: '400px',
@@ -97,9 +79,9 @@ export class StudiolistComponent implements OnDestroy {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The edit dialog was closed', result);
+          console.log('The studio dialog was closed', result);
           // If the dialog send a result (i.e. a studio) we post it to the backend
-          if ((this.api !== null) && (typeof result !== typeof undefined) && (this.studios !== null)) {
+          if ((typeof result !== typeof undefined) && (this.studios !== null)) {
             this.studios[i] = result;
             console.log(this.studios[i]);
             if (this.studios[i] === null) {
@@ -107,8 +89,7 @@ export class StudiolistComponent implements OnDestroy {
               console.log(errMsg);
               alert(errMsg);
               return;
-            }
-            if ((this.api !== null) && (this.studios !== null) && (this.studios[i] !== null)) {
+            } else {
               this.api.updateStudio(this.studios[i]).subscribe(saveRes => {
                 console.log(saveRes);
                 this.api.searchStudios('').subscribe(res => {
