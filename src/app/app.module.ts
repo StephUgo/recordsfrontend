@@ -41,59 +41,53 @@ import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog
 import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-modal.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CoverViewOverlayComponent,
-    RecordsformComponent,
-    SearchFormComponent,
-    UploadFormComponent,
-    RecordslistComponent,
-    RecordDetailsComponent,
-    RecordDialogModalComponent,
-    UserDialogComponent,
-    KeywordsTableDialogComponent,
-    StringListDialogComponent,
-    CommentsDialogComponent,
-    UserComponent,
-    ProfileDialogComponent,
-    MapLayerComponent,
-    StudiolistComponent,
-    StudioformComponent,
-    StudioLinksDialogComponent,
-    StudioDialogModalComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    CdkTableModule,
-    MatFormFieldModule,
-    MatDialogModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatSelectModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    FontAwesomeModule,
-    AppRoutingModule,
-    AngularCesiumModule.forRoot()
-  ],
-  entryComponents: [
-    RecordDialogModalComponent,
-    StudioDialogModalComponent,
-    UserDialogComponent,
-    CoverViewOverlayComponent
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        CoverViewOverlayComponent,
+        RecordsformComponent,
+        SearchFormComponent,
+        UploadFormComponent,
+        RecordslistComponent,
+        RecordDetailsComponent,
+        RecordDialogModalComponent,
+        UserDialogComponent,
+        KeywordsTableDialogComponent,
+        StringListDialogComponent,
+        CommentsDialogComponent,
+        UserComponent,
+        ProfileDialogComponent,
+        MapLayerComponent,
+        StudiolistComponent,
+        StudioformComponent,
+        StudioLinksDialogComponent,
+        StudioDialogModalComponent,
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        CdkTableModule,
+        MatFormFieldModule,
+        MatDialogModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        NgxPaginationModule,
+        FontAwesomeModule,
+        AppRoutingModule,
+        AngularCesiumModule.forRoot()
+    ],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
