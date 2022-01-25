@@ -1,0 +1,11 @@
+dist
+docker
+e2e
+kube
+nginx
+node_modules
+src/app
+src/assets
+src/environments
+src/images
+src/testing
