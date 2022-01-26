@@ -4,7 +4,7 @@ import {
     HttpHandler,
     HttpEvent,
     HttpInterceptor
-  } from '@angular/common/http';
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
      * @param next next HTTP handler
      */
     public intercept(req: HttpRequest<any>,
-              next: HttpHandler): Observable<HttpEvent<any>> {
+        next: HttpHandler): Observable<HttpEvent<any>> {
 
         const idToken = localStorage.getItem('id_token');
 

@@ -39,7 +39,7 @@ export class ApiService {
             let defaultErrorMsg = `Backend returned code ${error.status}, ` +
             `body was: ${error.error}`;
             console.error(defaultErrorMsg);
-                    // return an observable with a user-facing error message
+            // return an observable with a user-facing error message
         
             if (error.status === 401) {
                 return throwError('You\'re not authorized to access the backend server. Please login.');
@@ -187,7 +187,7 @@ export class ApiService {
      * Save studio according to the object provided in parameter.
      * @param studio  studio to be posted
      */
-     saveStudio(studio: Studio): Observable<any> {
+    saveStudio(studio: Studio): Observable<any> {
 
         console.log(studio);
 
@@ -198,7 +198,7 @@ export class ApiService {
      * Update studio according to the object provided in parameter.
      * @param studio  studio to be posted (shall have an ID already set)
      */
-     updateStudio(studio: Studio): Observable<any>  {
+    updateStudio(studio: Studio): Observable<any>  {
 
         console.log(studio);
 
@@ -215,7 +215,7 @@ export class ApiService {
      * Delete studi according to the request object provided in parameter.
      * @param deleteRequest request object
      */
-     deleteStudio(deleteRequest: string): Observable<any> {
+    deleteStudio(deleteRequest: string): Observable<any> {
 
         console.log(deleteRequest);
 

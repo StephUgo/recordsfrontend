@@ -27,9 +27,6 @@ module.exports = {
     ],
     "rules": {
         "@angular-eslint/component-class-suffix": "error",
-    }
-};
-/*
         "@angular-eslint/directive-class-suffix": "error",
         "@angular-eslint/no-host-metadata-property": "error",
         "@angular-eslint/no-input-rename": "error",
@@ -48,6 +45,9 @@ module.exports = {
             }
         ],
         "@typescript-eslint/indent": "error",
+    }
+};
+/*
         "@typescript-eslint/member-delimiter-style": [
             "error",
             {

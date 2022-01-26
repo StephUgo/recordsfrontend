@@ -13,11 +13,11 @@ const routes: Routes = [
     { path: 'studios', component: StudiolistComponent },
     { path: '',   redirectTo: '/list', pathMatch: 'full' }, // redirect to `first-component`
     { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
-    ];
+];
 
 // configures NgModule imports and exports
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+    exports: [RouterModule]
 })
 export class AppRoutingModule { }

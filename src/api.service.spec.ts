@@ -16,10 +16,10 @@ describe('Service "ApiService" testing', () => {
     it('Test getRecords().', () => {
         const expectedRecords: Record[] = [
             {_id: '5eb529a0d8f6ed6c10dff8d6', Style: 'Jazz', Artist: 'Green, Grant',
-            Title: 'Idle Moments', Format: 'LP', Country: 'US',
-            Reference: 'MMBST-84154', Comments: 'Recorded At – Van Gelder Studio, Englewood Cliffs, NJ',
-            ImageFileName: 'GreenIdleMoments.jpg', Label: 'Blue Note - Music Matters',
-            Period: '60\'s', Year: 2014, keywords: ['Audiophile', 'Pressed at RTI']}];
+                Title: 'Idle Moments', Format: 'LP', Country: 'US',
+                Reference: 'MMBST-84154', Comments: 'Recorded At – Van Gelder Studio, Englewood Cliffs, NJ',
+                ImageFileName: 'GreenIdleMoments.jpg', Label: 'Blue Note - Music Matters',
+                Period: '60\'s', Year: 2014, keywords: ['Audiophile', 'Pressed at RTI']}];
 
         httpClientSpy.get.and.returnValue(asyncData(expectedRecords));
 

@@ -35,7 +35,7 @@ export class RecordUtils {
         { id: 21, name: 'Brit Funk', label: 'Brit Funk' },
         { id: 22, name: 'Funky French', label: 'Funky French' },
         { id: 23, name: 'Pop', label: 'Pop' }
-   ];
+    ];
 
     private formats: Array<string> = ['7"', '10"', '12"', 'LP', '2xLP', '3xLP', '2x7"', '3x7"'];
 
