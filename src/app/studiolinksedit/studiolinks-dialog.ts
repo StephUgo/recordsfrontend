@@ -73,8 +73,10 @@ export class StudioLinksDialogComponent implements OnInit {
     }
 
     private getStudioNamesFromCurrentRecord(): string[] | null {
-        if (this.fromRecord !== undefined && this.fromRecord !== null && this.fromRecord.keywords !== undefined && this.fromRecord.keywords !== null) {
-            const currentStudiosJSONStrings = this.fromRecord.keywords.filter((s) => s !== null && s.startsWith('Recorded @')).map((s) => s.substring(10));
+        if (this.fromRecord !== undefined && this.fromRecord !== null && this.fromRecord.keywords !== undefined
+            && this.fromRecord.keywords !== null) {
+            const currentStudiosJSONStrings = this.fromRecord.keywords.filter(
+                (s) => s !== null && s.startsWith('Recorded @')).map((s) => s.substring(10));
             if (currentStudiosJSONStrings.length > 0) {
                 const currentStudiosNames = currentStudiosJSONStrings.map(s => JSON.parse(s).name);
                 if (currentStudiosNames.length > 0) {

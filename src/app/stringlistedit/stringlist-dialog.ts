@@ -72,14 +72,11 @@ export class StringListDialogComponent {
 
     add() {
         if (this.form.value.newValue !== null) {
-            let value: string;
-            value = this.form.value.newValue as string;
+            const value = this.form.value.newValue as string;
             if (value.length > 0) {
-                let newValues: string[];
-                newValues = Object.assign([], this.values);
+                const newValues = Object.assign([], this.values);
                 if (value.indexOf('\\')) { // Management of separator for multiple new values
-                    let valuesToBeAdded: string[];
-                    valuesToBeAdded = value.split('\\');
+                    const valuesToBeAdded = value.split('\\');
                     for (let index = 0; index < valuesToBeAdded.length; index++) {
                         const element = valuesToBeAdded[index];
                         valuesToBeAdded[index] = this.stringValueProcessing(element);
@@ -97,14 +94,16 @@ export class StringListDialogComponent {
     /**
    * String Value Processing :
    * - Management of <iframe> HTML code for 'samples' dialog flavor
-   * example: <iframe width="376" height="282" src="https://www.youtube.com/embed/H2ENrW65T8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   * example: <iframe width="376" height="282" src="https://www.youtube.com/embed/H2ENrW65T8k"
+   * title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+   * encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
    * @param sourceCode
    */
     private stringValueProcessing(sourceCode: string): string {
         if (this.dialogFlavor === StringListDialogFlavor.Samples) {
-            let trimmedSourceCode = sourceCode.trim();
+            const trimmedSourceCode = sourceCode.trim();
             if (trimmedSourceCode.startsWith('<iframe')) {
-                let sourceURLIndex = trimmedSourceCode.indexOf('src="');
+                const sourceURLIndex = trimmedSourceCode.indexOf('src="');
                 if (sourceURLIndex > 0) {
                     return trimmedSourceCode.substring(sourceURLIndex+5, trimmedSourceCode.indexOf('"', sourceURLIndex+5));
                 } else {

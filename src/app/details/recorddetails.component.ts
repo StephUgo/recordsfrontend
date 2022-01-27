@@ -63,7 +63,7 @@ export class RecordDetailsComponent implements OnInit {
         this.credits = '';
         this.notes = '';
         if ((this.record !== null) && (this.record.Comments !== undefined) && (this.record.Comments !== null)) {
-            let comments = this.record.Comments.trim();
+            const comments = this.record.Comments.trim();
             const indexOfCompanies = comments.indexOf('Companies, etc.');
             if (indexOfCompanies !== -1) {
                 this.tracklist = comments.substring(9, indexOfCompanies);

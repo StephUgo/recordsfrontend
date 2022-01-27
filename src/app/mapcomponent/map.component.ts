@@ -330,7 +330,7 @@ export class MapLayerComponent implements OnInit, AfterViewInit {
         if (this.subscriber !== null) {
             this.subscriber.next(notif);
             if (finalLocation.lat !== originalLocation.lat || finalLocation.lon !== originalLocation.lon) {
-                let lineNotif: AcNotification;
+                var lineNotif: AcNotification;
                 lineNotif = {
                     id: record._id !== null ? record._id : 'null',
                     actionType: ActionType.ADD_UPDATE,

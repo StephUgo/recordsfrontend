@@ -45,14 +45,11 @@ export class KeywordsTableDialogComponent {
 
     addKeyword() {
         if (this.form.value.newKeyword !== null) {
-            let keyword: string;
-            keyword = this.form.value.newKeyword as string;
+            const keyword = this.form.value.newKeyword as string;
             if (keyword.length > 0) {
-                let newKeywords: string[];
-                newKeywords = Object.assign([], this.keywords);
+                const newKeywords = Object.assign([], this.keywords);
                 if (keyword.indexOf('\\')) {
-                    let keywordsToBeAdded: string[];
-                    keywordsToBeAdded = keyword.split('\\');
+                    const keywordsToBeAdded = keyword.split('\\');
                     Array.prototype.push.apply(newKeywords, keywordsToBeAdded);
                 } else {
                     newKeywords.push(keyword);

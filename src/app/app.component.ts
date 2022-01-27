@@ -158,7 +158,8 @@ export class AppComponent implements OnInit {
                 } else {
                     this.setRecords(res);
                 }
-                if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== undefined) && (this.recordListComponent !== null)) {
+                if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== undefined)
+                    && (this.recordListComponent !== null)) {
                     this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
                 }
                 this.router.navigate(['/list']);

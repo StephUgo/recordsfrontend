@@ -158,22 +158,22 @@ module.exports = {
         ],
         "radix": "error",
         "semi": "error",
-    }
-};
-/*
-        "@typescript-eslint/member-ordering": "error",
-        "@typescript-eslint/naming-convention": "error",
-        "indent": "error",
         "max-len": [
             "error",
             {
                 "code": 140
             }
         ],
-        "no-shadow": "error",
-        "no-var": "error",
         "prefer-const": "error",
+    }
+};
+/*
+        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/naming-convention": "error",
+        "indent": "error",
+        "no-var": "error",
         "quotes": "error",
+        "no-shadow": "error",
         "@typescript-eslint/tslint/config": [
             "error",
             {

@@ -335,7 +335,8 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
         }
 
         if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
-            if (confirm('Please confirm the deletion of the record ' + (this.records[i].Title !== undefined ? this.records[i].Title : ''))) {
+            if (confirm('Please confirm the deletion of the record ' +
+                (this.records[i].Title !== undefined ? this.records[i].Title : ''))) {
                 const recordDeletionID = this.recordUtils.getRecordDeletionID(this.records[i]);
                 console.log(recordDeletionID);
                 this.deleteRecordRequested.emit(recordDeletionID);
@@ -487,8 +488,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     openContextualMenu(event: any, i: number, record: Record) {
 
         event.preventDefault();
-        let mouseEvent: MouseEvent;
-        mouseEvent = event;
+        const mouseEvent = event;
         const x = mouseEvent.x;
         const y = mouseEvent.y;
 
