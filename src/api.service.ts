@@ -146,7 +146,9 @@ export class ApiService {
 
         const recordsPostArray: Object[] = [];
 
-        records.forEach( (record) => { recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record)); });
+        records.forEach( (record) => {
+            recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record)); 
+        });
 
         return this.http.post(apiUpdateKeywordsUrl, recordsPostArray).pipe(catchError(this.handleError));
     }

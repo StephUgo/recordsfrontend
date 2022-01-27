@@ -25,7 +25,9 @@ export class UserComponent {
      * Handler for click on the Login button.
      */
     onLoginClick() {
-        if (this.dialogRef !== null) { return; }
+        if (this.dialogRef !== null) {
+            return; 
+        }
         this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
             height: '400px',
@@ -69,7 +71,9 @@ export class UserComponent {
      * Handler for click on the Register button.
      */
     onRegisterClick() {
-        if (this.dialogRef !== null) { return; }
+        if (this.dialogRef !== null) {
+            return; 
+        }
         this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
             height: '400px',
@@ -105,7 +109,9 @@ export class UserComponent {
      * Handler for click on the Update button.
      */
     onUpdateClick() {
-        if (this.profileDialogRef !== null) { return; }
+        if (this.profileDialogRef !== null) {
+            return; 
+        }
         this.profileDialogRef = this.dialog.open(ProfileDialogComponent, {
             width: '400px',
             height: '400px',

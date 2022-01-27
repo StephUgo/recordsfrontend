@@ -10,7 +10,7 @@ import { Record } from './model/record';
 })
 export class RecordUtils {
 
-    private styles: Array<{ id: number, name: string, label: string }> = [
+    private styles: Array<{ id: number; name: string; label: string }> = [
         { id: 0, name: '', label: '' },
         { id: 1, name: 'Soul/Funk', label: 'Soul / Funk' },
         { id: 2, name: 'Rap', label: 'Rap' },
@@ -49,7 +49,7 @@ export class RecordUtils {
     /**
      * Returns the style from the style string value.
      */
-    getStyleFromStyleName(record: Record): { id: number, name: string, label: string } {
+    getStyleFromStyleName(record: Record): { id: number; name: string; label: string } {
         if (record.Style !== null) {
             for (let index = 0; index < this.styles.length; index++) {
                 const style = this.styles[index];
@@ -74,7 +74,7 @@ export class RecordUtils {
     /**
      * Get the style from the style numeric id.
      */
-    getStyleFromStyleId(styleId: number): { id: number, name: string, label: string }  {
+    getStyleFromStyleId(styleId: number): { id: number; name: string; label: string }  {
         if (styleId > 0 && styleId < this.styles.length) {
             return this.styles[styleId];
         }
@@ -125,7 +125,7 @@ export class RecordUtils {
         };
     }
 
-    getStyles(): ReadonlyArray<{ id: number, name: string, label: string }> {
+    getStyles(): ReadonlyArray<{ id: number; name: string; label: string }> {
         return this.styles;
     }
 

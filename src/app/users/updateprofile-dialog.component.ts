@@ -33,7 +33,9 @@ export class ProfileDialogComponent {
         });
     }
 
-    get f() { return this.form.controls; }
+    get f() {
+        return this.form.controls; 
+    }
 
     close() {
         this.dialogRef.close();

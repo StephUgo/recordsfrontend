@@ -44,7 +44,9 @@ export class UserDialogComponent {
         this.save();
     }
 
-    get f() { return this.form.controls; }
+    get f() {
+        return this.form.controls; 
+    }
 
     close() {
         this.dialogRef.close();

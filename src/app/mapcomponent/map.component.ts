@@ -44,14 +44,14 @@ export class MapLayerComponent implements OnInit, AfterViewInit {
     polylines$: Observable<AcNotification> = new Observable((s: any) => this.polylineSubscriber = s);
     private subscriber: Subscriber<AcNotification> | null = null;
     private polylineSubscriber: Subscriber<AcNotification> | null = null;
-    private scalefactors: { [id: string]: number; } = {};
+    private scalefactors: { [id: string]: number } = {};
     private locationLabels: Array<string> = [];
     private coverNotificationCounter = 0;
 
     // Deconflictions data
     private finalSelectedLocations: Array<ILocation> = [];
     private originalSelectedLocations: Array<ILocation> = [];
-    private conflicts: { [id: string]: IConflictedLocation; } = {};
+    private conflicts: { [id: string]: IConflictedLocation } = {};
 
     // View AcMap componend & events manager
     @ViewChild(AcMapComponent) acMap: AcMapComponent | null = null;

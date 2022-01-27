@@ -85,7 +85,7 @@ export class StudiolistComponent implements OnDestroy {
                         this.studios[i] = result;
                         console.log(this.studios[i]);
                         if (this.studios[i] === null) {
-                            var errMsg = "Can't update studio with null ID!";
+                            var errMsg = 'Can\'t update studio with null ID!';
                             console.log(errMsg);
                             alert(errMsg);
                             return;

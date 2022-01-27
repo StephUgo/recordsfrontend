@@ -10,7 +10,7 @@ import { RecordUtils } from '../recordutils';
 })
 export class SearchFormComponent implements OnInit {
 
-    public styleList: Array<{id: number, name: string, label: string}>;
+    public styleList: Array<{id: number; name: string; label: string}>;
     public formatList: Array<string>;
     public model: any;
     public sortOptions = [

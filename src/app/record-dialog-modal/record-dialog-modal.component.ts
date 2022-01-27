@@ -18,9 +18,7 @@ export class RecordDialogModalComponent {
     constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>, private recordUtils: RecordUtils,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
-        this.styleList = Object.assign([], this.recordUtils.getStyles().map((currentObject) => {
-            return currentObject.name;
-        }));
+        this.styleList = Object.assign([], this.recordUtils.getStyles().map((currentObject) => currentObject.name));
         this.styleList.sort();
         this.fromPage = data.selectedRecord;
 

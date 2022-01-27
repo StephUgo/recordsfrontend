@@ -45,9 +45,6 @@ module.exports = {
             }
         ],
         "@typescript-eslint/indent": "error",
-    }
-};
-/*
         "@typescript-eslint/member-delimiter-style": [
             "error",
             {
@@ -61,8 +58,6 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/member-ordering": "error",
-        "@typescript-eslint/naming-convention": "error",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-inferrable-types": [
@@ -100,6 +95,11 @@ module.exports = {
         "curly": "error",
         "dot-notation": "off",
         "eol-last": "error",
+    }
+};
+/*
+        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/naming-convention": "error",
         "eqeqeq": [
             "error",
             "smart"

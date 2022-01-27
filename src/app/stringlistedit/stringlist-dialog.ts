@@ -100,7 +100,7 @@ export class StringListDialogComponent {
    * example: <iframe width="376" height="282" src="https://www.youtube.com/embed/H2ENrW65T8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
    * @param sourceCode           
    */
-    private stringValueProcessing(sourceCode: string) : string {
+    private stringValueProcessing(sourceCode: string): string {
         if (this.dialogFlavor === StringListDialogFlavor.Samples) {
             let trimmedSourceCode = sourceCode.trim();
             if (trimmedSourceCode.startsWith('<iframe')) {

@@ -4,7 +4,7 @@ import { asyncData } from '../../testing/async-observable-helpers';
 import { User } from '../users/user.model';
 
 describe('Service "AuthService" testing', () => {
-    let httpClientSpy: { post: jasmine.Spy, get: jasmine.Spy };
+    let httpClientSpy: { post: jasmine.Spy; get: jasmine.Spy };
     let authService: AuthService;
 
     beforeEach(() => {

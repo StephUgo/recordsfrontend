@@ -628,7 +628,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
         return 0;
     }
 
-    public toggleAudiophile(event: any, i: number) : void {
+    public toggleAudiophile(event: any, i: number): void {
         this.closeContextualMenu(); // If it was opened from the contextual menu
 
         if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
@@ -647,13 +647,15 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     }
 
 
-    public audiophileLabel(i: number) : string {
+    public audiophileLabel(i: number): string {
         if (i === -1 && (this.multiSelectionIsAvoided() || this.isSelectionEmpty())) {
             return 'Error';
         }
-        if (this.records !== null)
+        if (this.records !== null) {
             return isAudiophile(this.records[i]) ? 'Unset from audiophile records' : 'Set as audiophile record';
-        else return 'Error';
+        } else {
+            return 'Error';
+        }
     }
 }
 
