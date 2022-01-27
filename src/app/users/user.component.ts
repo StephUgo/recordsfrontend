@@ -26,7 +26,7 @@ export class UserComponent {
      */
     onLoginClick() {
         if (this.dialogRef !== null) {
-            return; 
+            return;
         }
         this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
@@ -72,7 +72,7 @@ export class UserComponent {
      */
     onRegisterClick() {
         if (this.dialogRef !== null) {
-            return; 
+            return;
         }
         this.dialogRef = this.dialog.open(UserDialogComponent, {
             width: '400px',
@@ -110,7 +110,7 @@ export class UserComponent {
      */
     onUpdateClick() {
         if (this.profileDialogRef !== null) {
-            return; 
+            return;
         }
         this.profileDialogRef = this.dialog.open(ProfileDialogComponent, {
             width: '400px',

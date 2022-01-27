@@ -95,11 +95,6 @@ module.exports = {
         "curly": "error",
         "dot-notation": "off",
         "eol-last": "error",
-    }
-};
-/*
-        "@typescript-eslint/member-ordering": "error",
-        "@typescript-eslint/naming-convention": "error",
         "eqeqeq": [
             "error",
             "smart"
@@ -108,13 +103,6 @@ module.exports = {
         "id-denylist": "off",
         "id-match": "off",
         "import/no-deprecated": "warn",
-        "indent": "error",
-        "max-len": [
-            "error",
-            {
-                "code": 140
-            }
-        ],
         "no-bitwise": "error",
         "no-caller": "error",
         "no-console": [
@@ -153,18 +141,12 @@ module.exports = {
             "error",
             "rxjs/Rx"
         ],
-        "no-shadow": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
         "no-underscore-dangle": "off",
         "no-unused-expressions": "error",
         "no-unused-labels": "error",
-        "no-var": "error",
-        "prefer-const": "error",
-        "quotes": "error",
-        "radix": "error",
-        "semi": "error",
         "spaced-comment": [
             "error",
             "always",
@@ -174,6 +156,24 @@ module.exports = {
                 ]
             }
         ],
+        "radix": "error",
+        "semi": "error",
+    }
+};
+/*
+        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/naming-convention": "error",
+        "indent": "error",
+        "max-len": [
+            "error",
+            {
+                "code": 140
+            }
+        ],
+        "no-shadow": "error",
+        "no-var": "error",
+        "prefer-const": "error",
+        "quotes": "error",
         "@typescript-eslint/tslint/config": [
             "error",
             {

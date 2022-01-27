@@ -40,7 +40,7 @@ export class ApiService {
             `body was: ${error.error}`;
             console.error(defaultErrorMsg);
             // return an observable with a user-facing error message
-        
+
             if (error.status === 401) {
                 return throwError('You\'re not authorized to access the backend server. Please login.');
             } else {
@@ -147,7 +147,7 @@ export class ApiService {
         const recordsPostArray: Object[] = [];
 
         records.forEach( (record) => {
-            recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record)); 
+            recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record));
         });
 
         return this.http.post(apiUpdateKeywordsUrl, recordsPostArray).pipe(catchError(this.handleError));

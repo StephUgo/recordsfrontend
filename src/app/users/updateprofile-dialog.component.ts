@@ -34,7 +34,7 @@ export class ProfileDialogComponent {
     }
 
     get f() {
-        return this.form.controls; 
+        return this.form.controls;
     }
 
     close() {

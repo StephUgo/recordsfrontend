@@ -51,7 +51,7 @@ export function hasAudioSamples(record: Record): boolean {
 }
 
 export function isAudiophile(record: Record): boolean {
-    return (record !== undefined && record !== null 
+    return (record !== undefined && record !== null
         && record.keywords !== undefined && record.keywords !== null && record.keywords.includes(Constants.audiophileKeyword)) ? true : false;
 }
 

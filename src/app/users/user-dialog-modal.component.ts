@@ -45,7 +45,7 @@ export class UserDialogComponent {
     }
 
     get f() {
-        return this.form.controls; 
+        return this.form.controls;
     }
 
     close() {

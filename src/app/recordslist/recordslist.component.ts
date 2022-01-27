@@ -610,7 +610,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
             }
             this.checkedItems = allSelectionArray;
             this.isSelectAll = true;
-        } 
+        }
     }
 
     public onUnselectAllButton() {

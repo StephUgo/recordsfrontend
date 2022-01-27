@@ -98,7 +98,7 @@ export class StringListDialogComponent {
    * String Value Processing :
    * - Management of <iframe> HTML code for 'samples' dialog flavor
    * example: <iframe width="376" height="282" src="https://www.youtube.com/embed/H2ENrW65T8k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-   * @param sourceCode           
+   * @param sourceCode
    */
     private stringValueProcessing(sourceCode: string): string {
         if (this.dialogFlavor === StringListDialogFlavor.Samples) {

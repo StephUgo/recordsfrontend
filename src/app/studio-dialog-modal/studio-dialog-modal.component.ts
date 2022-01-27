@@ -13,7 +13,7 @@ export class StudioDialogModalComponent {
     form: FormGroup;
     fromPage: Studio; // The studio to edit coming from the StudioListComponent
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<StudioDialogModalComponent>, 
+    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<StudioDialogModalComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.fromPage = data.selectedStudio;
