@@ -165,30 +165,11 @@ module.exports = {
             }
         ],
         "prefer-const": "error",
+        "no-var": "error",
     }
 };
 /*
         "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/naming-convention": "error",
-        "indent": "error",
-        "no-var": "error",
-        "quotes": "error",
         "no-shadow": "error",
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "import-spacing": true,
-                    "whitespace": [
-                        true,
-                        "check-branch",
-                        "check-decl",
-                        "check-operator",
-                        "check-separator",
-                        "check-type"
-                    ]
-                }
-            }
-        ]
-
 */

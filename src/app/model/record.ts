@@ -63,7 +63,7 @@ export function toggleAudiophile(record: Record): void {
         record.keywords = [Constants.audiophileKeyword];
     } else {
         if (isAudiophile(record)) {
-            var index = record.keywords.indexOf(Constants.audiophileKeyword);
+            const index = record.keywords.indexOf(Constants.audiophileKeyword);
             if (index > -1) {
                 record.keywords.splice(index, 1);
             }

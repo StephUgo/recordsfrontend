@@ -1,1 +1,1 @@
-declare var Cesium: any;
+declare let Cesium: any;

@@ -330,6 +330,7 @@ export class MapLayerComponent implements OnInit, AfterViewInit {
         if (this.subscriber !== null) {
             this.subscriber.next(notif);
             if (finalLocation.lat !== originalLocation.lat || finalLocation.lon !== originalLocation.lon) {
+                // eslint-disable-next-line no-var
                 var lineNotif: AcNotification;
                 lineNotif = {
                     id: record._id !== null ? record._id : 'null',

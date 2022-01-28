@@ -4,7 +4,7 @@ import { Record } from '../model/record';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 export enum StringListDialogFlavor {
-    Keywords  = 0,
+    Keywords = 0,
     AdditionalPics = 1,
     Samples = 2
 }
@@ -37,14 +37,14 @@ export class StringListDialogComponent {
             this.dialogFlavor = data.dialogFlavor;
         }
 
-        switch  (this.dialogFlavor) {
-            case StringListDialogFlavor.Keywords :
+        switch (this.dialogFlavor) {
+            case StringListDialogFlavor.Keywords:
                 this.values = Object.assign([], this.fromRecord.keywords);
                 break;
-            case StringListDialogFlavor.AdditionalPics :
+            case StringListDialogFlavor.AdditionalPics:
                 this.values = Object.assign([], this.fromRecord.additionalPics);
                 break;
-            case StringListDialogFlavor.Samples :
+            case StringListDialogFlavor.Samples:
                 this.values = Object.assign([], this.fromRecord.audioSamples);
                 break;
         }
@@ -105,7 +105,7 @@ export class StringListDialogComponent {
             if (trimmedSourceCode.startsWith('<iframe')) {
                 const sourceURLIndex = trimmedSourceCode.indexOf('src="');
                 if (sourceURLIndex > 0) {
-                    return trimmedSourceCode.substring(sourceURLIndex+5, trimmedSourceCode.indexOf('"', sourceURLIndex+5));
+                    return trimmedSourceCode.substring(sourceURLIndex + 5, trimmedSourceCode.indexOf('"', sourceURLIndex + 5));
                 } else {
                     console.error('No source URL found in iframe!');
                     return 'Error: No source URL found in iframe!';
@@ -123,14 +123,14 @@ export class StringListDialogComponent {
     }
 
     save() {
-        switch  (this.dialogFlavor) {
-            case StringListDialogFlavor.Keywords :
+        switch (this.dialogFlavor) {
+            case StringListDialogFlavor.Keywords:
                 this.fromRecord.keywords = this.values;
                 break;
-            case StringListDialogFlavor.AdditionalPics :
+            case StringListDialogFlavor.AdditionalPics:
                 this.fromRecord.additionalPics = this.values;
                 break;
-            case StringListDialogFlavor.Samples :
+            case StringListDialogFlavor.Samples:
                 this.fromRecord.audioSamples = this.values;
                 break;
         }
@@ -139,12 +139,12 @@ export class StringListDialogComponent {
     }
 
     getElementLabel() {
-        switch  (this.dialogFlavor) {
-            case StringListDialogFlavor.Keywords :
+        switch (this.dialogFlavor) {
+            case StringListDialogFlavor.Keywords:
                 return 'keyword';
-            case StringListDialogFlavor.AdditionalPics :
+            case StringListDialogFlavor.AdditionalPics:
                 return 'additional picture';
-            case StringListDialogFlavor.Samples :
+            case StringListDialogFlavor.Samples:
                 return 'audio sample';
         }
     }

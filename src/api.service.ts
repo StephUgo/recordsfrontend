@@ -204,7 +204,7 @@ export class ApiService {
 
         console.log(studio);
 
-        var updatedStudio = {
+        const updatedStudio = {
             'ID': studio._id,
             'name': studio.name,
             'lat': studio.lat,

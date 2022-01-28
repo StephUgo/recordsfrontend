@@ -639,7 +639,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
         }
 
         if ((this.records !== null) && (i >= 0) && (i < this.records.length)) {
-            var selectedRecord = this.records[i];
+            const selectedRecord = this.records[i];
             toggleAudiophile(selectedRecord);
             console.log('Toggle audiophile result : ' + selectedRecord);
             this.addKeywordsRequested.emit([selectedRecord]);
