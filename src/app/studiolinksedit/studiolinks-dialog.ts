@@ -63,7 +63,7 @@ export class StudioLinksDialogComponent implements OnInit {
                 const studioName = selectedStudioNames[index];
                 const selectedStudios = this.studios.filter((s) => s.name === studioName);
                 if (selectedStudios.length > 0) {
-                    if (this.fromRecord.keywords === undefined) {
+                    if ((this.fromRecord.keywords === undefined) || (this.fromRecord.keywords === null)) {
                         this.fromRecord.keywords = [];
                     }
                     this.fromRecord.keywords.push('Recorded @' + JSON.stringify(selectedStudios[0]));
