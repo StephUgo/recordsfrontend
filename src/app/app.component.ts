@@ -57,23 +57,27 @@ export class AppComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.api) {
-            // By default, display the inital list of records
-            this.api.getRecords().subscribe(res => {
-                console.log(res);
-                this.setRecords(res);
-            }, err => {
-                console.log(err);
-                if (this.userComponent !== null) {
-                    this.userComponent.onLoginClick();
+            // By default, display the initial list of records
+            this.api.getRecords().subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.setRecords(res);
+                },
+                error: (err) => {
+                    console.log(err);
+                    if (this.userComponent !== null) {
+                        this.userComponent.onLoginClick();
+                    }
                 }
             });
             // By default, also search the list of studios
-            this.api.getStudios().subscribe(res => {
-                console.log(res);
-                this.studios = res;
-                this.setStudios(res);
-            }, err => {
-                console.log(err);
+            this.api.getStudios().subscribe({
+                next: (res) => {
+                    console.log(res);
+                    this.studios = res;
+                    this.setStudios(res);
+                },
+                error: (err) => console.log(err),
             });
         } else {
             console.log('The backend service is undefined !');
@@ -138,34 +142,37 @@ export class AppComponent implements OnInit {
         if (this.api) {
             console.log('SearchRecords : ' + request);
             this.appStateService.setLastSearch(request);
-            this.api.searchRecords(request).subscribe(res => {
-                this.lastSearchRequest = request;
-                if (this.lastSearchRequest.Skip != null) {
-                    this.config.currentPage = this.lastSearchRequest.Skip / this.config.itemsPerPage + 1;
-                } else {
-                    this.config.currentPage = 1;
-                }
-                console.log(res);
-                if (res.totalCount != null) {
-                    this.config.totalItems = res.totalCount;
-                } else {
-                    this.config.totalItems = res.length;
-                }
-                this.appStateService.setConfig(this.config);
+            this.api.searchRecords(request).subscribe({
+                next: (res) => {
+                    this.lastSearchRequest = request;
+                    if (this.lastSearchRequest.Skip != null) {
+                        this.config.currentPage = this.lastSearchRequest.Skip / this.config.itemsPerPage + 1;
+                    } else {
+                        this.config.currentPage = 1;
+                    }
+                    console.log(res);
+                    if (res.totalCount != null) {
+                        this.config.totalItems = res.totalCount;
+                    } else {
+                        this.config.totalItems = res.length;
+                    }
+                    this.appStateService.setConfig(this.config);
 
-                if (res.records != null) {
-                    this.setRecords(res.records);
-                } else {
-                    this.setRecords(res);
+                    if (res.records != null) {
+                        this.setRecords(res.records);
+                    } else {
+                        this.setRecords(res);
+                    }
+                    if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== undefined)
+                        && (this.recordListComponent !== null)) {
+                        this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
+                    }
+                    this.router.navigate(['/list']);
+                },
+                error: (err) => {
+                    console.log(err);
+                    alert(err);
                 }
-                if ((this.lastSearchRequest.Sort !== null) && (this.recordListComponent !== undefined)
-                    && (this.recordListComponent !== null)) {
-                    this.recordListComponent.updateSortOptionsFromSortId(this.lastSearchRequest.Sort);
-                }
-                this.router.navigate(['/list']);
-            }, err => {
-                console.log(err);
-                alert(err);
             });
         } else {
             console.log('Search records backend service is undefined !');
@@ -217,26 +224,36 @@ export class AppComponent implements OnInit {
             if (recordToSave._id !== null) {
                 const deleteQueryString: string = this.recordUtils.getRecordDeletionID(recordToSave).getParamsForHTTPQueryString();
                 console.log('DeleteRecord before save : ' + deleteQueryString);
-                this.api.deleteRecord(deleteQueryString).subscribe(res => {
-                    console.log(res);
-                }, err => {
-                    console.log(err);
+                this.api.deleteRecord(deleteQueryString).subscribe({
+                    next: res => {
+                        console.log(res);
+                    },
+                    error: err => {
+                        console.log(err);
+                    }
                 });
             }
 
             // 2nd save the new version of the record
             console.log('saveRecord : ' + newRecord);
-            this.api.saveRecord(newRecord).subscribe(saveRes => {
-                // If Ok, we relaunch a search on the selected style
-                console.log(saveRes);
-                const request = new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
-                this.api.searchRecords(request).subscribe(searchRes => {
-                    this.handleLastSearchResults(searchRes, request);
-                }, err => {
+            this.api.saveRecord(newRecord).subscribe({
+                next: (saveRes) => {
+                    // If Ok, we relaunch a search on the selected style
+                    console.log(saveRes);
+                    const request = new SearchRequest(this.currentStyle,
+                        recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
+                    this.api.searchRecords(request).subscribe({
+                        next: (searchRes) => {
+                            this.handleLastSearchResults(searchRes, request);
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        }
+                    });
+                },
+                error: (err) => {
                     console.log(err);
-                });
-            }, err => {
-                console.log(err);
+                }
             });
         } else {
             console.log('Save record backend service is undefined !');
@@ -253,17 +270,23 @@ export class AppComponent implements OnInit {
             const deleteQueryString: string = recordToDelete.getParamsForHTTPQueryString();
 
             console.log('deleteRecord : ' + deleteQueryString);
-            this.api.deleteRecord(deleteQueryString).subscribe(res => {
-                // If Ok, we relaunch a search on the selected style
-                console.log(res);
-                const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', '', '', 0, null, null);
-                this.api.searchRecords(request).subscribe(searchRes => {
-                    this.handleLastSearchResults(searchRes, request);
-                }, err => {
+            this.api.deleteRecord(deleteQueryString).subscribe({
+                next: res => {
+                    // If Ok, we relaunch a search on the selected style
+                    console.log(res);
+                    const request = new SearchRequest(recordToDelete.style, '', '', '', '', '', null, '', '', '', 0, null, null);
+                    this.api.searchRecords(request).subscribe( {
+                        next: searchRes => {
+                            this.handleLastSearchResults(searchRes, request);
+                        },
+                        error : err => {
+                            console.log(err);
+                        }
+                    });
+                },
+                error: err => {
                     console.log(err);
-                });
-            }, err => {
-                console.log(err);
+                }
             });
         } else {
             console.log('Delete record backend service is undefined !');
@@ -282,21 +305,27 @@ export class AppComponent implements OnInit {
             const newRecord = this.recordUtils.getUpdatedObjectForHTTPPost(recordToSave);
             console.log('updateRecord : ' + newRecord);
 
-            this.api.updateRecord(newRecord).subscribe(saveRes => {
-                // If Ok and asked by the caller, we relaunch a search on the selected style
-                console.log(saveRes);
-                if (relaunchSearch) {
-                    const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
-                        new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
-                    this.api.searchRecords(request).subscribe(searchRes => {
-                        this.handleLastSearchResults(searchRes, request);
-                    }, err => {
-                        console.log(err);
-                    });
+            this.api.updateRecord(newRecord).subscribe({
+                next: (saveRes) => {
+                    // If Ok and asked by the caller, we relaunch a search on the selected style
+                    console.log(saveRes);
+                    if (relaunchSearch) {
+                        const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
+                            new SearchRequest(this.currentStyle, recordToSave.Artist, '', '', '', '', null, '', '', '', 0, null, null);
+                        this.api.searchRecords(request).subscribe({
+                            next: searchRes => {
+                                this.handleLastSearchResults(searchRes, request);
+                            },
+                            error: err => {
+                                console.log(err);
+                            }
+                        });
+                    }
+                },
+                error: err => {
+                    console.log(err);
+                    alert('Error when updating record: ' + err);
                 }
-            }, err => {
-                console.log(err);
-                alert('Error when updating record: ' + err);
             });
         } else {
             console.log('Save record backend service is undefined !');
@@ -311,18 +340,24 @@ export class AppComponent implements OnInit {
     onAddKeywordsRequested(recordsToSave: Record[]): void {
         if (this.api) {
 
-            this.api.updateKeywords(recordsToSave).subscribe(saveRes => {
-                // If Ok, we relaunch a search on the selected style
-                console.log(saveRes);
-                const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
-                    new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', '', '', 0, null, null);
-                this.api.searchRecords(request).subscribe(searchRes => {
-                    this.handleLastSearchResults(searchRes, request);
-                }, err => {
+            this.api.updateKeywords(recordsToSave).subscribe({
+                next: saveRes => {
+                    // If Ok, we relaunch a search on the selected style
+                    console.log(saveRes);
+                    const request = (this.lastSearchRequest !== null) ? this.lastSearchRequest :
+                        new SearchRequest(this.currentStyle, '', '', '', '', '', null, '', '', '', 0, null, null);
+                    this.api.searchRecords(request).subscribe({
+                        next: searchRes => {
+                            this.handleLastSearchResults(searchRes, request);
+                        },
+                        error: err => {
+                            console.log(err);
+                        }
+                    });
+                },
+                error: err => {
                     console.log(err);
-                });
-            }, err => {
-                console.log(err);
+                }
             });
         } else {
             console.log('Save record backend service is undefined !');
@@ -346,35 +381,40 @@ export class AppComponent implements OnInit {
    * COVER UPLOAD event handler (form submit)
    */
     onUploadCoverRequested(formData: FormData) {
-        this.api.uploadCover(formData).subscribe((response) => {
-            console.log('response  = ', response);
-            alert('File(s) uploaded successfully !');
-        },
-        (error) => {
-            console.log('error = ', error);
-            alert('File upload error : ' + error);
+        this.api.uploadCover(formData).subscribe({
+            next: (response) => {
+                console.log('response  = ', response);
+                alert('File(s) uploaded successfully !');
+            },
+            error: (error) => {
+                console.log('error = ', error);
+                alert('File upload error : ' + error);
+            }
         });
     }
 
     /**
-   * SEARCH for records
-   * @param request Record search request
+   * SEARCH for studios
+   * @param request Studios search request
    */
     onSearchStudiosRequested(request: string): void {
         if (this.api) {
             console.log('SearchStudios : ' + request);
-            this.api.searchStudios(request).subscribe(res => {
-                console.log(res);
+            this.api.searchStudios(request).subscribe({
+                next: res => {
+                    console.log(res);
 
-                if (res.studios != null) {
-                    this.setStudios(res.studios);
-                } else {
-                    this.setStudios(res);
+                    if (res.studios != null) {
+                        this.setStudios(res.studios);
+                    } else {
+                        this.setStudios(res);
+                    }
+
+                    this.router.navigate(['/studios']);
+                },
+                error: err => {
+                    console.log(err);
                 }
-
-                this.router.navigate(['/studios']);
-            }, err => {
-                console.log(err);
             });
         } else {
             console.log('Search studios backend service is undefined !');
@@ -392,28 +432,37 @@ export class AppComponent implements OnInit {
             if (ID !== null) {
                 const deleteQueryString: string = '?ID=' + ID;
                 console.log('SaveStudio before save : ' + deleteQueryString);
-                this.api.deleteStudio(deleteQueryString).subscribe(res => {
-                    console.log(res);
-                }, err => {
-                    console.log(err);
+                this.api.deleteStudio(deleteQueryString).subscribe({
+                    next: res => {
+                        console.log(res);
+                    },
+                    error: err => {
+                        console.log(err);
+                    }
                 });
             }
 
             // 2nd save the new version of the studio
             console.log('saveStudio : ' + studioToSave);
-            this.api.saveStudio(studioToSave).subscribe(saveRes => {
-                // If Ok, we relaunch a search on the selected style
-                console.log(saveRes);
-                this.api.getStudios().subscribe(res => {
-                    console.log(res);
-                    this.studios = res;
-                    this.setStudios(res);
-                    this.router.navigate(['/studios']);
-                }, err => {
+            this.api.saveStudio(studioToSave).subscribe({
+                next: saveRes => {
+                    // If Ok, we relaunch a search on the selected style
+                    console.log(saveRes);
+                    this.api.getStudios().subscribe({
+                        next: res => {
+                            console.log(res);
+                            this.studios = res;
+                            this.setStudios(res);
+                            this.router.navigate(['/studios']);
+                        },
+                        error: err => {
+                            console.log(err);
+                        }
+                    });
+                },
+                error: err => {
                     console.log(err);
-                });
-            }, err => {
-                console.log(err);
+                }
             });
         } else {
             console.log('Backend service is undefined !');
