@@ -43,17 +43,17 @@ export class UserComponent {
             // If the dialog send a result (i.e. a user) we post it to the backend
             if (result !== undefined) {
                 this.fromUser = result;
-                this.authService.login(this.fromUser).subscribe(
-                    () => {
+                this.authService.login(this.fromUser).subscribe({
+                    next: () => {
                         console.log('User is logged in');
                         alert('User is logged in');
                         this.router.navigateByUrl('/');
                     },
-                    (errorResponse) => {
+                    error: (errorResponse) => {
                         console.log('Login error = ', errorResponse);
                         alert('Login error : ' + errorResponse.error);
                     }
-                );
+                });
             }
             this.dialogRef = null;
         });
@@ -89,17 +89,17 @@ export class UserComponent {
             // If the dialog send a result (i.e. a user) we post it to the backend
             if (result !== undefined) {
                 this.fromUser = result;
-                this.authService.register(this.fromUser).subscribe(
-                    () => {
+                this.authService.register(this.fromUser).subscribe({
+                    next: () => {
                         console.log('User is registered');
                         alert('User is registered');
                         this.router.navigateByUrl('/');
                     },
-                    (errorResponse) => {
+                    error: (errorResponse) => {
                         console.log('Registration error = ', errorResponse);
                         alert('Registration error : ' + errorResponse.error);
                     }
-                );
+                });
             }
             this.dialogRef = null;
         });
@@ -125,17 +125,17 @@ export class UserComponent {
         this.profileDialogRef.afterClosed().subscribe(result => {
             // If the dialog send a result (i.e. a password) we post it to the backend (with the user)
             if (result !== undefined) {
-                this.authService.updatepwd(this.fromUser, result).subscribe(
-                    () => {
+                this.authService.updatepwd(this.fromUser, result).subscribe({
+                    next: () => {
                         console.log('New password updated for user :' + this.fromUser.name);
                         alert('New password updated for user :' + this.fromUser.name);
                         this.fromUser.password = result;
                     },
-                    (errorResponse) => {
+                    error: (errorResponse) => {
                         console.log('New password update error = ', errorResponse);
                         alert('New password update error : ' + errorResponse.error);
                     }
-                );
+                });
             }
             this.profileDialogRef = null;
         });

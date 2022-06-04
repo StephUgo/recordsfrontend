@@ -66,22 +66,10 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
         public viewContainerRef: ViewContainerRef,
         private appStateService: AppSharedStateService,
         private router: Router) {
-        this.subscription = this.appStateService.setRecords$.subscribe(
-            records => {
-                this.records = records;
-            });
-        this.subscription.add(this.appStateService.setConfig$.subscribe(
-            config => {
-                this.config = config;
-            }));
-        this.subscription.add(this.appStateService.setCurrentStyle$.subscribe(
-            style => {
-                this.style = style;
-            }));
-        this.subscription = this.appStateService.setStudios$.subscribe(
-            studios => {
-                this.studios = studios;
-            });
+        this.subscription = this.appStateService.setRecords$.subscribe(records => this.records = records);
+        this.subscription.add(this.appStateService.setConfig$.subscribe(config => this.config = config));
+        this.subscription.add(this.appStateService.setCurrentStyle$.subscribe(style => this.style = style));
+        this.subscription = this.appStateService.setStudios$.subscribe(studios => this.studios = studios);
     }
 
     ngOnDestroy() {
