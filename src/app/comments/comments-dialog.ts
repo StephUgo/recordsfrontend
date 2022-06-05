@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-comments-dialog',
@@ -12,9 +12,9 @@ export class CommentsDialogComponent {
 
     public fromRecord: Record;
     public editedRecord: Record;
-    form: FormGroup;
+    form: UntypedFormGroup;
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<CommentsDialogComponent>,
+    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<CommentsDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.fromRecord = data.selectedRecord;
         this.editedRecord = Object.assign({}, this.fromRecord);

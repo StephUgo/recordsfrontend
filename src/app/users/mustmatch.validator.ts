@@ -1,8 +1,8 @@
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 // Custom validator to check that two fields match
 export function MustMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
         if (formGroup === undefined) {
             return;
         }
@@ -38,7 +38,7 @@ export function MustMatchAString(stringValue: string): ValidatorFn {
 
 // Custom validator to check that two fields do not match
 export function MustNotMatch(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
+    return (formGroup: UntypedFormGroup) => {
         if (formGroup === undefined) {
             return;
         }

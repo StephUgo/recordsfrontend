@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Studio } from '../model/studio';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-studio-dialog-modal',
@@ -10,10 +10,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class StudioDialogModalComponent {
 
-    form: FormGroup;
+    form: UntypedFormGroup;
     fromPage: Studio; // The studio to edit coming from the StudioListComponent
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<StudioDialogModalComponent>,
+    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<StudioDialogModalComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.fromPage = data.selectedStudio;

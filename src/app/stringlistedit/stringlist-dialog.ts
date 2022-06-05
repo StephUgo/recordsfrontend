@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 export enum StringListDialogFlavor {
     Keywords = 0,
@@ -25,11 +25,11 @@ export class StringListDialogComponent {
 
     values: string[] = [];
     fromRecord: Record;
-    form: FormGroup;
+    form: UntypedFormGroup;
     isAddOnlyDialog = false;
     dialogFlavor = StringListDialogFlavor.Keywords;
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<StringListDialogComponent>,
+    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<StringListDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.fromRecord = data.selectedRecord;
         this.isAddOnlyDialog = data.isAddOnly;

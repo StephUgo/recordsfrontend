@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-keywords-dialog',
@@ -14,10 +14,10 @@ export class KeywordsTableDialogComponent {
     public keywords: string[] = [];
     public versionIndex = 0;
     public fromRecord: Record;
-    form: FormGroup;
+    form: UntypedFormGroup;
     public isAddOnlyKeywordsDialog = false;
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<KeywordsTableDialogComponent>,
+    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<KeywordsTableDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.fromRecord = data.selectedRecord;
         this.isAddOnlyKeywordsDialog = data.isAddKeywordsOnly;

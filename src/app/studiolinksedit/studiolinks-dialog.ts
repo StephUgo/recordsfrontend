@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Studio } from '../model/studio';
 import { RecordUtils } from '../recordutils';
 
@@ -20,10 +20,10 @@ export class StudioLinksDialogComponent implements OnInit {
 
     studios: Studio[] = [];
     fromRecord: Record;
-    form: FormGroup;
+    form: UntypedFormGroup;
     selectedStudios: string[] | null = [];
 
-    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<StudioLinksDialogComponent>,
+    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<StudioLinksDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: StudioLinksDialogData, public recordUtils: RecordUtils) {
         this.fromRecord = data.selectedRecord;
         this.studios = data.allStudios;
