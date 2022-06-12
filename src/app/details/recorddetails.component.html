@@ -2,7 +2,7 @@
 	<div *ngIf="(record !== undefined) && (record !== null) ; else noRecordToDisplayBlock">
 		<section class="recordcover">
 			<figure *ngIf="record.ImageFileName ; else elseBlock">
-				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" (click)="displayCover()">
+				<img src="{{backendServerURL}}/uploads/{{record.ImageFileName}}" alt="{{record.Title}} cover" (click)="displayCover()" class="recordcoverimg">
 			</figure>
 			<ng-template #elseBlock>
 				<div style="text-align: center; font-style: italic!important;">
