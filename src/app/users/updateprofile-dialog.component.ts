@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from './user.model';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch, MustNotMatch } from './mustmatch.validator';
 
 @Component({
@@ -11,11 +11,11 @@ import { MustMatch, MustNotMatch } from './mustmatch.validator';
 })
 export class ProfileDialogComponent {
 
-    form: UntypedFormGroup;
+    form: FormGroup;
     fromUser: User;
     submitted = false;
 
-    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<ProfileDialogComponent>,
+    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<ProfileDialogComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
         this.fromUser = data.user;
         // Init the form group with a formbuilder, we take the initial data from the user

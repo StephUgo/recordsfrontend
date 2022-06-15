@@ -42,13 +42,13 @@ export class ApiService {
             // return an observable with a user-facing error message
 
             if (error.status === 401) {
-                return throwError('You\'re not authorized to access the backend server. Please login.');
+                return throwError(() => new Error('You\'re not authorized to access the backend server. Please login.'));
             } else {
-                return throwError(defaultErrorMsg);
+                return throwError(() => new Error(defaultErrorMsg));
             }
         }
         // return an observable with a user-facing error message
-        return throwError('Something bad happened; please try again later.');
+        return throwError(() => new Error('Something bad happened; please try again later.'));
     }
 
     private extractData(res: Record[]): Record[] {

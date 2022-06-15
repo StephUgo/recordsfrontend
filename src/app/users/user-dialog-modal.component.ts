@@ -1,7 +1,7 @@
 import { Component, HostListener, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from './user.model';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from './mustmatch.validator';
 
 @Component({
@@ -11,12 +11,12 @@ import { MustMatch } from './mustmatch.validator';
 })
 export class UserDialogComponent {
 
-    form: UntypedFormGroup;
+    form: FormGroup;
     fromUser: User;
     isLogin: boolean; // If true, we are in a User Login dialog otherwise it's a User Registration dialog
     submitted = false;
 
-    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<UserDialogComponent>,
+    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<UserDialogComponent>,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
         this.fromUser = data.user;
         this.isLogin = data.isLogin;

@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Record } from '../model/record';
-import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { RecordUtils } from '../recordutils';
 
 @Component({
@@ -12,10 +12,10 @@ import { RecordUtils } from '../recordutils';
 export class RecordDialogModalComponent {
 
     styleList: Array<string>;
-    form: UntypedFormGroup;
+    form: FormGroup;
     fromPage: Record; // The record to edit coming from the RecordListComponent
 
-    constructor(private fb: UntypedFormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>, private recordUtils: RecordUtils,
+    constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<RecordDialogModalComponent>, private recordUtils: RecordUtils,
         @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
         this.styleList = Object.assign([], this.recordUtils.getStyles().map((currentObject) => currentObject.name));
