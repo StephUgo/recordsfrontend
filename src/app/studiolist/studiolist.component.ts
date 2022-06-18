@@ -90,22 +90,27 @@ export class StudiolistComponent implements OnDestroy {
                             alert(errMsg);
                             return;
                         } else {
-                            this.api.updateStudio(this.studios[i]).subscribe(saveRes => {
-                                console.log(saveRes);
-                                this.api.searchStudios('').subscribe(res => {
-                                    console.log(res);
-
-                                    if (res.studios != null) {
-                                        this.studios = res.studios;
-                                    } else {
-                                        this.studios = res;
-                                    }
-                                }, err => {
+                            this.api.updateStudio(this.studios[i]).subscribe({
+                                next: (saveRes) => {
+                                    console.log(saveRes);
+                                    this.api.searchStudios('').subscribe({
+                                        next: (res) => {
+                                            console.log(res);
+                                            if (res.studios != null) {
+                                                this.studios = res.studios;
+                                            } else {
+                                                this.studios = res;
+                                            }
+                                        },
+                                        error: (err) => {
+                                            console.log(err);
+                                        }
+                                    });
+                                },
+                                error: err => {
                                     console.log(err);
-                                });
-                            }, err => {
-                                console.log(err);
-                                alert('Error when updating studio: ' + err);
+                                    alert('Error when updating studio: ' + err);
+                                }
                             });
                         }
                     }

@@ -592,7 +592,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
 
     public onSelectAllButton() {
         if (this.records !== null) {
-            const allSelectionArray = [];
+            const allSelectionArray: number[] = [];
             for (let index = 0; index < this.records.length; index++) {
                 allSelectionArray.push(index);
             }
