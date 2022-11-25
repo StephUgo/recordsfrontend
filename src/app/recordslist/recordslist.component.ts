@@ -138,6 +138,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
             const dialogRef = this.dialog.open(CommentsDialogComponent, {
                 width: '400px',
                 height: '600px',
+                panelClass: 'custom-dialog',
                 data: { selectedRecord: this.records[i] }
             });
 

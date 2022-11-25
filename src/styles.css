@@ -17,12 +17,12 @@ h1 {
     1px 1px 0 #000;  
 }
 
-.custom-dialog-panel-class .mat-dialog-content { 
+.custom-dialog-panel-class .mat-mdc-dialog-content { 
 	margin: 0px;
 	color: blue;
 }
   
-.custom-dialog-panel-class .mat-dialog-actions { 
+.custom-dialog-panel-class .mat-mdc-dialog-actions { 
 	margin-bottom: 0px !important;
 	padding: 20px 30px;
 	color: grey;
