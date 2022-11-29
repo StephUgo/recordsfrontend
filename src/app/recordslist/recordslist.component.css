@@ -187,15 +187,16 @@
 	justify-content: left;
 }
 
-.toolbarbutton {
+
+.toolbarbutton mdc-button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 36px;
 	width: 36px;
 	min-width: 36px;
-	margin: 5px 5px 5px 5px;
-	border: 1px solid black;
+	margin: 5px 5px 5px 5px!important;
+	border: 1px solid black!important;
 }
 
 .toolbarbuttongroup {
