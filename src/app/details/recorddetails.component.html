@@ -11,7 +11,7 @@
 			</ng-template>
 		</section>
 		<section class="recorddescription">
-			<div *ngIf="(record.storageLocation !== undefined) && (record !== record.storageLocation !== null)">
+			<div *ngIf="(record.storageLocation !== undefined) && (record.storageLocation !== null)">
 				<figure>
 					<img src="../../assets/storage/{{record.storageLocation}}.svg" class="storageimg">
 				</figure>	
@@ -22,7 +22,7 @@
 			<p class="recorddescriptioninfo">Country: {{ record.Country }} - Reference: {{ record.Reference }}</p>
 			<p class="recorddescriptioninfo">Year: {{ record.Year }} - Period: {{ record.Period }}</p>
 			<p class="recorddescriptioninfo">{{ recordUtils.getKeywordsContents(record) }}</p>
-			<p class="recorddescriptioninfo" *ngIf="(record.storageLocation !== undefined) && (record !== record.storageLocation !== null)">
+			<p class="recorddescriptioninfo" *ngIf="(record.storageLocation !== undefined) && (record.storageLocation !== null)">
 				Storage Location: {{ record.storageLocation }}
 			</p>
 			<p class="recorddescriptioninfo">Description: </p>
