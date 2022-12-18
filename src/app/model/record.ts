@@ -19,7 +19,8 @@ export class Record {
         public Comments?: string,
         public keywords?: string[],
         public additionalPics?: string[],
-        public audioSamples?: string[]) { }
+        public audioSamples?: string[],
+        public storageLocation?: string) { }
 
     _id: string | null = null;
 
@@ -38,6 +39,7 @@ export class Record {
         this.keywords = record.keywords;
         this.additionalPics = record.additionalPics;
         this.audioSamples = record.audioSamples;
+        this.storageLocation = record.storageLocation;
     }
 
 }

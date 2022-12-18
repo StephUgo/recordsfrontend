@@ -39,7 +39,8 @@ export class RecordDialogModalComponent {
             reference: [(this.fromPage.Reference) ? this.fromPage.Reference.trim() : '', []],
             period: [(this.fromPage.Period) ? this.fromPage.Period.trim() : '', []],
             year: [this.fromPage.Year, []],
-            imageFileName: [this.fromPage.ImageFileName, []]
+            imageFileName: [this.fromPage.ImageFileName, []],
+            storageLocation: [(this.fromPage.storageLocation !== undefined) ? this.fromPage.storageLocation.trim() : '', []]
         });
     }
 
@@ -62,7 +63,8 @@ export class RecordDialogModalComponent {
             this.fromPage.Comments,
             this.fromPage.keywords, // Keywords are editable from a specific dialog
             this.fromPage.additionalPics,
-            this.fromPage.audioSamples
+            this.fromPage.audioSamples,
+            this.form.value.storageLocation.trim()
         );
         editedRecord._id = this.fromPage._id;
         this.dialogRef.close(editedRecord);

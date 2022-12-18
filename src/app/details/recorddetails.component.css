@@ -24,6 +24,14 @@
 	max-height: 200px;
 }
 
+.storageimg {
+	float: right;
+    height: 150px; 
+    width: 150px;
+	max-width: 150px;
+	max-height: 150px;
+}
+
 section figure {
     margin-block-start: 0px;
     margin-block-end: 0px;

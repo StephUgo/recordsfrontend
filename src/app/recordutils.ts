@@ -121,7 +121,8 @@ export class RecordUtils {
             'ImageFileName': record.ImageFileName,
             'keywords': record.keywords,
             'additionalPics': record.additionalPics,
-            'audioSamples': record.audioSamples
+            'audioSamples': record.audioSamples,
+            'storageLocation': record.storageLocation
         };
     }
 

@@ -11,12 +11,20 @@
 			</ng-template>
 		</section>
 		<section class="recorddescription">
+			<div *ngIf="(record.storageLocation !== undefined) && (record !== record.storageLocation !== null)">
+				<figure>
+					<img src="../../assets/storage/{{record.storageLocation}}.svg" class="storageimg">
+				</figure>	
+			</div>
 			<p class="recorddescriptioninfo">Artist: <span style="font-weight: bold;">{{ record.Artist }}</span></p>
 			<p class="recorddescriptioninfo">Record: <span style="font-weight: bold;">{{ record.Title }}</span></p>
 			<p class="recorddescriptioninfo">Format: {{ record.Format }} - Label: {{ record.Label }}</p>
 			<p class="recorddescriptioninfo">Country: {{ record.Country }} - Reference: {{ record.Reference }}</p>
 			<p class="recorddescriptioninfo">Year: {{ record.Year }} - Period: {{ record.Period }}</p>
 			<p class="recorddescriptioninfo">{{ recordUtils.getKeywordsContents(record) }}</p>
+			<p class="recorddescriptioninfo" *ngIf="(record.storageLocation !== undefined) && (record !== record.storageLocation !== null)">
+				Storage Location: {{ record.storageLocation }}
+			</p>
 			<p class="recorddescriptioninfo">Description: </p>
 			<section *ngIf="tracklist !== '' &&  companies !== ''; else commentsBlock">
 				<p class="recorddescriptiontext">Tracklist: 
