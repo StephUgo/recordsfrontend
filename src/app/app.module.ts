@@ -39,6 +39,7 @@ import { StudiolistComponent } from './studiolist/studiolist.component';
 import { StudioformComponent } from './studioform/studioform.component';
 import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog';
 import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-modal.component';
+import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyupdatedialog';
 
 @NgModule({
     declarations: [
@@ -61,6 +62,7 @@ import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-
         StudioformComponent,
         StudioLinksDialogComponent,
         StudioDialogModalComponent,
+        PropertyUpdateDialogComponent
     ],
     imports: [
         BrowserModule,

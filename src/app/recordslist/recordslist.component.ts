@@ -18,6 +18,7 @@ import { StringListDialogComponent, StringListDialogFlavor, StringListDialogData
 import { Router } from '@angular/router';
 import { StudioLinksDialogComponent, StudioLinksDialogData } from '../studiolinksedit/studiolinks-dialog';
 import { Studio } from '../model/studio';
+import { PropertyUpdateDialogComponent } from '../propertyupdatedialog/propertyupdatedialog';
 
 @Component({
     selector: 'app-recordslist',
@@ -39,7 +40,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     // Event emitter for updating a record after its edition in the modal dialog
     @Output() updateRecordRequested: EventEmitter<Record> = new EventEmitter<Record>();
     // Event emitter for adding keywords to a list of records
-    @Output() addKeywordsRequested: EventEmitter<Record[]> = new EventEmitter<Record[]>();
+    @Output() updateRecordsRequested: EventEmitter<Record[]> = new EventEmitter<Record[]>();
     // Event emitter for launching a new search request after a page change
     @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
     // Event emitter for launching a sort event
@@ -271,11 +272,56 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
                             }
                         }
                         console.log(editedRecords);
-                        this.addKeywordsRequested.emit(editedRecords);
+                        this.updateRecordsRequested.emit(editedRecords);
                     }
                 }
             });
         }
+    }
+
+    /**
+     * Handler for editng a single propery keywords on one or several records
+     * @param event the event
+     */
+    editPropertyDialog(event: any): void {
+        this.closeContextualMenu(); // If it was opened from the contextual menu
+
+        if (this.isSelectionEmpty()) {
+            return;
+        }
+
+        const dialogRef = this.dialog.open(PropertyUpdateDialogComponent, {
+            width: '400px',
+            height: '300px',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('The keywords dialog was closed');
+            // If the dialog send a result (i.e. a record) we post it to the backend
+            if ((typeof result !== typeof undefined) && (this.records !== null)) {
+                console.log(result);
+                if (result !== undefined && result !== null) {
+                    const editedRecords: Record[] = [];
+                    for (let index = 0; index < this.checkedItems.length; index++) {
+                        const selectedIndex = this.checkedItems[index];
+                        if (selectedIndex !== undefined) {
+                            editedRecords.push(this.records[selectedIndex]);
+                        }
+                    }
+                    for (let index = 0; index < editedRecords.length; index++) {
+                        const selectedRecord = editedRecords[index];
+                        if (result.property !== undefined) {
+                            const propertyName = this.recordUtils.getPropertyNameFromPropertyId(result.property.id);
+                            console.log('propertyName = ' + propertyName);
+                            // TODO: find type safe implementation
+                            (selectedRecord as any)[propertyName] = result.value;
+                        }
+                    }
+                    console.log(editedRecords);
+                    this.updateRecordsRequested.emit(editedRecords);
+                }
+            }
+        });
     }
 
 
@@ -631,7 +677,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
             const selectedRecord = this.records[i];
             toggleAudiophile(selectedRecord);
             console.log('Toggle audiophile result : ' + selectedRecord);
-            this.addKeywordsRequested.emit([selectedRecord]);
+            this.updateRecordsRequested.emit([selectedRecord]);
         }
     }
 

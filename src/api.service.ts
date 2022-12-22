@@ -14,7 +14,8 @@ const apiUrlByDefault = backendServerURL + '/records/searchrecordsdefault/';
 const apiSearchRecordsUrl = backendServerURL + '/records/searchrecords/';
 const apiSaveRecordUrl = backendServerURL + '/records/saverecord/';
 const apiUpdateRecordUrl = backendServerURL + '/records/updaterecord/';
-const apiUpdateKeywordsUrl = backendServerURL + '/records/updatekeywords/';
+// const apiUpdateKeywordsUrl = backendServerURL + '/records/updatekeywords/';
+const apiUpdateRecordsUrl = backendServerURL + '/records/updaterecords/';
 const apiDeleteRecordUrl = backendServerURL + '/records/deleterecord/';
 const apiUploadCoverUrl = backendServerURL + '/records/uploadcover/';
 const apiSearchStudiosUrl = backendServerURL + '/studios/searchstudios/';
@@ -137,10 +138,10 @@ export class ApiService {
 
 
     /**
-     * Update keywords of several records according to the array of records provided in parameter.
+     * Update several records according to the array of records provided in parameter.
      * @param records the array of records to be posted
      */
-    updateKeywords(records: Record[]): Observable<any> {
+    updateRecords(records: Record[]): Observable<any> {
 
         console.log(records);
 
@@ -150,7 +151,7 @@ export class ApiService {
             recordsPostArray.push(this.recordUtils.getUpdatedObjectForHTTPPost(record));
         });
 
-        return this.http.post(apiUpdateKeywordsUrl, recordsPostArray).pipe(catchError(this.handleError));
+        return this.http.post(apiUpdateRecordsUrl, recordsPostArray).pipe(catchError(this.handleError));
     }
     /**
      * Handler for cover upload event

@@ -39,6 +39,18 @@ export class RecordUtils {
 
     private formats: Array<string> = ['7"', '10"', '12"', 'LP', '2xLP', '3xLP', '2x7"', '3x7"'];
 
+    // TODO: 'dummy' solution check other implementations
+    private properties: Array<{ id: number; name: string; label: string }> = [
+        { id: 0, name: 'Artist', label: 'Artist' },
+        { id: 1, name: 'Title', label: 'Title' },
+        { id: 2, name: 'Format', label: 'Format' },
+        { id: 3, name: 'Label', label: 'Label' },
+        { id: 4, name: 'Country', label: 'Country' },
+        { id: 5, name: 'Reference', label: 'Reference' },
+        { id: 6, name: 'Period', label: 'Period' },
+        { id: 7, name: 'storageLocation', label: 'Storage Location' },
+    ];
+
     /**
      * Returns the style numeric id from the style string value.
      */
@@ -134,6 +146,10 @@ export class RecordUtils {
         return this.formats;
     }
 
+    getProperties(): ReadonlyArray<{ id: number; name: string; label: string }> {
+        return this.properties;
+    }
+
     getKeywordsContents(record: Record): string {
         let keywords = '';
         if ((record.keywords !== undefined) && (record.keywords !== null)) {
@@ -151,6 +167,43 @@ export class RecordUtils {
             }
         }
         return keywords;
+    }
+
+
+    /**
+     * Returns the property from the property label value.
+     */
+    getPropertyFromPropertyLabel(propertyLabel: string): { id: number; name: string; label: string } {
+        if (propertyLabel!== null) {
+            for (let index = 0; index < this.properties.length; index++) {
+                const property = this.properties[index];
+                if (property.label === propertyLabel) {
+                    return property;
+                }
+            }
+        }
+        throw new Error('Unknown property.');
+    }
+
+    /**
+     * Get the property name value from the property numeric id.
+     */
+    getPropertyNameFromPropertyId(propertyId: number): string {
+        if (propertyId > 0 && propertyId < this.properties.length) {
+            return this.properties[propertyId].name;
+        }
+        throw new Error('Unknown property.');
+    }
+
+
+    /**
+     * Get the property from the property numeric id.
+     */
+    getPropertyFromPropertyId(propertyId: number): { id: number; name: string; label: string }  {
+        if (propertyId > 0 && propertyId < this.properties.length) {
+            return this.properties[propertyId];
+        }
+        throw new Error('Unknown property.');
     }
 
     clearStudios(record: Record) {

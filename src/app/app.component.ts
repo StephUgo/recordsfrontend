@@ -112,8 +112,8 @@ export class AppComponent implements OnInit {
             componentReference.updateRecordRequested.subscribe((record: Record) => {
                 this.onUpdateRecordRequested(record, true);
             });
-            componentReference.addKeywordsRequested.subscribe((records: Record[]) => {
-                this.onAddKeywordsRequested(records);
+            componentReference.updateRecordsRequested.subscribe((records: Record[]) => {
+                this.onUpdateRecordsRequested(records);
             });
             componentReference.pageChanged.subscribe((newPage: number) => {
                 this.onPageChanged(newPage);
@@ -334,13 +334,13 @@ export class AppComponent implements OnInit {
 
 
     /**
-  * ADD KEYWORDS to Records
-  * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
-  */
-    onAddKeywordsRequested(recordsToSave: Record[]): void {
+     * UPDATE Records
+     * @param recordToSave the RecordPost as transmitted by the RecordFormComponent
+     */
+    onUpdateRecordsRequested(recordsToSave: Record[]): void {
         if (this.api) {
 
-            this.api.updateKeywords(recordsToSave).subscribe({
+            this.api.updateRecords(recordsToSave).subscribe({
                 next: saveRes => {
                     // If Ok, we relaunch a search on the selected style
                     console.log(saveRes);
