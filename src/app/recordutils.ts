@@ -151,11 +151,23 @@ export class RecordUtils {
     getStorages(): ReadonlyArray<string> {
         if (this.storages.length <= 0) {
             for (let i = 1; i <= 24 ; i++) {
-                this.storages.push('0-1-' + i);
+                this.storages.push('0-1-' + i.toLocaleString('en-US', {
+                    minimumIntegerDigits: 2,
+                    useGrouping: false
+                }));
+            }
+            for (let i = 1; i <= 5 ; i++) {
+                this.storages.push('0-2-' + i.toLocaleString('en-US', {
+                    minimumIntegerDigits: 2,
+                    useGrouping: false
+                }));
             }
             for (let i = 1; i <= 3 ; i++) {
                 for (let j = 1; j <= 12; j++) {
-                    this.storages.push('1-' + i + '-' + j);
+                    this.storages.push('1-' + i + '-' + j.toLocaleString('en-US', {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false
+                    }));
                 }
             }
         }

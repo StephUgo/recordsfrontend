@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <rect x="266.636" y="49.537" width="116.666" height="69.876" style="stroke: rgb(0, 0, 0); paint-order: fill; fill: none; stroke-width: 3px;"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="227.263" y1="49.714" x2="227.263" y2="119.766"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="104.334" y1="258.42" x2="382.874" y2="258.42"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="184.011" y1="119.445" x2="266.064" y2="119.445"/>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 24.9px;" x="240.752" y="94.654">1</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 24.9px;" x="108.224" y="28.24">Ground Floor - Storage 2</text>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="185.446" y1="118.862" x2="185.446" y2="256.539"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="346.086" y1="119.395" x2="346.086" y2="256.54"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="105.314" y1="188.488" x2="105.314" y2="259.072"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="104.684" y1="190.097" x2="185.14" y2="190.097"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="383.593" y1="120.927" x2="383.593" y2="259.669"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="226.155" y1="49.744" x2="266.142" y2="49.744"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="345.431" y1="190.162" x2="384.353" y2="190.162"/>
+  <rect x="186.51" y="121.406" width="158.68" height="135.784" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-opacity: 0;"/>
+</svg>
