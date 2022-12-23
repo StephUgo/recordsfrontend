@@ -40,7 +40,8 @@ export class RecordDialogModalComponent {
             period: [(this.fromPage.Period) ? this.fromPage.Period.trim() : '', []],
             year: [this.fromPage.Year, []],
             imageFileName: [this.fromPage.ImageFileName, []],
-            storageLocation: [(this.fromPage.storageLocation !== undefined) ? this.fromPage.storageLocation.trim() : '', []]
+            storageLocation: [(this.fromPage.storageLocation !== undefined && this.fromPage.storageLocation !== null)
+                ? this.fromPage.storageLocation.trim() : '', []]
         });
     }
 
