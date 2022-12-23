@@ -12,6 +12,7 @@ export class SearchFormComponent implements OnInit {
 
     public styleList: Array<{id: number; name: string; label: string}>;
     public formatList: Array<string>;
+    public storageList: Array<string>;
     public model: any;
     public sortOptions = [
         { id: 1, name: 'Sort by Artist (asc)' },
@@ -33,6 +34,7 @@ export class SearchFormComponent implements OnInit {
     constructor(private recordUtils: RecordUtils) {
         this.styleList =  Object.assign([], this.recordUtils.getStyles());
         this.formatList = Object.assign([], recordUtils.getFormats());
+        this.storageList = Object.assign([], recordUtils.getStorages());
     }
 
     ngOnInit() {
@@ -57,7 +59,7 @@ export class SearchFormComponent implements OnInit {
     onClickSearch() {
         const request = new SearchRequest((this.model.myStyle.id === 0) ? null : this.model.myStyle.id,
             this.model.artiste, this.model.Titre, this.model.Format, this.model.Label,
-            this.model.Country, this.model.Year, this.model.Period, this.model.Reference, this.model.Keywords,
+            this.model.Country, this.model.Year, this.model.Period, this.model.Reference, this.model.Keywords, this.model.StorageLocation,
             this.model.mySort.id, this.limit, this.skip);
         console.log(request);
         this.searchRecordsRequested.emit(request);

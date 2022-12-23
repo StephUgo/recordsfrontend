@@ -51,6 +51,8 @@ export class RecordUtils {
         { id: 7, name: 'storageLocation', label: 'Storage Location' },
     ];
 
+    private storages: Array<string> = [];
+
     /**
      * Returns the style numeric id from the style string value.
      */
@@ -144,6 +146,20 @@ export class RecordUtils {
 
     getFormats(): ReadonlyArray<string> {
         return this.formats;
+    }
+
+    getStorages(): ReadonlyArray<string> {
+        if (this.storages.length <= 0) {
+            for (let i = 1; i <= 24 ; i++) {
+                this.storages.push('0-1-' + i);
+            }
+            for (let i = 1; i <= 3 ; i++) {
+                for (let j = 1; j <= 12; j++) {
+                    this.storages.push('1-' + i + '-' + j);
+                }
+            }
+        }
+        return this.storages;
     }
 
     getProperties(): ReadonlyArray<{ id: number; name: string; label: string }> {

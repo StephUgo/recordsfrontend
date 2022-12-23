@@ -84,6 +84,8 @@ export class ApiService {
             .set('Reference', request.Reference !== undefined && request.Reference !== null ? request.Reference : '')
             .set('Keywords', request.Keywords !== undefined && request.Keywords !== null ? request.Keywords : '')
             .set('Label', request.Label !== undefined &&  request.Label !== null ? request.Label : '')
+            .set('StorageLocation', request.StorageLocation !== undefined
+            &&  request.StorageLocation !== null ? request.StorageLocation : '')
             .set('Sort', request.Sort !== undefined && request.Sort !== null ? request.Sort.toString() : '1')
             .set('Limit', request.Limit !== undefined && request.Limit != null ? request.Limit.toString() : '')
             .set('Skip', request.Skip !== undefined && request.Skip != null ? request.Skip.toString() : '');

@@ -14,6 +14,7 @@ export class SearchRequest {
         public Period: string | null,
         public Reference: string | null,
         public Keywords: string | null,
+        public StorageLocation: string | null,
         public Sort: number | null,
         public Limit: number | null,
         public Skip: number | null) {}
