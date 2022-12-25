@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <rect x="79.593" y="39.419" width="323.268" height="419.183" style="stroke: rgb(0, 0, 0); paint-order: fill; fill: none; stroke-width: 3px;"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="242.563" y1="38.531" x2="242.563" y2="456.826"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="79.1" y1="249.899" x2="402.368" y2="249.899"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="78.212" y1="179.739" x2="401.48" y2="179.739"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="79.1" y1="109.579" x2="402.368" y2="109.579"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="78.436" y1="320.059" x2="401.704" y2="320.059"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="78.212" y1="390.218" x2="401.48" y2="390.218" bx:origin="0.566 0"/>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 24.9px;" x="267.742" y="151.629">07</text>
+  <text style="white-space: pre; fill: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 24.9px;" x="108.224" y="28.24">Ground Floor - Storage 1</text>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="161.342" y1="38.456" x2="161.342" y2="456.751"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 3px;" x1="321.982" y1="38.457" x2="321.982" y2="456.752"/>
+</svg>
