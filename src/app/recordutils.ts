@@ -115,7 +115,9 @@ export class RecordUtils {
             'Period': record.Period,
             'Reference': record.Reference,
             'Comments': record.Comments,
-            'ImageFileName': record.ImageFileName
+            'ImageFileName': record.ImageFileName,
+            'keywords': record.keywords,
+            'audioSamples': record.audioSamples
         };
     }
 

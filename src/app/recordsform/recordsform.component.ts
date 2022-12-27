@@ -82,7 +82,8 @@ export class RecordsformComponent implements OnInit {
         } else {
             const record = new Record(this.recordUtils.getStyleNameFromStyleId(this.model.myStyle.id), this.model.artiste,
                 this.model.Titre, this.model.Format, this.model.Label,
-                this.model.Country, this.model.Reference, this.model.Period, this.model.Year, this.model.ImageFileName);
+                this.model.Country, this.model.Reference, this.model.Period, this.model.Year, this.model.ImageFileName,'',
+                this.model.keywords, [], this.model.audioSamples);
             console.log(record);
             this.saveRecordRequested.emit(record);
         }
@@ -137,6 +138,8 @@ export class RecordsformComponent implements OnInit {
             this.model.Year = this.lastDisplayedRecord.Year;
             this.model.Period = this.lastDisplayedRecord.Period;
             this.model.Reference = this.lastDisplayedRecord.Reference;
+            this.model.keywords = Object.assign([], this.lastDisplayedRecord.keywords);
+            this.model.audioSamples = Object.assign([], this.lastDisplayedRecord.audioSamples);
         } else {
             alert('You have to display a record first to use this operation.');
         }
