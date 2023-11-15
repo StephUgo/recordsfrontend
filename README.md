@@ -33,6 +33,9 @@ See below for snapshosts which depict some of these functionnalities :
     - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs) :
 ![RudyInHackensack](snapshots/RudyInHackensack.png)
 
+  - "Basic" responsive display for small screens :
+![ResponsiveDisplay](snapshots/ResponsiveDisplay.png)
+
 
 This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
 
