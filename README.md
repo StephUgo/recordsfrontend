@@ -11,6 +11,29 @@ The main functions are :
 
 See below for snapshosts which depict some of these functionnalities :
 
+  - Some Soul/Funk classics recorded (partially at least) in Hollywood :
+![SoulFunkClassicsInHollywood](snapshots/SoulFunkClassicsInHollywood.png)
+
+  - Some Latin Soul recorded in Manhattan :
+![SomeLatinSoulInManhattan](snapshots/SomeLatinSoulInManhattan.png)
+
+  - Browse through some 7" :
+![45Display](snapshots/45Display.png)
+
+  - Display record details :
+![RecordDetails](snapshots/RecordDetails.png)
+
+  - Display attached pictures :
+![RecordCovers](snapshots/RecordCovers.png)
+
+  - Some record searches :
+    - Roy Budd's soundtracks recorded in CTS Wembley :
+![RoyBuddCTSWembley](snapshots/RoyBuddCTSWembley.png)
+
+    - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs) :
+![RudyInHackensack](snapshots/RudyInHackensack.png)
+
+
 This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
 
 The software stack used for this development is quite straightforward, mainly : 
