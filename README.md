@@ -9,7 +9,7 @@ The main functions are :
   - Fill studio and recording information ;
   - Locate recordings on a global map with a basic deconfliction algorithm.
 
-See below for snapshosts wich depict some of these functionnalities :
+See below for snapshosts which depict some of these functionnalities :
 
 This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
 
