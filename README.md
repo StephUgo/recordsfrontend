@@ -7,7 +7,7 @@ The main functions are :
   - Search records with several criteria ;
   - Display list of records (textual or cover based) ;
   - Fill studio and recording information ;
-  - Locate recordings on a global map.
+  - Locate recordings on a global map with a basic deconfliction algorithm.
 
 See below for snapshosts wich depict some of these functionnalities :
 
@@ -15,7 +15,7 @@ This project is currently build with [Angular CLI](https://github.com/angular/an
 
 The software stack used for this development is quite straightforward, mainly : 
   - Angular ;
-  - Cesium (through "angular-cesium" lib)
+  - Cesium (through "angular-cesium" lib) ;
   - NgxPagination ;
   - RxJS ;
   - Font-awesome.
