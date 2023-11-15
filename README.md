@@ -1,6 +1,24 @@
 # Records
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.3.
+This project is an Angular frontend enabling to manage a vinyl record collection (in fact mine... :). It is made to work with a NodeJS backend available at https://github.com/StephUgo/recordsbackend.
+
+The main functions are :
+  - Create / Read / Update and Delete (CRUD) records according to a simple model (Title, Artist, Label, Style, Keywords, Reference #, Attached Pics, ...) ;
+  - Search records with several criteria ;
+  - Display list of records (textual or cover based) ;
+  - Fill studio and recording information ;
+  - Locate recordings on a global map.
+
+See below for snapshosts wich depict some of these functionnalities :
+
+This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
+
+The software stack used for this development is quite straightforward, mainly : 
+  - Angular ;
+  - Cesium (through "angular-cesium" lib)
+  - NgxPagination ;
+  - RxJS ;
+  - Font-awesome.
 
 ## Development server
 
