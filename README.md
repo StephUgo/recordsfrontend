@@ -34,7 +34,9 @@ See below for snapshosts which depict some of these functionnalities :
 ![RudyInHackensack](snapshots/RudyInHackensack.png)
 
   - "Basic" responsive display for small screens :
-<img src="https://github.com/StephUgo/recordsfrontend/blob/master/snapshots/ResponsiveDisplay.png" width=50% height=50%>
+<p align="center">
+  <img src="https://github.com/StephUgo/recordsfrontend/blob/master/snapshots/ResponsiveDisplay.png" width=50% height=50%>
+</p>
 
 
 This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
