@@ -27,10 +27,10 @@ See below for snapshosts which depict some of these functionnalities :
 ![RecordCovers](snapshots/RecordCovers.png)
 
   - Some record searches :
-    - Roy Budd's soundtracks recorded in CTS Wembley :
+    - Some Roy Budd's soundtracks recorded at CTS Studios Wembley :
 ![RoyBuddCTSWembley](snapshots/RoyBuddCTSWembley.png)
 
-    - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs) :
+    - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs ;) :
 ![RudyInHackensack](snapshots/RudyInHackensack.png)
 
   - "Basic" responsive display for small screens :
