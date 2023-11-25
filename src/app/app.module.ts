@@ -33,8 +33,6 @@ import { AppRoutingModule } from './app.routingmodule';
 import { RecordDetailsComponent } from './details/recorddetails.component';
 import { CoverViewOverlayComponent } from './coverview/coverview.component';
 import { StringListDialogComponent } from './stringlistedit/stringlist-dialog';
-//import { AngularCesiumModule } from 'angular-cesium';
-//import { MapLayerComponent } from './mapcomponent/map.component';
 import { StudiolistComponent } from './studiolist/studiolist.component';
 import { StudioformComponent } from './studioform/studioform.component';
 import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog';
@@ -57,7 +55,6 @@ import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyup
         CommentsDialogComponent,
         UserComponent,
         ProfileDialogComponent,
-  //      MapLayerComponent,
         StudiolistComponent,
         StudioformComponent,
         StudioLinksDialogComponent,
@@ -80,8 +77,7 @@ import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyup
         ReactiveFormsModule,
         NgxPaginationModule,
         FontAwesomeModule,
-        AppRoutingModule//,
-        //AngularCesiumModule.forRoot()
+        AppRoutingModule
     ],
     providers: [
         {
