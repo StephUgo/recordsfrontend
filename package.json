@@ -32,7 +32,7 @@
     "core-js": "^3.33.1",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.4",
-    "ngx-pagination": "^5.0.0",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
     "util": "^0.12.5",
