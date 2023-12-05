@@ -38,6 +38,7 @@ import { StudioformComponent } from './studioform/studioform.component';
 import { StudioLinksDialogComponent } from './studiolinksedit/studiolinks-dialog';
 import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-modal.component';
 import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyupdatedialog';
+import { MapComponent } from './mapcomponent/mapcomponent.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,7 @@ import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyup
         StudioformComponent,
         StudioLinksDialogComponent,
         StudioDialogModalComponent,
-        PropertyUpdateDialogComponent
+        PropertyUpdateDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -77,7 +78,8 @@ import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyup
         ReactiveFormsModule,
         NgxPaginationModule,
         FontAwesomeModule,
-        AppRoutingModule
+        AppRoutingModule,
+        MapComponent
     ],
     providers: [
         {
