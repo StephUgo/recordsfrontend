@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 declare let Cesium: any;
 // import * as Cesium from '../assets/js/Cesium.js';
 
@@ -10,27 +11,25 @@ Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 })
 export class CesiumService {
     constructor() { }
+
+    backendServerURL = environment.backendURL + ':' + environment.backendPort;
+
     private viewer: any;plotPoints(div: string){
         this.viewer = new Cesium.Viewer(div);
         this.viewer.entities.add({
-            position: Cesium.Cartesian3.fromDegrees(-75.59777, 40.03883),
-            point: {
-                color: Cesium.Color.RED,
-                pixelSize: 16,
+            position: Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
+            billboard: {
+                image: this.backendServerURL + '/uploads/' + 'LucienRash.jpg',
+                height: 100,
+                width: 100
             },
-        });
-        this.viewer.entities.add({
-            position: Cesium.Cartesian3.fromDegrees(-80.5, 35.14),
-            point: {
-                color: Cesium.Color.BLUE,
-                pixelSize: 16,
-            },
-        });
-        this.viewer.entities.add({
-            position: Cesium.Cartesian3.fromDegrees(-80.12, 25.46),
-            point: {
-                color: Cesium.Color.YELLOW,
-                pixelSize: 16,
+            label: {
+                text: 'Jon Lucien - Rashida',
+                font: '14pt monospace',
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                outlineWidth: 2,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                pixelOffset: new Cesium.Cartesian2(0, 64),
             },
         });
     }
