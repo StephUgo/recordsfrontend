@@ -61,6 +61,7 @@ import { MapComponent } from './mapcomponent/mapcomponent.component';
         StudioLinksDialogComponent,
         StudioDialogModalComponent,
         PropertyUpdateDialogComponent,
+        MapComponent
     ],
     imports: [
         BrowserModule,
@@ -78,8 +79,7 @@ import { MapComponent } from './mapcomponent/mapcomponent.component';
         ReactiveFormsModule,
         NgxPaginationModule,
         FontAwesomeModule,
-        AppRoutingModule,
-        MapComponent
+        AppRoutingModule
     ],
     providers: [
         {
