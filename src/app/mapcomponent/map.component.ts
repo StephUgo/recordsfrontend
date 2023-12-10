@@ -64,21 +64,24 @@ export class MapLayerComponent implements OnInit, AfterViewInit {
                 this.records = records;
             });
         this.records = this.appStateService.records.value;
+
         this.appStateService.setActiveForm$.subscribe(
             isFormActive => {
                 this.bigSize = !isFormActive;
             });
-        this.bigSize = !this.appStateService.activeForm.value;
         this.appStateService.setActiveSearchForm$.subscribe(
             isFormActive => {
                 this.bigSize = !isFormActive;
             });
-        this.bigSize = !this.appStateService.activeSearchForm.value;
         this.appStateService.setActiveUploadForm$.subscribe(
             isFormActive => {
                 this.bigSize = !isFormActive;
             });
-        this.bigSize = !this.appStateService.activeUploadForm.value;
+        this.appStateService.setActiveStudioForm$.subscribe(
+            isFormActive => {
+                this.bigSize = !isFormActive;
+            });
+        this.updateSize();
     }
 
     ngOnInit() {
@@ -109,6 +112,12 @@ export class MapLayerComponent implements OnInit, AfterViewInit {
             this.eventsManager = this.acMap.getMapEventsManager();
             this.registerDoubleClickEvent();
         }
+    }
+
+    private updateSize() {
+        this.bigSize = (!this.appStateService.activeUploadForm.value && !this.appStateService.activeForm.value &&
+            !this.appStateService.activeSearchForm.value && !this.appStateService.activeStudioForm.value ) ? true : false;
+    
     }
 
     private processSelectedRecords() {
