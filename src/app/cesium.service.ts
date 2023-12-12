@@ -40,8 +40,10 @@ export class CesiumService {
     }
 
     displayRecord(div: string,  record: Record, conflictedLocation: ILocation,
-        finalLocation: ILocation, name: string){
-        this.viewer = new Cesium.Viewer(div);
+        finalLocation: ILocation, name: string, resetViewer: boolean){
+        if (resetViewer) {
+            this.viewer = new Cesium.Viewer(div);
+        }
 
         this.viewer.entities.add({
             id: record._id !== null ? record._id : 'null',

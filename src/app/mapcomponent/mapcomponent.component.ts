@@ -22,6 +22,7 @@ export class MapComponent implements OnInit {
     backendServerURL = environment.backendURL + ':' + environment.backendPort;
     show = true;
     bigSize = false;
+    resetViewer = true;
 
     // Data (i.e. records)
     records: Array<Record> = []; // The last searched records
@@ -29,6 +30,8 @@ export class MapComponent implements OnInit {
 
     // Map objects & subscribers
     private scalefactors: { [id: string]: number } = {};
+    private locationLabels: Array<string> = [];
+
 
     // Deconflictions data
     private finalSelectedLocations: Array<ILocation> = [];
@@ -64,6 +67,7 @@ export class MapComponent implements OnInit {
 
 
     ngOnInit() {
+        this.resetViewer = true;
         this.route.paramMap.subscribe(params => {
             if (params !== null) {
                 const recordsId = params.get('recordsId');
@@ -127,13 +131,16 @@ export class MapComponent implements OnInit {
                                 const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
                                 if (finalLocation !== null) {
                                     this.finalSelectedLocations.push(finalLocation);
-                                    // TODO : ADAPTATION
-                                    // this.sendNotifications(record, conflictedLocation, finalLocation, location.name);
+                                    this.cesium.displayRecord('cesium', record, conflictedLocation, finalLocation,
+                                        '', this.resetViewer);
+                                    this.resetViewer = false;
                                 }
                             } else {
                                 this.finalSelectedLocations.push(originalLocation);
-                                // this.sendNotifications(record, originalLocation, originalLocation, location.name);
-                                this.cesium.displayRecord('cesium', record, originalLocation, originalLocation, location.name);
+                                this.locationLabels.push(location.name);
+                                this.cesium.displayRecord('cesium', record, originalLocation, originalLocation,
+                                    location.name, this.resetViewer);
+                                this.resetViewer = false;
                             }
                             this.originalSelectedLocations.push(originalLocation);
                         }
