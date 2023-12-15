@@ -1,6 +1,6 @@
 import { ILocation, CesiumService } from '../cesium.service';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { AppSharedStateService } from '../app.sharedstateservice';
 import { Record } from '../model/record';
@@ -17,12 +17,11 @@ interface IConflictedLocation {
     templateUrl: './mapcomponent.component.html',
     styleUrl: './mapcomponent.component.css'
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
 
     backendServerURL = environment.backendURL + ':' + environment.backendPort;
     show = true;
     bigSize = false;
-    resetViewer = true;
 
     // Data (i.e. records)
     records: Array<Record> = []; // The last searched records
@@ -32,19 +31,27 @@ export class MapComponent implements OnInit {
     private scalefactors: { [id: string]: number } = {};
     private locationLabels: Array<string> = [];
 
-
     // Deconflictions data
     private finalSelectedLocations: Array<ILocation> = [];
     private originalSelectedLocations: Array<ILocation> = [];
     private conflicts: { [id: string]: IConflictedLocation } = {};
 
-    constructor(private cesium: CesiumService, private route: ActivatedRoute, private appStateService: AppSharedStateService,) {
+    // Subscriptions
+    private recordSubscription: Subscription | null = null;
+    private routeSubscription: Subscription | null = null;
 
-        this.appStateService.setRecords$.subscribe(
+    constructor(private cesium: CesiumService, private route: ActivatedRoute, private appStateService: AppSharedStateService,) { }
+
+    ngOnInit() {
+        // Subscriptions to useful observables
+
+        // Current records
+        this.recordSubscription  = this.appStateService.setRecords$.subscribe(
             records => {
                 this.records = records;
             });
         this.records = this.appStateService.records.value;
+        // Forms activation
         this.appStateService.setActiveForm$.subscribe(
             isFormActive => {
                 this.bigSize = !isFormActive;
@@ -61,14 +68,12 @@ export class MapComponent implements OnInit {
             isFormActive => {
                 this.bigSize = !isFormActive;
             });
+        // Size computation depending on activated forms
         this.bigSize = (!this.appStateService.activeUploadForm.value && !this.appStateService.activeForm.value &&
             !this.appStateService.activeSearchForm.value && !this.appStateService.activeStudioForm.value ) ? true : false;
-    }
 
-
-    ngOnInit() {
-        this.resetViewer = true;
-        this.route.paramMap.subscribe(params => {
+        // Router subscription
+        this.routeSubscription = this.route.paramMap.subscribe(params => {
             if (params !== null) {
                 const recordsId = params.get('recordsId');
                 this.selectedRecords.length = 0;
@@ -87,6 +92,25 @@ export class MapComponent implements OnInit {
                 }
             }
         });
+
+        // Ask Cesium service to initialize the viewer
+        this.cesium.initViewer('cesium');
+    }
+
+    ngOnDestroy() {
+        // Ask Cesium service to reset the viewer
+        this.cesium.resetViewer();
+        // Unsubscribe from observables
+        if (this.recordSubscription !== null) {
+            this.recordSubscription.unsubscribe();
+        }
+        if (this.routeSubscription !== null) {
+            this.routeSubscription.unsubscribe();
+        }
+        this.appStateService.setActiveForm$.subscribe();
+        this.appStateService.setActiveSearchForm$.subscribe();
+        this.appStateService.setActiveUploadForm$.subscribe();
+        this.appStateService.setActiveStudioForm$.subscribe();
     }
 
     private processSelectedRecords() {
@@ -128,19 +152,21 @@ export class MapComponent implements OnInit {
                         if (originalLocation !== null) {
                             const conflictedLocation = this.getConflictedLocation(originalLocation);
                             if (conflictedLocation !== null) {
+                                // Updates the original location to the final one so as to deconflict the display
                                 const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
                                 if (finalLocation !== null) {
                                     this.finalSelectedLocations.push(finalLocation);
-                                    this.cesium.displayRecord('cesium', record, conflictedLocation, finalLocation,
-                                        '', this.resetViewer);
-                                    this.resetViewer = false;
+                                    this.cesium.displayRecord(record, conflictedLocation, finalLocation,'');
+                                    // Ensure that the final and the conflicted locations are different
+                                    // in order to display a line between them
+                                    if (finalLocation.lat !== conflictedLocation.lat || finalLocation.lon !== conflictedLocation.lon) {
+                                        this.cesium.displayLine(record, conflictedLocation, finalLocation);
+                                    }
                                 }
                             } else {
                                 this.finalSelectedLocations.push(originalLocation);
                                 this.locationLabels.push(location.name);
-                                this.cesium.displayRecord('cesium', record, originalLocation, originalLocation,
-                                    location.name, this.resetViewer);
-                                this.resetViewer = false;
+                                this.cesium.displayRecord(record, originalLocation, originalLocation, location.name);
                             }
                             this.originalSelectedLocations.push(originalLocation);
                         }

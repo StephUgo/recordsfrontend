@@ -16,35 +16,33 @@ export class CesiumService {
     constructor() { }
 
     backendServerURL = environment.backendURL + ':' + environment.backendPort;
-
     private viewer: any;
 
-    plotPoints(div: string){
+    /**
+     * Initialize a Cesium viewer on the Div element which is identified by the parameter.
+     *
+     * @param div - Id of the Div element for which the viewer has to be created.
+     */
+    initViewer(div: string) {
         this.viewer = new Cesium.Viewer(div);
-        this.viewer.entities.add({
-            position: Cesium.Cartesian3.fromDegrees(-75.166493, 39.9060534),
-            billboard: {
-                image: this.backendServerURL + '/uploads/' + 'LucienRash.jpg',
-                height: 100,
-                width: 100
-            },
-            label: {
-                text: 'Jon Lucien - Rashida',
-                font: '14pt monospace',
-                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                outlineWidth: 2,
-                verticalOrigin: Cesium.VerticalOrigin.TOP,
-                pixelOffset: new Cesium.Cartesian2(0, 64),
-            },
-        });
     }
 
-    displayRecord(div: string,  record: Record, conflictedLocation: ILocation,
-        finalLocation: ILocation, name: string, resetViewer: boolean){
-        if (resetViewer) {
-            this.viewer = new Cesium.Viewer(div);
-        }
+    /**
+     * Reset the current viewer to undefined.
+     */
+    resetViewer() {
+        this.viewer = undefined;
+    }
 
+    /**
+     * Display a record cover image in the associated viewer
+     *
+     * @param record - The record for which the image is displayed.
+     * @param originalLocation - Original location of the record.
+     * @param finalLocation - Final (deconflicted) location of the record.
+     * @param name Associated name.
+     */
+    displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string){
         this.viewer.entities.add({
             id: record._id !== null ? record._id : 'null',
             position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
@@ -59,6 +57,26 @@ export class CesiumService {
                 pixelOffset: new Cesium.Cartesian2(0, 130),
                 translucencyByDistance: new Cesium.NearFarScalar(5e2, 1.0, 8.0e6, 0.0),
                 font: '20px Helvetica'
+            }
+        });
+    }
+
+    /**
+     * Display a deconfliction (straight) line in the associated viewer
+     *
+     * @param record - The record for which the line is created.
+     * @param sourceLocation - Source location of the record.
+     * @param finalLocation - Final (deconflicted) location of the record.
+     */
+    displayLine(record: Record, sourceLocation: ILocation, finalLocation: ILocation){
+        this.viewer.entities.add({
+            polyline : {
+                positions: Cesium.Cartesian3.fromDegreesArray([sourceLocation.lon, sourceLocation.lat,
+                    finalLocation.lon, finalLocation.lat]),
+                width : 2,
+                material: new Cesium.PolylineOutlineMaterialProperty({
+                    color: Cesium.Color.RED,
+                })
             }
         });
     }
