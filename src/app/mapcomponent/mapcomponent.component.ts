@@ -140,6 +140,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     parseKeywords(record: Record) {
+        let locationIndex = 0;
         if (record !== null) {
             const keywords = record.keywords;
             if (keywords !== undefined) {
@@ -156,7 +157,7 @@ export class MapComponent implements OnInit, OnDestroy {
                                 const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
                                 if (finalLocation !== null) {
                                     this.finalSelectedLocations.push(finalLocation);
-                                    this.cesium.displayRecord(record, conflictedLocation, finalLocation,'');
+                                    this.cesium.displayRecord(record, conflictedLocation, finalLocation,'', locationIndex);
                                     // Ensure that the final and the conflicted locations are different
                                     // in order to display a line between them
                                     if (finalLocation.lat !== conflictedLocation.lat || finalLocation.lon !== conflictedLocation.lon) {
@@ -166,9 +167,11 @@ export class MapComponent implements OnInit, OnDestroy {
                             } else {
                                 this.finalSelectedLocations.push(originalLocation);
                                 this.locationLabels.push(location.name);
-                                this.cesium.displayRecord(record, originalLocation, originalLocation, location.name);
+                                this.cesium.displayRecord(record, originalLocation, originalLocation, location.name, locationIndex);
+
                             }
                             this.originalSelectedLocations.push(originalLocation);
+                            locationIndex++;
                         }
                     }
                 }

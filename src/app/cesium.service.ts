@@ -41,10 +41,18 @@ export class CesiumService {
      * @param originalLocation - Original location of the record.
      * @param finalLocation - Final (deconflicted) location of the record.
      * @param name Associated name.
+     * @param locationIndex: Index of the location (if the recording was made in several studios)
      */
-    displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string){
+    displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string, locationIndex: number){
+        let entityID = 'null';
+        if (record._id !== null) {
+            entityID = record._id;
+            if (locationIndex > 0) {
+                entityID = entityID + locationIndex;
+            }
+        }
         this.viewer.entities.add({
-            id: record._id !== null ? record._id : 'null',
+            id: entityID,
             position: Cesium.Cartesian3.fromDegrees(finalLocation.lon, finalLocation.lat),
             name: name,
             billboard: {
