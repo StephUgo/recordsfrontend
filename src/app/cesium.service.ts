@@ -43,7 +43,8 @@ export class CesiumService {
      * @param name Associated name.
      * @param locationIndex: Index of the location (if the recording was made in several studios)
      */
-    displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string, locationIndex: number){
+    displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string, locationIndex: number,
+        scaleFactor: number){
         let entityID = 'null';
         if (record._id !== null) {
             entityID = record._id;
@@ -57,8 +58,7 @@ export class CesiumService {
             name: name,
             billboard: {
                 image: this.backendServerURL + '/uploads/' + record.ImageFileName,
-                height: 150,
-                width: 150
+                scaleByDistance: new Cesium.NearFarScalar(4e2, scaleFactor * 1.3, 1.0e4, scaleFactor / 1.2)
             },
             label: {
                 text: name,
@@ -81,7 +81,7 @@ export class CesiumService {
             polyline : {
                 positions: Cesium.Cartesian3.fromDegreesArray([sourceLocation.lon, sourceLocation.lat,
                     finalLocation.lon, finalLocation.lat]),
-                width : 2,
+                width : 4,
                 material: new Cesium.PolylineOutlineMaterialProperty({
                     color: Cesium.Color.RED,
                 })

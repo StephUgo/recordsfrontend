@@ -140,6 +140,8 @@ export class MapComponent implements OnInit, OnDestroy {
 
 
     parseKeywords(record: Record) {
+        const scalefactor = (record.ImageFileName !== undefined && this.scalefactors[record.ImageFileName] !== undefined) ?
+            this.scalefactors[record.ImageFileName] : 0.5;
         let locationIndex = 0;
         if (record !== null) {
             const keywords = record.keywords;
@@ -157,7 +159,7 @@ export class MapComponent implements OnInit, OnDestroy {
                                 const finalLocation = this.deconflictLocation(originalLocation, conflictedLocation);
                                 if (finalLocation !== null) {
                                     this.finalSelectedLocations.push(finalLocation);
-                                    this.cesium.displayRecord(record, conflictedLocation, finalLocation,'', locationIndex);
+                                    this.cesium.displayRecord(record, conflictedLocation, finalLocation,'', locationIndex, scalefactor);
                                     // Ensure that the final and the conflicted locations are different
                                     // in order to display a line between them
                                     if (finalLocation.lat !== conflictedLocation.lat || finalLocation.lon !== conflictedLocation.lon) {
@@ -167,7 +169,8 @@ export class MapComponent implements OnInit, OnDestroy {
                             } else {
                                 this.finalSelectedLocations.push(originalLocation);
                                 this.locationLabels.push(location.name);
-                                this.cesium.displayRecord(record, originalLocation, originalLocation, location.name, locationIndex);
+                                this.cesium.displayRecord(record, originalLocation, originalLocation, location.name, locationIndex,
+                                    scalefactor);
 
                             }
                             this.originalSelectedLocations.push(originalLocation);
