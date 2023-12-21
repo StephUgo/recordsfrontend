@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Record } from './model/record';
+import { Router } from '@angular/router';
 declare let Cesium: any;
 
 export interface ILocation {
@@ -13,10 +14,11 @@ export interface ILocation {
     providedIn: 'root'
 })
 export class CesiumService {
-    constructor() { }
+    constructor(private router: Router, private ngZone: NgZone) { }
 
     backendServerURL = environment.backendURL + ':' + environment.backendPort;
     private viewer: any;
+    private handler: any;
 
     /**
      * Initialize a Cesium viewer on the Div element which is identified by the parameter.
@@ -25,6 +27,16 @@ export class CesiumService {
      */
     initViewer(div: string) {
         this.viewer = new Cesium.Viewer(div);
+
+        this.handler = new Cesium.ScreenSpaceEventHandler(this.viewer.canvas);
+
+        this.handler.setInputAction((click: any) => {
+            const pickedObject = this.viewer.scene.pick(click.position);
+
+            if (pickedObject!==undefined && pickedObject.id !== undefined) {
+                this.ngZone.run(() => this.router.navigateByUrl('/record/' + pickedObject.id.id));
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     }
 
     /**
@@ -32,6 +44,7 @@ export class CesiumService {
      */
     resetViewer() {
         this.viewer = undefined;
+        this.handler = undefined;
     }
 
     /**
