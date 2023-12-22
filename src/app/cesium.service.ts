@@ -34,7 +34,12 @@ export class CesiumService {
             const pickedObject = this.viewer.scene.pick(click.position);
 
             if (pickedObject!==undefined && pickedObject.id !== undefined) {
-                this.ngZone.run(() => this.router.navigateByUrl('/record/' + pickedObject.id.id));
+                let id = JSON.stringify(pickedObject.id.id);
+                id = id.replaceAll('"','');
+                if (id.includes('_')){
+                    id = id.split('_')[0];
+                }
+                this.ngZone.run(() => this.router.navigateByUrl('/record/' + id));
             }
         }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     }
@@ -62,7 +67,7 @@ export class CesiumService {
         if (record._id !== null) {
             entityID = record._id;
             if (locationIndex > 0) {
-                entityID = entityID + locationIndex;
+                entityID = entityID + '_' + locationIndex;
             }
         }
         this.viewer.entities.add({
