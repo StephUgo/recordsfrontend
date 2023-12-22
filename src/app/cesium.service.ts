@@ -60,6 +60,7 @@ export class CesiumService {
      * @param finalLocation - Final (deconflicted) location of the record.
      * @param name Associated name.
      * @param locationIndex: Index of the location (if the recording was made in several studios)
+     * @param scaleFactor: Scale factor for the cover image
      */
     displayRecord(record: Record, conflictedLocation: ILocation, finalLocation: ILocation, name: string, locationIndex: number,
         scaleFactor: number){
