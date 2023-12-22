@@ -35,7 +35,7 @@ See below for snapshosts which depict some of these functionnalities :
 
   - "Basic" responsive display for small screens :
 <p align="center">
-  <img src="https://github.com/StephUgo/recordsfrontend/blob/master/snapshots/ResponsiveDisplay.png" width=50% height=50%>
+  <img src="https://github.com/StephUgo/recordsfrontend/blob/main/snapshots/ResponsiveDisplay.png" width=50% height=50%>
 </p>
 
 
