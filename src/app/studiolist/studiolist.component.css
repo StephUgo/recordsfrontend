@@ -40,7 +40,7 @@
 	padding-inline-start: 0px!important;
 }
 
-.actionbutton {
+.actionbutton mdc-button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -48,6 +48,6 @@
 	width: 32px;
 	min-width: 32px;
 	min-height: 32px;
-	margin: 4px 4px 4px 4px;
-	border: 1px solid black;
+	margin: 1px 1px 1px 1px!important;;
+	border: 1px solid black!important;;
 }
