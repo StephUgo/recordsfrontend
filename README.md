@@ -2,38 +2,41 @@
 
 This project is an Angular frontend enabling to manage a vinyl record collection (at least mine... :). It is made to work with a NodeJS backend available at https://github.com/StephUgo/recordsbackend.
 
-The main functions are :
+The main functions are:
   - Create / Read / Update and Delete (CRUD) records according to a simple model (Title, Artist, Label, Style, Keywords, Reference #, Attached Pics, ...) ;
   - Search records with several criteria ;
   - Display list of records (textual or cover based) ;
   - Fill studio and recording information ;
   - Locate recordings on a global map with a basic deconfliction algorithm.
 
-See below for snapshosts which depict some of these functionnalities :
+See below for snapshosts which depict some of these functionnalities:
 
-  - Some Soul/Funk classics recorded (partially at least) in Hollywood :
+  - Some Soul/Funk classics recorded (partially at least) in Hollywood:
 ![SoulFunkClassicsInHollywood](snapshots/SoulFunkClassicsInHollywood.png)
 
-  - Some Latin Soul recorded in Manhattan :
+  - Some Latin Soul recorded in Manhattan:
 ![SomeLatinSoulInManhattan](snapshots/SomeLatinSoulInManhattan.png)
 
-  - Browse through some 7" :
+  - Browse through some 7":
 ![45Display](snapshots/45Display.png)
 
-  - Display record details :
+  - Display record details:
 ![RecordDetails](snapshots/RecordDetails.png)
 
-  - Display attached pictures :
+  - Display attached pictures:
 ![RecordCovers](snapshots/RecordCovers.png)
 
-  - Some record searches :
-    - Some Roy Budd's soundtracks recorded at CTS Studios Wembley :
+  - Some record searches:
+    - Some Roy Budd's soundtracks recorded at CTS Studios Wembley:
 ![RoyBuddCTSWembley](snapshots/RoyBuddCTSWembley.png)
 
-    - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs ;) :
+    - Some Blue Note LPs recorded by Rudy Van Gelder in his parents' house in the 50's (before moving to Englewood Cliffs ;):
 ![RudyInHackensack](snapshots/RudyInHackensack.png)
 
-  - "Basic" responsive display for small screens :
+    - Simple deconfliction algorithm for recordings made in the same studio (here several records made at Channel One in Kingston, btw all with Tony McDermott or Jamaal Pete covers) :
+![ChannelOne](snapshots/ChannelOne.png)
+
+  - "Basic" responsive display for small screens:
 <p align="center">
   <img src="https://github.com/StephUgo/recordsfrontend/blob/main/snapshots/ResponsiveDisplay.png" width=50% height=50%>
 </p>
