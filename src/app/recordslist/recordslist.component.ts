@@ -259,7 +259,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
                         const editedRecords: Record[] = [];
                         for (let index = 0; index < this.checkedItems.length; index++) {
                             const selectedIndex = this.checkedItems[index];
-                            if (selectedIndex !== undefined) {
+                            if (selectedIndex !== undefined && selectedIndex >= 0) {
                                 editedRecords.push(this.records[selectedIndex]);
                             }
                         }
@@ -304,7 +304,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
                     const editedRecords: Record[] = [];
                     for (let index = 0; index < this.checkedItems.length; index++) {
                         const selectedIndex = this.checkedItems[index];
-                        if (selectedIndex !== undefined) {
+                        if (selectedIndex !== undefined  && selectedIndex >= 0) {
                             editedRecords.push(this.records[selectedIndex]);
                         }
                     }
@@ -340,11 +340,13 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
             let recordIds = '';
             for (let index = 0; index < this.checkedItems.length; index++) {
                 const selectedIndex = this.checkedItems[index];
-                const selectedID = this.records[selectedIndex]._id;
-                if (selectedIndex !== undefined && selectedID !== null && this.recordUtils.hasLocation(this.records[selectedIndex])) {
-                    recordIds = recordIds.concat(selectedID);
-                    if (index !== this.checkedItems.length - 1) {
-                        recordIds = recordIds.concat(',');
+                if (selectedIndex !== undefined  && selectedIndex >= 0) {
+                    const selectedID = this.records[selectedIndex]._id;
+                    if (selectedID !== null && this.recordUtils.hasLocation(this.records[selectedIndex])) {
+                        recordIds = recordIds.concat(selectedID);
+                        if (index !== this.checkedItems.length - 1) {
+                            recordIds = recordIds.concat(',');
+                        }
                     }
                 }
             }
@@ -478,15 +480,15 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     }
 
     /**
-   * Handler for checkbox checks.
-   * @param event DOM event
-   * @param i index of the checkbox which has changed
-   */
+     * Handler for checkbox checks.
+     * @param event DOM event
+     * @param i index of the checkbox which has changed
+     */
     onCheckChanged(event: any, i: number) {
         if (event.target.checked) {
             for (let index = 0; index < this.checkedItems.length; index++) {
                 const element = this.checkedItems[index];
-                if (element === undefined) {
+                if (element === undefined || element === -1) {
                     this.checkedItems[index] = i;
                     console.log(this.checkedItems);
                     return;
@@ -497,7 +499,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
             for (let index = 0; index < this.checkedItems.length; index++) {
                 const element = this.checkedItems[index];
                 if (element === i) {
-                    delete this.checkedItems[index];
+                    this.checkedItems[index] = -1; // Unchecked
                     console.log(this.checkedItems);
                     return;
                 }
@@ -591,7 +593,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
         let numberOfCheckedItems = 0;
         for (let index = 0; index < this.checkedItems.length; index++) {
             const element = this.checkedItems[index];
-            if (element !== undefined) {
+            if (element !== undefined  && element >= 0) {
                 numberOfCheckedItems++;
             }
         }
@@ -601,7 +603,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     private isSelectionEmpty(): boolean {
         for (let index = 0; index < this.checkedItems.length; index++) {
             const element = this.checkedItems[index];
-            if (element !== undefined) {
+            if (element !== undefined && element >= 0) {
                 return false;
             }
         }
@@ -611,7 +613,7 @@ export class RecordslistComponent implements OnChanges, OnDestroy {
     private getFirstCheckedIndex(): number {
         for (let index = 0; index < this.checkedItems.length; index++) {
             const element = this.checkedItems[index];
-            if (element !== undefined) {
+            if (element !== undefined && element >= 0) {
                 return element;
             }
         }
