@@ -42,7 +42,7 @@ See below for snapshosts which depict some of these functionnalities:
 </p>
 
 
-This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.10.
+This project is currently build with [Angular CLI](https://github.com/angular/angular-cli) version 17.
 
 The software stack used for this development is quite straightforward, mainly : 
   - Angular ;
