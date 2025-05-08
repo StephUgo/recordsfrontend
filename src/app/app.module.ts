@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RecordsformComponent } from './recordsform/recordsform.component';
@@ -40,8 +40,7 @@ import { StudioDialogModalComponent } from './studio-dialog-modal/studio-dialog-
 import { PropertyUpdateDialogComponent } from './propertyupdatedialog/propertyupdatedialog';
 import { MapComponent } from './mapcomponent/mapcomponent.component';
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         CoverViewOverlayComponent,
         RecordsformComponent,
@@ -63,11 +62,9 @@ import { MapComponent } from './mapcomponent/mapcomponent.component';
         PropertyUpdateDialogComponent,
         MapComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        HttpClientModule,
         CdkTableModule,
         MatFormFieldModule,
         MatDialogModule,
@@ -79,15 +76,12 @@ import { MapComponent } from './mapcomponent/mapcomponent.component';
         ReactiveFormsModule,
         NgxPaginationModule,
         FontAwesomeModule,
-        AppRoutingModule
-    ],
-    providers: [
+        AppRoutingModule], providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
-        }
-    ],
-    bootstrap: [AppComponent]
-})
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
