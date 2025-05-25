@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { shareReplay, map } from 'rxjs/operators';
-import * as moment from 'moment';
+import moment from 'moment';
 import { User } from '../users/user.model';
 import { environment } from '../../environments/environment';
 
